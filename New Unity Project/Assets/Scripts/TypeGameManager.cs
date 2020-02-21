@@ -47,5 +47,7 @@ public class TypeGameManager : MonoBehaviour
             inputString = inputString.Substring(0, inputString.Length - 1);
             inputWord = inputWord.Substring(0, inputWord.Length - 1);
         }
+
+        UpdateTextMesh();
     }
 }

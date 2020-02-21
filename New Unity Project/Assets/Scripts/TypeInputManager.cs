@@ -16,7 +16,7 @@ public class TypeInputManager : MonoBehaviour
     {
         foreach (char c in Input.inputString)
         {
-            if (c != "\b"[0]) //Handle Backspace;
+            if (c == "\b"[0]) //Handle Backspace;
             {
                 typeGameManager.BackSpacePressed();
             }
