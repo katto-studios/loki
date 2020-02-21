@@ -10,18 +10,6 @@ public class TypeGameManager : MonoBehaviour
     string inputWord = "";
     public TextMeshProUGUI inputTextMesh;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void UpdateTextMesh()
     {
         inputTextMesh.text = inputWord;
