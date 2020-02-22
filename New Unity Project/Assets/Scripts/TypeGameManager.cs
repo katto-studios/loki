@@ -5,13 +5,19 @@ using TMPro;
 
 public class TypeGameManager : Singleton<TypeGameManager>
 {
-
+    //String for player to type
     public string wordsString;
-    string inputString = "";
-    string inputWord = "";
+
+    //String that the player has typed
+    public string inputString = "";
+
+    //Current word that the player has typed
+    public string inputWord = "";
+
     public TextMeshProUGUI inputTextMesh;
     public List<TRWord> words;
     public int wordIndex;
+    public int charIndex;
 
     private void Start()
     {
@@ -61,8 +67,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
             NextWord();
         }
 
-        //Check if is last character
-        if(wordIndex.Equals(words.Count - 1) && words[wordIndex].word.Equals(inputString.ToCharArray()))
+        if(inputString == wordsString)
         {
             Complete();
         }
