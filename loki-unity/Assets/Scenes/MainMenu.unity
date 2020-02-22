@@ -289,7 +289,6 @@ GameObject:
   - component: {fileID: 129878631}
   - component: {fileID: 129878630}
   - component: {fileID: 129878634}
-  - component: {fileID: 129878635}
   m_Layer: 5
   m_Name: PERSISTANTCANVAS
   m_TagString: Untagged
@@ -387,18 +386,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84022dc6f8346d24fbefa2156c171fb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &129878635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 129878629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b5c65c258da9ac43b11df42a223d0cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &186910847
@@ -785,6 +772,7 @@ GameObject:
   - component: {fileID: 809246056}
   - component: {fileID: 809246058}
   - component: {fileID: 809246057}
+  - component: {fileID: 809246059}
   m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
@@ -848,6 +836,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809246055}
   m_CullTransparentMesh: 0
+--- !u!114 &809246059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809246055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5c65c258da9ac43b11df42a223d0cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &816245119
 GameObject:
   m_ObjectHideFlags: 0
