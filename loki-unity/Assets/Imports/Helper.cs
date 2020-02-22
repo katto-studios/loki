@@ -174,7 +174,6 @@ public class PiorityQueue<T> where T : IComparable {
     }
 }
 
-//player class mainly
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
     private static bool m_shuttingDown = false;
     private static object m_lock = new object();
@@ -184,17 +183,26 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
         get {
             if (m_shuttingDown) return default(T);
 
-            //lock (m_lock) {
+            lock (m_lock) {
                 if (!m_instance) {
-                    m_instance = FindObjectOfType<T>();
-                    if (!m_instance) {
-                        GameObject singletonObj = new GameObject();
+                    //ensure only got one
+                    T[] instances = FindObjectsOfType<T>();
+                    if(instances.Length > 1) { //when got more than one instance
+                        m_instance = instances[0];
+
+                        Debug.LogError("Found more than one instance of " + typeof(T).ToString());
+                        for(int count = 1; count <= instances.Length - 1; count++) {
+                            Destroy(instances[count]);
+                        }
+                    }else if(instances.Length == 1){
+                        m_instance = instances[0];
+                    }else { //no instances
+                        GameObject singletonObj = new GameObject(typeof(T).ToString() + " Singleton");
                         m_instance = singletonObj.AddComponent<T>();
-                        singletonObj.name = typeof(T).ToString() + " Singleton";
                     }
                 }
                 return m_instance;
-           // }
+            }
         }
     }
 
