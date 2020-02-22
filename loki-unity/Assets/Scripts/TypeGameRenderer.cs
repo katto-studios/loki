@@ -7,6 +7,7 @@ public class TypeGameRenderer : MonoBehaviour
 {
     TypeGameManager typeGameManager;
     public TextMeshProUGUI wordTextMesh;
+    public GameObject GamePanel;
 
     private void Start()
     {
@@ -28,5 +29,10 @@ public class TypeGameRenderer : MonoBehaviour
         }
 
         wordTextMesh.text = newWordString;
+    }
+
+    public void GameComplete()
+    {
+        GamePanel.SetActive(false);
     }
 }

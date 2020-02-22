@@ -16,6 +16,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     public TextMeshProUGUI inputTextMesh;
     public List<TRWord> words;
+    public List<TRWord> mistakeWords;
     public int wordIndex;
     public int charIndex;
 
@@ -51,6 +52,10 @@ public class TypeGameManager : Singleton<TypeGameManager>
         else
         {
             inputTextMesh.color = new Color(1, 0.5f, 0.5f);
+            if (!mistakeWords.Contains(words[wordIndex]))
+            {
+                mistakeWords.Add(words[wordIndex]);
+            }
         }
         inputTextMesh.text = inputWord;
     }
