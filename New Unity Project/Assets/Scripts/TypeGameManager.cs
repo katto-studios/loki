@@ -9,10 +9,10 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public string wordsString;
 
     //String that the player has typed
-    public string inputString = "";
+    string inputString = "";
 
     //Current word that the player has typed
-    public string inputWord = "";
+    string inputWord = "";
 
     public TextMeshProUGUI inputTextMesh;
     public List<TRWord> words;
@@ -74,6 +74,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         
         //Update the textMesh
         UpdateTextMesh();
+        SendMessage("UpdateInput", SendMessageOptions.DontRequireReceiver);
     }
 
     void NextWord()
@@ -90,6 +91,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
     void Complete()
     {
         Debug.Log("Complete");
+        SendMessage("GameComplete", SendMessageOptions.DontRequireReceiver);
     }
 
     public void BackSpacePressed()

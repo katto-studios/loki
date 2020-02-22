@@ -14,7 +14,7 @@ public class TypeGameRenderer : MonoBehaviour
         wordTextMesh.text = typeGameManager.wordsString;
     }
 
-    void Update()
+    public void UpdateInput()
     {
         string newWordString = "<color=#55FF55>";
         for(int i = 0; i < typeGameManager.words.Count; i++)
