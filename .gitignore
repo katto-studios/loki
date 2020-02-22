@@ -60,3 +60,6 @@ crashlytics-build.properties
 
 New Unity Project/Temp
 New Unity Project/Library
+loki-unity/Library
+loki-unity/Temp
+loki-unity/obj
