@@ -21,6 +21,9 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     private void Start()
     {
+        //REMOVE THIS
+        wordsString = RandomProse.Instance.GetProse();
+
         ConvertStringToTRWords(wordsString);
     }
 

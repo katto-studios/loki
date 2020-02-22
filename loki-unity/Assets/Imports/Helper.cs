@@ -118,12 +118,7 @@ public static class Layers {
         IgnoreRaycast = 2,
         Water = 4,
         UI = 5,
-        PostProcessing = 8,
-        Enemy = 9,
-        Player = 10,
-        Terrain = 11,
-        Obstacles = 1,
-        CreatedObjects = 15;
+        PostProcessing = 8;
 }
 
 //For aStar path finding
@@ -174,7 +169,6 @@ public class PiorityQueue<T> where T : IComparable {
     }
 }
 
-//player class mainly
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
     private static bool m_shuttingDown = false;
     private static object m_lock = new object();
