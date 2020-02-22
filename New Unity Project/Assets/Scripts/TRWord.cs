@@ -8,6 +8,12 @@ public class TRWord : ScriptableObject
 
     public bool CompareWords(char[] cword)
     {
+
+        if(cword.Length > word.Length)
+        {
+            return false;
+        }
+
         for(int i = 0; i < cword.Length; i++)
         {
             if(!cword[i].Equals(word[i]))

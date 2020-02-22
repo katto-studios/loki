@@ -27,6 +27,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
             nextTRWord.Add(ncwords[i]);
             if(ncwords[i].Equals(' ') || i == ncwords.Length - 1) //Make new TRWord when theres a space or is last char
             {
+                Debug.Log(new string(nextTRWord.ToArray()));
                 TRWord nextTRWordSO = ScriptableObject.CreateInstance<TRWord>();
                 nextTRWordSO.word = nextTRWord.ToArray();
                 words.Add(nextTRWordSO);
@@ -54,12 +55,16 @@ public class TypeGameManager : Singleton<TypeGameManager>
         inputString += character;
         inputWord += character;
 
-        Debug.Log(words[wordIndex]);
-
         //Check to move on to the next word
         if(character == ' ' && words[wordIndex].CompareWords(inputWord.ToCharArray()))
         {
             NextWord();
+        }
+
+        //Check if is last character
+        if(wordIndex.Equals(words.Count - 1) && words[wordIndex].word.Equals(inputString.ToCharArray()))
+        {
+            Complete();
         }
         
         //Update the textMesh
@@ -79,7 +84,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     void Complete()
     {
-        
+        Debug.Log("Complete");
     }
 
     public void BackSpacePressed()

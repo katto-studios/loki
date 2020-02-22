@@ -22,7 +22,6 @@ public class TypeInputManager : MonoBehaviour
             }
             else
             {
-                Debug.Log(c);
                 typeGameManager.AddCharacterToInputString(c);
             }
         }
