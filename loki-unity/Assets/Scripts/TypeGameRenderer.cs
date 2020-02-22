@@ -17,7 +17,7 @@ public class TypeGameRenderer : MonoBehaviour
 
     public void UpdateInput()
     {
-        string newWordString = "<color=#55FF55>";
+        string newWordString = "<color=#F7CAC9>";
         for(int i = 0; i < typeGameManager.words.Count; i++)
         {
             if(i == typeGameManager.wordIndex)

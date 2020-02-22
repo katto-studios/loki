@@ -1178,7 +1178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a0b1bdf5532a349a421b67910fe0f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wordsString: Hello sir, what is going on lmao
+  wordsString: The rain falling reminds me of you, because it is falling hard and
+    I am too.
   inputTextMesh: {fileID: 225804771}
   words: []
   mistakeWords: []
