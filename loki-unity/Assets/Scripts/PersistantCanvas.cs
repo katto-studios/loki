@@ -40,6 +40,8 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
             yield return null;
         }
 
+        yield return new WaitForSeconds(0.2f);
+
         transitionPanel.transform.DOMoveY(1200, 0.5f);
 
         changingScene = false;

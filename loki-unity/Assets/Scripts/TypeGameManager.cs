@@ -20,6 +20,17 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public int wordIndex;
     public int charIndex;
 
+    public GameObject readyGO;
+    public GameObject gameGO;
+    public TextMeshProUGUI countDownText;
+
+    public enum GameState
+    {
+        Ready, Countdown, Playing, Analytics
+    }
+
+    public GameState gameState;
+
     private void Start()
     {
         ConvertStringToTRWords(wordsString);
@@ -60,26 +71,54 @@ public class TypeGameManager : Singleton<TypeGameManager>
         inputTextMesh.text = inputWord;
     }
 
+    IEnumerator CountDown(int count)
+    {
+        countDownText.text = count.ToString();
+        ButtonChime.Instance.PlayChime();
+        yield return new WaitForSeconds(1f);
+        count--;
+        if (count == 0)
+        {
+            gameState = GameState.Playing;
+            countDownText.gameObject.SetActive(false);
+            gameGO.SetActive(true);
+        }
+        else
+        {
+            StartCoroutine(CountDown(count));
+        }
+    }
+
     public void AddCharacterToInputString(char character)
     {
-        //Update input strings
-        inputString += character;
-        inputWord += character;
-
-        //Check to move on to the next word
-        if(character == ' ' && words[wordIndex].CompareWords(inputWord.ToCharArray()))
+        if(gameState == GameState.Ready && character == ' ')
         {
-            NextWord();
+            gameState = GameState.Countdown;
+            readyGO.SetActive(false);
+            countDownText.gameObject.SetActive(true);
+            StartCoroutine(CountDown(3));
         }
 
-        if(inputString == wordsString)
-        {
-            Complete();
+        if (gameState == GameState.Playing) {
+            //Update input strings
+            inputString += character;
+            inputWord += character;
+
+            //Check to move on to the next word
+            if (character == ' ' && words[wordIndex].CompareWords(inputWord.ToCharArray()))
+            {
+                NextWord();
+            }
+
+            if (inputString == wordsString)
+            {
+                Complete();
+            }
+
+            //Update the textMesh
+            UpdateTextMesh();
+            SendMessage("UpdateInput", SendMessageOptions.DontRequireReceiver);
         }
-        
-        //Update the textMesh
-        UpdateTextMesh();
-        SendMessage("UpdateInput", SendMessageOptions.DontRequireReceiver);
     }
 
     void NextWord()
@@ -97,6 +136,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
     {
         Debug.Log("Complete");
         SendMessage("GameComplete", SendMessageOptions.DontRequireReceiver);
+        gameState = GameState.Analytics;
     }
 
     public void BackSpacePressed()

@@ -4586,7 +4586,7 @@ GameObject:
   - component: {fileID: 1920531836}
   - component: {fileID: 1920531835}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Username
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4629,7 +4629,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: username
+  m_text: Login
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3494883ed8c93e042abece37c80d98b6, type: 2}
   m_sharedMaterial: {fileID: 3483426676336721390, guid: 3494883ed8c93e042abece37c80d98b6,
@@ -4699,7 +4699,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1920531835}
-    characterCount: 8
+    characterCount: 5
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
