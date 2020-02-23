@@ -79,7 +79,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
     {
         countDownText.text = count.ToString();
         ButtonChime.Instance.PlayChime();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.8f);
         count--;
         if (count == 0)
         {
