@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Text.RegularExpressions;
 
 public class TypeGameManager : Singleton<TypeGameManager>
 {
@@ -37,7 +38,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         if (useRandomWords) {
             wordsString = GetProse.Instance.GetRandomProse().Prose;
         }
-        ConvertStringToTRWords(wordsString);
+        ConvertStringToTRWords(Regex.Replace(wordsString, @"[^\x20-\x7F]", ""));
     }
 
     void ConvertStringToTRWords(string s)

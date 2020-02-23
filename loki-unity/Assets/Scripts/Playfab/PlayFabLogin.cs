@@ -23,8 +23,11 @@ public class PlayFabLogin : MonoBehaviour {
         // Then he tries to login with both player prefs
         // Saving password locally is stupid, so I'm not doing it
 
-        if (PlayerPrefs.HasKey("Email")) {
-            inEmail.text = PlayerPrefs.GetString("Email");
+        if (PlayerPrefs.HasKey("userEmail")) {
+            inEmail.text = PlayerPrefs.GetString("userEmail");
+            if (PlayerPrefs.HasKey("userPassword")) {
+                inPass.text = PlayerPrefs.GetString("userPassword");
+            }
         }
         //var request = new LoginWithEmailAddressRequest { Email = m_userEmail, Password = m_userPassword };
         //PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
@@ -33,6 +36,7 @@ public class PlayFabLogin : MonoBehaviour {
     private void OnLoginSuccess(LoginResult result) {
         Debug.Log("User logged in");
         PlayerPrefs.SetString("userEmail", m_userEmail);
+        PlayerPrefs.SetString("userPassword", m_userPassword);
         GetProse.Instance.CheckForUpdate();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }
@@ -47,6 +51,7 @@ public class PlayFabLogin : MonoBehaviour {
     private void OnRegisterSuccess(RegisterPlayFabUserResult _result) {
         Debug.Log("User registered!");
         PlayerPrefs.SetString("userEmail", m_userEmail);
+        PlayerPrefs.SetString("userPassword", m_userPassword);
         GetProse.Instance.CheckForUpdate();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }
