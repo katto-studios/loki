@@ -33,6 +33,7 @@ public class PlayFabLogin : MonoBehaviour {
     private void OnLoginSuccess(LoginResult result) {
         Debug.Log("User logged in");
         PlayerPrefs.SetString("userEmail", m_userEmail);
+        GetProse.Instance.CheckForUpdate();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }
 
@@ -46,6 +47,7 @@ public class PlayFabLogin : MonoBehaviour {
     private void OnRegisterSuccess(RegisterPlayFabUserResult _result) {
         Debug.Log("User registered!");
         PlayerPrefs.SetString("userEmail", m_userEmail);
+        GetProse.Instance.CheckForUpdate();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }
 

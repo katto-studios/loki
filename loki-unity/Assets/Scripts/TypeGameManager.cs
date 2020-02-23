@@ -6,7 +6,8 @@ using TMPro;
 public class TypeGameManager : Singleton<TypeGameManager>
 {
     //String for player to type
-    public string wordsString;
+    public Paragraph prose;
+    public bool useRandom = false;
 
     //String that the player has typed
     string inputString = "";
@@ -22,7 +23,10 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     private void Start()
     {
-        ConvertStringToTRWords(wordsString);
+        if (useRandom) {
+            prose = GetProse.Instance.GetRandomProse();
+        }
+        ConvertStringToTRWords(prose.Prose);
     }
 
     void ConvertStringToTRWords(string s)
@@ -72,7 +76,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
             NextWord();
         }
 
-        if(inputString == wordsString)
+        if(inputString == prose.Prose)
         {
             Complete();
         }
