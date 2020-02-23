@@ -12,7 +12,7 @@ public class TypeGameRenderer : MonoBehaviour
     private void Start()
     {
         typeGameManager = TypeGameManager.Instance;
-        wordTextMesh.text = typeGameManager.prose.Prose;
+        wordTextMesh.text = typeGameManager.wordsString;
     }
 
     public void UpdateInput()

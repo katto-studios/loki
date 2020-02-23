@@ -45,10 +45,10 @@ public class GetProse : Singleton<GetProse> {
                 Debug.LogError("Network error: " + webReq.error);
             } else {
                 //Debug.Log("Data gotten: " + webReq.downloadHandler.text);
-                string[] data = webReq.downloadHandler.text.Split(':');
-                string paraProse = data[1];
-                string paraAuthor = data[2];
-                string paraSrc = data[3];
+                string[] data = webReq.downloadHandler.text.Split('"');
+                string paraProse = data[3];
+                string paraAuthor = data[7];
+                string paraSrc = data[11];
                 m_prosesAvaliable.Add(new Paragraph(paraProse, paraAuthor, paraSrc));
             }
         }

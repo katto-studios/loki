@@ -7,6 +7,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
 {
     //String for player to type
     public string wordsString;
+    public bool useRandomWords = true;
 
     //String that the player has typed
     string inputString = "";
@@ -33,6 +34,9 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     private void Start()
     {
+        if (useRandomWords) {
+            wordsString = GetProse.Instance.GetRandomProse().Prose;
+        }
         ConvertStringToTRWords(wordsString);
     }
 
