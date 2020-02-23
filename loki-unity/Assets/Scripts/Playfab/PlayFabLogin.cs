@@ -18,11 +18,6 @@ public class PlayFabLogin : MonoBehaviour {
         if (string.IsNullOrEmpty(PlayFabSettings.TitleId)) {
             PlayFabSettings.TitleId = "146EC"; // Please change this value to your own titleId from PlayFab Game Manager
         }
-
-        // In the tutorial he saves the password in player prefs also
-        // Then he tries to login with both player prefs
-        // Saving password locally is stupid, so I'm not doing it
-
         if (PlayerPrefs.HasKey("userEmail")) {
             inEmail.text = PlayerPrefs.GetString("userEmail");
             if (PlayerPrefs.HasKey("userPassword")) {

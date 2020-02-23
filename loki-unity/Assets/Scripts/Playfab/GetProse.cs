@@ -5,6 +5,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.AdminModels;
 using UnityEngine.Networking;
+using System.Text;
 
 public class GetProse : Singleton<GetProse> {
     private List<Paragraph> m_prosesAvaliable = new List<Paragraph>();
@@ -35,7 +36,15 @@ public class GetProse : Singleton<GetProse> {
     }
 
     public Paragraph GetRandomProse() {
-        return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
+        //return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
+
+        //DEBUGING SHIT
+        foreach(Paragraph p in m_prosesAvaliable) {
+            if(p.Author.Equals("JK Rowling")) {
+                return p;
+            }
+        }
+        return m_prosesAvaliable[2];
     }
 
     private IEnumerator GetRequest(string _url) {
@@ -50,6 +59,8 @@ public class GetProse : Singleton<GetProse> {
                 string paraAuthor = data[7];
                 string paraSrc = data[11];
                 m_prosesAvaliable.Add(new Paragraph(paraProse, paraAuthor, paraSrc));
+                //string toStr = Encoding.UTF8.GetString(webReq.downloadHandler.data, 3, webReq.downloadHandler.data.Length - 3);
+                //m_prosesAvaliable.Add(JsonUtility.FromJson<Paragraph>(@"{"+data[0]));
             }
         }
     }

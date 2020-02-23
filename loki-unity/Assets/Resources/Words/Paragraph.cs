@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ProseInput", menuName = "Prose")]
-public class Paragraph : ScriptableObject {
+[System.Serializable]
+public class Paragraph {
     public string Prose;
     public string Author;
     public string Source;
