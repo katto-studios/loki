@@ -14,9 +14,8 @@ public class PlayFabLogin : MonoBehaviour {
     public string Username { set { m_username = value; } }
 
     public void Start() {
-        //Note: Setting title Id here can be skipped if you have set the value in Editor Extensions already.
         if (string.IsNullOrEmpty(PlayFabSettings.TitleId)) {
-            PlayFabSettings.TitleId = "146EC"; // Please change this value to your own titleId from PlayFab Game Manager
+            PlayFabSettings.TitleId = "146EC";
         }
         if (PlayerPrefs.HasKey("userEmail")) {
             inEmail.text = PlayerPrefs.GetString("userEmail");
