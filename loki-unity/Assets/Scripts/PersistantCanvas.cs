@@ -8,6 +8,8 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
 {
     public GameObject transitionPanel;
     bool changingScene;
+    bool settingsMenuOpen;
+    public GameObject settingsMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +18,29 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
             Destroy(gameObject);
         } else {
             DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToggleSettingsMenu();
+        }
+    }
+
+    public void ToggleSettingsMenu()
+    {
+        ButtonChime.Instance.PlayChime();
+        if (settingsMenuOpen) //Close
+        {
+            settingsMenuOpen = false;
+            settingsMenu.transform.DOMoveX(-360, 0.5f);
+        }
+        else //Open
+        {
+            settingsMenuOpen = true;
+            settingsMenu.transform.DOMoveX(360, 0.5f);
         }
     }
 
