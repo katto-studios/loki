@@ -18,9 +18,8 @@ public class GetProse : Singleton<GetProse> {
         HashSet<string> prosesToLoad = new HashSet<string>();
 
         //check if got words folder
-        if (!File.Exists(Application.persistentDataPath + "/Words")) {
-            Directory.CreateDirectory(Application.persistentDataPath + "/Words");
-        }
+        Directory.CreateDirectory(Application.persistentDataPath + "/Words");
+
         GetContentListRequest listReq = new GetContentListRequest();
         PlayFabAdminAPI.GetContentList(
             listReq,
@@ -52,6 +51,7 @@ public class GetProse : Singleton<GetProse> {
         //return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
 
         //DEBUGING SHIT
+        Debug.Log("Getting harry potter prose");
         foreach (Paragraph p in m_prosesAvaliable) {
             if (p.Author.Equals("JK Rowling")) {
                 return p;
@@ -77,14 +77,18 @@ public class GetProse : Singleton<GetProse> {
                 //Debug.Log(webReq.downloadHandler.text);
                 #endregion
 
+                // Sometimes the json files have a 3 byte BOM infront of it
+                // Thus, I cannot parse the .text into a json file
+                // Hence, I use a try catch
+                // If it does have the 3 byte BOM, I just trancate it
                 Paragraph proseAvaliable;
                 try {
                     proseAvaliable = JsonUtility.FromJson<Paragraph>(webReq.downloadHandler.text);
-                    m_prosesAvaliable.Add(proseAvaliable);
                 }catch (System.ArgumentException) {
                     proseAvaliable = JsonUtility.FromJson<Paragraph>(Encoding.UTF8.GetString(webReq.downloadHandler.data, 3, webReq.downloadHandler.data.Length - 3));
-                    m_prosesAvaliable.Add(proseAvaliable);
                 }
+
+                m_prosesAvaliable.Add(proseAvaliable);
 
                 //cache data
                 BinaryFormatter bf = new BinaryFormatter();

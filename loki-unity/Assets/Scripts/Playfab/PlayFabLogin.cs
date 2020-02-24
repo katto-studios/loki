@@ -4,14 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayFabLogin : MonoBehaviour {
-    public InputField inEmail, inPass, inName;
+    public InputField inEmail, inPass;
+    public Toggle rememberMe;
 
     private string m_userEmail;
     public string UserEmail { set { m_userEmail = value; } }
     private string m_userPassword;
     public string UserPassword { set { m_userPassword = value; } }
-    private string m_username;
-    public string Username { set { m_username = value; } }
 
     public void Start() {
         if (string.IsNullOrEmpty(PlayFabSettings.TitleId)) {
@@ -23,40 +22,31 @@ public class PlayFabLogin : MonoBehaviour {
                 inPass.text = PlayerPrefs.GetString("userPassword");
             }
         }
+        //auto login
         //var request = new LoginWithEmailAddressRequest { Email = m_userEmail, Password = m_userPassword };
         //PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
     }
 
     private void OnLoginSuccess(LoginResult result) {
         Debug.Log("User logged in");
-        PlayerPrefs.SetString("userEmail", m_userEmail);
-        PlayerPrefs.SetString("userPassword", m_userPassword);
+        if (rememberMe.isOn) {
+            PlayerPrefs.SetString("userEmail", m_userEmail);
+            PlayerPrefs.SetString("userPassword", m_userPassword);
+        }else {
+            PlayerPrefs.DeleteKey("userEmail");
+            PlayerPrefs.DeleteKey("userPassword");
+        }
         GetProse.Instance.CheckForUpdate();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }
 
     private void OnLoginFailure(PlayFabError error) {
         Debug.Log(error.GenerateErrorReport());
-
-        var registerReq = new RegisterPlayFabUserRequest { Email = m_userEmail, Password = m_userPassword, Username = m_username };
-        PlayFabClientAPI.RegisterPlayFabUser(registerReq, OnRegisterSuccess, OnRegisterFailure);
+        PopupManager.Instance.ShowPopUp("Invalid credentials, register instead?", 5);
     }
 
-    private void OnRegisterSuccess(RegisterPlayFabUserResult _result) {
-        Debug.Log("User registered!");
-        PlayerPrefs.SetString("userEmail", m_userEmail);
-        PlayerPrefs.SetString("userPassword", m_userPassword);
-        GetProse.Instance.CheckForUpdate();
-        FindObjectOfType<SceneChanger>().ChangeScene(1);
-    }
-
-    private void OnRegisterFailure(PlayFabError _error) {
-        Debug.LogError(_error.GenerateErrorReport());
-    }
-
-    public void OnClickLogin() {
+    public void Login() {
         m_userEmail = inEmail.text;
-        m_username = inName.text;
         m_userPassword = inPass.text;
 
         var request = new LoginWithEmailAddressRequest { Email = m_userEmail, Password = m_userPassword };
