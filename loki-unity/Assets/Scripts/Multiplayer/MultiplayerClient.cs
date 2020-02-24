@@ -5,101 +5,97 @@ using System.Threading;
 using System.Net;
 using UnityEngine;
 using System.Text;
+using System;
+using UnityEngine.UI;
 
 public class MultiplayerClient : MonoBehaviour {
-    private Thread m_socketThread;
-    private volatile bool m_keepReading = false;
+    public InputField inIp;
+    private string m_ip { get { return inIp.text; } }
+    private Thread m_networkThread;
+    public Text console;
+    private string m_consoleTxt = "";
 
-    // Start is called before the first frame update
-    void Start() {
-        Application.runInBackground = true;
-
-    }
-
-    // Update is called once per frame
-    void Update() {
+    private void Start() {
 
     }
 
-    private Socket m_listener;
-    private Socket m_handler;
-
-    private string GetIpAddress() {
-        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-
-        foreach(IPAddress ip in host.AddressList) {
-            if(ip.AddressFamily == AddressFamily.InterNetwork) {
-                return ip.ToString();
-            }
-        }
-
-        return null;
+    private void Update() {
+        console.text = m_consoleTxt;
     }
 
-    private void NetworkCode() {
-        string data;
-        //byte buffer
-        byte[] buffer = new byte[1024];
+    public void OnButtonConnect() {
+        m_networkThread = new Thread(ConnectToServer);
+        m_networkThread.Start();
+    }
 
-        Debug.Log("Ip: " + GetIpAddress().ToString());
-        IPAddress[] ipArr = Dns.GetHostAddresses(GetIpAddress());
-        IPEndPoint localEndPoint = new IPEndPoint(ipArr[0], 42069);
+    public void OnButtonCreate() {
+        m_networkThread = new Thread(CreateServer);
+        m_networkThread.Start();
+    }
 
-        m_listener = new Socket(ipArr[0].AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        //bind and listen to connections
+    private void ConnectToServer() {
+        //create tcp client
         try {
-            m_listener.Bind(localEndPoint);
-            m_listener.Listen(10);
+            TcpClient client = new TcpClient(m_ip, 42069);
+
+            byte[] data = Encoding.ASCII.GetBytes("hello");
+            NetworkStream stream = client.GetStream();
+
+            stream.Write(data, 0, data.Length);
+            Debug.Log("Sent data to " + m_ip);
+            m_consoleTxt += "\nSent data to " + m_ip;
+
+            data = new byte[256];
+
+            int bytes = stream.Read(data, 0, data.Length);
+            string responseData = Encoding.ASCII.GetString(data, 0, bytes);
+            Debug.Log("Recieved: " + responseData);
+            m_consoleTxt += "\nRecieved: " + responseData;
+
+            stream.Close();
+            client.Close();
+        } catch (Exception e) {
+            Debug.Log(e.Message);
+            m_consoleTxt += "\nError: " + e.Message;
+        }
+    }
+
+    private void CreateServer() {
+        try {
+            TcpListener server = new TcpListener(IPAddress.Parse("127.0.0.1"), 42069);
+            server.Start();
+            byte[] buffer = new byte[256];
+            string data;
 
             while (true) {
-                m_keepReading = true;
                 Debug.Log("Waiting for connection");
+                m_consoleTxt += "\nWaiting for connection";
 
-                m_handler = m_listener.Accept();
-                Debug.Log("Client connected");
+                TcpClient client = server.AcceptTcpClient();
+                Debug.Log("Client connected!");
+                m_consoleTxt += "\nClient connected";
 
-                data = null;
+                //clear data
+                data = string.Empty;
+                NetworkStream stream = client.GetStream();
+                int count;
+                while ((count = stream.Read(buffer, 0, buffer.Length)) != 0) {
+                    data = Encoding.ASCII.GetString(buffer, 0, count);
+                    Debug.Log("Client recieved: " + data);
+                    m_consoleTxt += "\nCliend recieved: " + data;
 
-                while (m_keepReading) {
-                    buffer = new byte[1024];
-
-                    int bytesRecieved = m_handler.Receive(buffer);
-                    Debug.Log("Recieved from server");
-
-                    if(bytesRecieved <= 0) {
-                        m_keepReading = false;
-                        m_handler.Disconnect(true);
-                        break;
-                    }
-
-                    data += Encoding.ASCII.GetString(buffer, 0, bytesRecieved);
-
-                    if(data.IndexOf("<EOF>") > -1) {
-                        break;
-                    }
+                    data = data.ToUpper();
+                    byte[] msg = Encoding.ASCII.GetBytes(data);
+                    stream.Write(msg, 0, msg.Length);
+                    Debug.Log("Client sent: " + data);
+                    m_consoleTxt += "\nCliend sent: " + data;
                 }
 
-                Thread.Sleep(1);
+                client.Close();
             }
-        }catch(System.Exception e) {
-            Debug.LogError(e.Message);
+        } catch (Exception e) {
+            Debug.Log(e.Message);
+            m_consoleTxt += "\nError: " + e.Message;
         }
-    }
-
-    private void StopServer() {
-        m_keepReading = false;
-
-        if(m_socketThread != null) {
-            m_socketThread.Abort();
-        }
-
-        if(m_handler != null && m_handler.Connected) {
-            m_handler.Disconnect(false);
-            Debug.Log("Disconnected");
-        }
-    }
-
-    private void OnDisable() {
-        StopServer();
     }
 }
