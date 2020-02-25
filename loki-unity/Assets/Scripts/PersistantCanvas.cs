@@ -19,6 +19,8 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
         } else {
             DontDestroyOnLoad(gameObject);
         }
+
+        transform.position = new Vector3(0, 0, -1);
     }
 
     private void Update()

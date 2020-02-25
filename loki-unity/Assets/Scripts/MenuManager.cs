@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
-    public TMPro.TextMeshProUGUI userName;
+    public TextMeshProUGUI userName;
     private string m_username;
+    public string Username { set { m_username = value; } }
 
     // Start is called before the first frame update
     void Start() {

@@ -9,11 +9,13 @@ using System;
 using UnityEngine.UI;
 
 public class MultiplayerClient : MonoBehaviour {
-    public InputField inIp;
+    public InputField inIp, inChat;
     private string m_ip { get { return inIp.text; } }
     private Thread m_networkThread;
     public Text console;
     private string m_consoleTxt = "";
+    private volatile bool m_shuttingDown = false;
+    private bool m_sendMsg = false;
 
     private void Start() {
 
@@ -21,6 +23,7 @@ public class MultiplayerClient : MonoBehaviour {
 
     private void Update() {
         console.text = m_consoleTxt;
+        m_sendMsg = Input.GetKeyDown(KeyCode.Return);
     }
 
     public void OnButtonConnect() {
@@ -33,17 +36,18 @@ public class MultiplayerClient : MonoBehaviour {
         m_networkThread.Start();
     }
 
+    //I am a client
     private void ConnectToServer() {
         //create tcp client
         try {
-            TcpClient client = new TcpClient(m_ip, 42069);
+           TcpClient client = new TcpClient(m_ip, 42069);
 
-            byte[] data = Encoding.ASCII.GetBytes("hello");
+            byte[] data = Encoding.ASCII.GetBytes("Client connection request");
             NetworkStream stream = client.GetStream();
 
             stream.Write(data, 0, data.Length);
-            Debug.Log("Sent data to " + m_ip);
-            m_consoleTxt += "\nSent data to " + m_ip;
+            Debug.Log("Client send: " + "Client connection request");
+            m_consoleTxt += "\nClient send: " + "Client connection request";
 
             data = new byte[256];
 
@@ -51,6 +55,21 @@ public class MultiplayerClient : MonoBehaviour {
             string responseData = Encoding.ASCII.GetString(data, 0, bytes);
             Debug.Log("Recieved: " + responseData);
             m_consoleTxt += "\nRecieved: " + responseData;
+
+            while (!m_shuttingDown) {
+                if (m_sendMsg) {
+                    byte[] sendToServer = Encoding.ASCII.GetBytes(inChat.text);
+                    Debug.Log("Client send: " + inChat.text);
+                    m_consoleTxt += "\nClient send: " + inChat.text;
+
+                    bytes = stream.Read(data, 0, data.Length);
+                    responseData = Encoding.ASCII.GetString(data, 0, bytes);
+                    Debug.Log("Recieved: " + responseData);
+                    m_consoleTxt += "\nRecieved: " + responseData;
+                }
+
+                Thread.Sleep(1);
+            }
 
             stream.Close();
             client.Close();
@@ -60,6 +79,7 @@ public class MultiplayerClient : MonoBehaviour {
         }
     }
 
+    //I am a server
     private void CreateServer() {
         try {
             TcpListener server = new TcpListener(IPAddress.Parse("127.0.0.1"), 42069);
@@ -74,21 +94,25 @@ public class MultiplayerClient : MonoBehaviour {
                 TcpClient client = server.AcceptTcpClient();
                 Debug.Log("Client connected!");
                 m_consoleTxt += "\nClient connected";
-
-                //clear data
-                data = string.Empty;
                 NetworkStream stream = client.GetStream();
-                int count;
-                while ((count = stream.Read(buffer, 0, buffer.Length)) != 0) {
-                    data = Encoding.ASCII.GetString(buffer, 0, count);
-                    Debug.Log("Client recieved: " + data);
-                    m_consoleTxt += "\nCliend recieved: " + data;
 
-                    data = data.ToUpper();
-                    byte[] msg = Encoding.ASCII.GetBytes(data);
-                    stream.Write(msg, 0, msg.Length);
-                    Debug.Log("Client sent: " + data);
-                    m_consoleTxt += "\nCliend sent: " + data;
+                while (!m_shuttingDown) {
+                    //clear data
+                    data = "";
+                    int count;
+                    while ((count = stream.Read(buffer, 0, buffer.Length)) != 0) {
+                        data = Encoding.ASCII.GetString(buffer, 0, count);
+                        Debug.Log("Server recieved: " + data);
+                        m_consoleTxt += "\nServer recieved: " + data;
+
+                        data = "Ack";
+                        byte[] msg = Encoding.ASCII.GetBytes(data);
+                        stream.Write(msg, 0, msg.Length);
+                        Debug.Log("Server sent: " + data);
+                        m_consoleTxt += "\nServer sent: " + data;
+                    }
+
+                    Thread.Sleep(1);
                 }
 
                 client.Close();
@@ -97,5 +121,13 @@ public class MultiplayerClient : MonoBehaviour {
             Debug.Log(e.Message);
             m_consoleTxt += "\nError: " + e.Message;
         }
+    }
+
+    private void OnDestroy() {
+        m_shuttingDown = true;
+    }
+
+    private void OnApplicationQuit() {
+        m_shuttingDown = true;
     }
 }
