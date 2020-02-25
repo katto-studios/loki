@@ -36,6 +36,7 @@ public class PlayFabLogin : MonoBehaviour {
             PlayerPrefs.DeleteKey("userEmail");
             PlayerPrefs.DeleteKey("userPassword");
         }
+        PlayfabUserInfo.Instance.Start();
         GetProse.Instance.CheckForUpdate();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }
@@ -49,7 +50,7 @@ public class PlayFabLogin : MonoBehaviour {
         m_userEmail = inEmail.text;
         m_userPassword = inPass.text;
 
-        var request = new LoginWithEmailAddressRequest { Email = m_userEmail, Password = m_userPassword };
+        LoginWithEmailAddressRequest request = new LoginWithEmailAddressRequest { Email = m_userEmail, Password = m_userPassword };
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
     }
 }
