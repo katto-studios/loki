@@ -2,26 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
-    public TMPro.TextMeshProUGUI userName;
-    private string m_username;
+    public TextMeshProUGUI userName;
 
     // Start is called before the first frame update
     void Start() {
-        PlayFab.ClientModels.GetAccountInfoRequest req = new PlayFab.ClientModels.GetAccountInfoRequest();
-        PlayFab.PlayFabClientAPI.GetAccountInfo(
-            req,
-            (_result) => { m_username = _result.AccountInfo.Username; },
-            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
-        );
-
-        userName.text = m_username;
+        StartCoroutine(UpdateName());
     }
 
-    // Update is called once per frame
-    void Update() {
-        userName.text = m_username;
+    private IEnumerator UpdateName() {
+        while (true) {
+            userName.text = PlayfabUserInfo.Instance.GetUsername();
+            if (!userName.text.Equals("")) {
+                break;
+            }
+            yield return null;
+        }
     }
 }
