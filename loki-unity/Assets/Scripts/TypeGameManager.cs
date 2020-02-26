@@ -20,6 +20,13 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public List<TRWord> mistakeWords;
     public int wordIndex;
     public int charIndex;
+    char nextChar;
+
+    public int score;
+
+    public int combo;
+    float comboTimer;
+    public float maxComboTimer;
 
     public GameObject readyGO;
     public GameObject gameGO;
@@ -34,10 +41,27 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     private void Start()
     {
+        comboTimer = maxComboTimer;
+
         if (useRandomWords) {
             wordsString = GetProse.Instance.GetRandomProse().Prose;
         }
         ConvertStringToTRWords(wordsString);
+    }
+
+    private void Update()
+    {
+        comboTimer -= Time.deltaTime;
+        if(comboTimer <= 0)
+        {
+            comboTimer = 0;
+            combo = 0;
+        }
+    }
+
+    public float GetComboTimer()
+    {
+        return comboTimer / maxComboTimer;
     }
 
     void ConvertStringToTRWords(string s)
@@ -63,6 +87,10 @@ public class TypeGameManager : Singleton<TypeGameManager>
         if (words[wordIndex].CompareWords(inputWord.ToCharArray()))
         {
             inputTextMesh.color = new Color(1, 1, 1);
+            comboTimer = maxComboTimer;
+            combo++;
+
+            score += combo * 10;
         }
         else
         {
@@ -70,6 +98,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
             if (!mistakeWords.Contains(words[wordIndex]))
             {
                 mistakeWords.Add(words[wordIndex]);
+                combo = 0;
             }
         }
         inputTextMesh.text = inputWord;
