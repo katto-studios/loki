@@ -48,17 +48,22 @@ public class GetProse : Singleton<GetProse> {
     }
 
     public Paragraph GetRandomProse() {
-        //return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
+		// return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
 
-        //DEBUGING SHIT
-        Debug.Log("Getting harry potter prose");
-        foreach (Paragraph p in m_prosesAvaliable) {
-            if (p.Author.Equals("JK Rowling")) {
-                return p;
-            }
-        }
-        return m_prosesAvaliable[2];
-    }
+		//DEBUGING SHIT
+		Debug.Log("Getting cursed prose");
+		bool xd = false;
+		foreach (Paragraph p in m_prosesAvaliable) {
+			if (!p.Author.Equals("JK Rowling")) {
+				if (!xd) {
+					xd = true;
+					continue;
+				}
+				return p;
+			}
+		}
+		return m_prosesAvaliable[2];
+	}
 
     private IEnumerator DownloadData(string _url, string  _key) {
         using (UnityWebRequest webReq = UnityWebRequest.Get(_url)) {
@@ -80,7 +85,7 @@ public class GetProse : Singleton<GetProse> {
                 // Sometimes the json files have a 3 byte BOM infront of it
                 // Thus, I cannot parse the .text into a json file
                 // Hence, I use a try catch
-                // If it does have the 3 byte BOM, I just trancate it
+                // If it does have the 3 byte BOM, I just truncate it
                 Paragraph proseAvaliable;
                 try {
                     proseAvaliable = JsonUtility.FromJson<Paragraph>(webReq.downloadHandler.text);
