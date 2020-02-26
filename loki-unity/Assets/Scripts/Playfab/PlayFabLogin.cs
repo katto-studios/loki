@@ -36,7 +36,7 @@ public class PlayFabLogin : MonoBehaviour {
             PlayerPrefs.DeleteKey("userEmail");
             PlayerPrefs.DeleteKey("userPassword");
         }
-        PlayfabUserInfo.Instance.Start();
+        PlayfabUserInfo.Initalise();
         GetProse.Instance.CheckForUpdate();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }

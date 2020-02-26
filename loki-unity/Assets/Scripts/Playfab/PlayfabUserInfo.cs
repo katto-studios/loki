@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab.ClientModels;
 
-public class PlayfabUserInfo : Singleton<PlayfabUserInfo> {
-    private UserAccountInfo m_accountInfo;
-    public UserAccountInfo AccountInfo { get { return m_accountInfo; } }
+public static class PlayfabUserInfo{
+    private static UserAccountInfo m_accountInfo;
+    public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
 
-    // Start is called before the first frame update
-    public void Start() {
-        name = "PLAYFAB_ACCOUNT_INFO";
-        DontDestroyOnLoad(gameObject);
-
+    public static void Initalise() {
         GetAccountInfoRequest req = new GetAccountInfoRequest();
         PlayFab.PlayFabClientAPI.GetAccountInfo(
             req,
@@ -20,7 +16,7 @@ public class PlayfabUserInfo : Singleton<PlayfabUserInfo> {
         );
     }
 
-    public string GetUsername() {
+    public static string GetUsername() {
         if(m_accountInfo != null) {
             return m_accountInfo.Username;
         }
