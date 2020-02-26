@@ -14,6 +14,8 @@ public class TRAnalytics : MonoBehaviour
     public TextMeshProUGUI WPMText;
     public TextMeshProUGUI ACCText;
     public TextMeshProUGUI MISSText;
+    public TextMeshProUGUI SCOREText;
+    public TextMeshProUGUI COMBOText;
 
     // Start is called before the first frame update
     void Start()
@@ -53,5 +55,9 @@ public class TRAnalytics : MonoBehaviour
 
         string MISSString = typeGameManager.mistakeWords.Count.ToString();
         MISSText.text = MISSString;
+
+        SCOREText.text = typeGameManager.score.ToString();
+
+        COMBOText.text = typeGameManager.maxCombo.ToString();
     }
 }

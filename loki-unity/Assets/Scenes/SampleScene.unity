@@ -1338,7 +1338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &588717455
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2619,7 +2619,6 @@ GameObject:
   - component: {fileID: 1116020881}
   - component: {fileID: 1116020880}
   - component: {fileID: 1116020882}
-  - component: {fileID: 1116020883}
   - component: {fileID: 1116020884}
   - component: {fileID: 1116020885}
   m_Layer: 0
@@ -2651,6 +2650,7 @@ MonoBehaviour:
   charIndex: 0
   score: 0
   combo: 0
+  maxCombo: 0
   maxComboTimer: 2
   readyGO: {fileID: 1994345643}
   gameGO: {fileID: 122064456}
@@ -2683,23 +2683,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeGameManager: {fileID: 1116020880}
---- !u!114 &1116020883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1116020879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bf463a9353e5ea4c90106e0940a7ae8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wordTextMesh: {fileID: 1065527285}
-  GamePanel: {fileID: 122064456}
-  slider: {fileID: 0}
-  comboTextMesh: {fileID: 0}
-  scoreTextMesh: {fileID: 0}
 --- !u!114 &1116020884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2718,6 +2701,8 @@ MonoBehaviour:
   WPMText: {fileID: 1727030794}
   ACCText: {fileID: 641472931}
   MISSText: {fileID: 1602152063}
+  SCOREText: {fileID: 904711376}
+  COMBOText: {fileID: 1644578751}
 --- !u!114 &1116020885
 MonoBehaviour:
   m_ObjectHideFlags: 0

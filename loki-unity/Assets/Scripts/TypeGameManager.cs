@@ -25,6 +25,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public int score;
 
     public int combo;
+    public int maxCombo;
     float comboTimer;
     public float maxComboTimer;
 
@@ -90,7 +91,12 @@ public class TypeGameManager : Singleton<TypeGameManager>
             comboTimer = maxComboTimer;
             combo++;
 
-            score += combo * 10;
+            if(combo > maxCombo)
+            {
+                maxCombo = combo;
+            }
+
+            score += (int)(combo * 10 * comboTimer);
         }
         else
         {
