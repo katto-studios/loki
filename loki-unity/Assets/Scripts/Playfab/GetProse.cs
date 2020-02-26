@@ -49,21 +49,21 @@ public class GetProse : Singleton<GetProse> {
     }
 
     public Paragraph GetRandomProse() {
-        // return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
+         return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
 
         //DEBUGING SHIT
-        Debug.Log("Getting cursed prose");
-        bool xd = false;
-        foreach (Paragraph p in m_prosesAvaliable) {
-            if (!p.Author.Equals("JK Rowling")) {
-                if (!xd) {
-                    xd = true;
-                    continue;
-                }
-                return p;
-            }
-        }
-        return m_prosesAvaliable[2];
+        //Debug.Log("Getting cursed prose");
+        //bool xd = false;
+        //foreach (Paragraph p in m_prosesAvaliable) {
+        //    if (!p.Author.Equals("JK Rowling")) {
+        //        if (!xd) {
+        //            xd = true;
+        //            continue;
+        //        }
+        //        return p;
+        //    }
+        //}
+        //return m_prosesAvaliable[2];
     }
 
     private IEnumerator DownloadData(string _url, string _key) {
