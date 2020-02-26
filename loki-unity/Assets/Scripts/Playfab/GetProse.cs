@@ -5,6 +5,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.AdminModels;
 using UnityEngine.Networking;
+using System.Linq;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
@@ -25,7 +26,7 @@ public class GetProse : Singleton<GetProse> {
         PlayFabAdminAPI.GetContentList(
             listReq,
             (_result) => {
-                foreach (ContentInfo content in _result.Contents) {
+                foreach (ContentInfo content in _result.Contents.Where(x => x.Key.StartsWith("Words"))) {
                     //check if we have it
                     if (!File.Exists(Application.persistentDataPath + "/" + content.Key)) {
                         Debug.Log("We don't have " + content.Key + "... downloading it");
@@ -36,7 +37,7 @@ public class GetProse : Singleton<GetProse> {
                             (__result) => { StartCoroutine(DownloadData(__result.URL, content.Key)); },
                             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
                         );
-                    }else {
+                    } else {
                         BinaryFormatter bf = new BinaryFormatter();
                         FileStream fs = File.Open(Application.persistentDataPath + "/" + content.Key, FileMode.Open);
                         m_prosesAvaliable.Add(JsonUtility.FromJson<Paragraph>(bf.Deserialize(fs) as string));
@@ -49,19 +50,24 @@ public class GetProse : Singleton<GetProse> {
     }
 
     public Paragraph GetRandomProse() {
-        //return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
+        // return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
 
         //DEBUGING SHIT
-        Debug.Log("Getting harry potter prose");
+        Debug.Log("Getting cursed prose");
+        bool xd = false;
         foreach (Paragraph p in m_prosesAvaliable) {
-            if (p.Author.Equals("JK Rowling")) {
+            if (!p.Author.Equals("JK Rowling")) {
+                if (!xd) {
+                    xd = true;
+                    continue;
+                }
                 return p;
             }
         }
         return m_prosesAvaliable[2];
     }
 
-    private IEnumerator DownloadData(string _url, string  _key) {
+    private IEnumerator DownloadData(string _url, string _key) {
         using (UnityWebRequest webReq = UnityWebRequest.Get(_url)) {
             yield return webReq.SendWebRequest();
             if (webReq.isNetworkError) {
@@ -81,11 +87,11 @@ public class GetProse : Singleton<GetProse> {
                 // Sometimes the json files have a 3 byte BOM infront of it
                 // Thus, I cannot parse the .text into a json file
                 // Hence, I use a try catch
-                // If it does have the 3 byte BOM, I just trancate it
+                // If it does have the 3 byte BOM, I just truncate it
                 Paragraph proseAvaliable;
                 try {
                     proseAvaliable = JsonUtility.FromJson<Paragraph>(webReq.downloadHandler.text);
-                }catch (System.ArgumentException) {
+                } catch (System.ArgumentException) {
                     proseAvaliable = JsonUtility.FromJson<Paragraph>(Encoding.UTF8.GetString(webReq.downloadHandler.data, 3, webReq.downloadHandler.data.Length - 3));
                 }
 

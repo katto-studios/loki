@@ -13,7 +13,7 @@ public class MenuManager : MonoBehaviour {
 
     private IEnumerator UpdateName() {
         while (true) {
-            userName.text = PlayfabUserInfo.Instance.GetUsername();
+            userName.text = PlayfabUserInfo.GetUsername();
             if (!userName.text.Equals("")) {
                 break;
             }
