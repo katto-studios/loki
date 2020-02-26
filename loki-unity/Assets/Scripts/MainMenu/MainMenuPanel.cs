@@ -27,6 +27,7 @@ public class MainMenuPanel : MonoBehaviour
 
     public void OnButtonClick()
     {
+        ButtonChime.Instance.PlayChime();
         if (isVisible)
         {
             isVisible = false;

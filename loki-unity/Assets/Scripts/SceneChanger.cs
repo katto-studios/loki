@@ -7,6 +7,8 @@ public class SceneChanger : MonoBehaviour
 {
     public void ChangeScene(int sceneIndex)
     {
-        SceneManager.LoadScene(sceneIndex);
+
+        ButtonChime.Instance.PlayChime(1);
+        PersistantCanvas.Instance.ChangeScene(sceneIndex);
     }
 }

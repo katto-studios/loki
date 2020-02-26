@@ -7,6 +7,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
 {
     //String for player to type
     public string wordsString;
+    public bool useRandomWords = true;
 
     //String that the player has typed
     string inputString = "";
@@ -19,10 +20,49 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public List<TRWord> mistakeWords;
     public int wordIndex;
     public int charIndex;
+    char nextChar;
+
+    public int score;
+
+    public int combo;
+    public int maxCombo;
+    float comboTimer;
+    public float maxComboTimer;
+
+    public GameObject readyGO;
+    public GameObject gameGO;
+    public TextMeshProUGUI countDownText;
+
+    public enum GameState
+    {
+        Ready, Countdown, Playing, Analytics
+    }
+
+    public GameState gameState;
 
     private void Start()
     {
+        comboTimer = maxComboTimer;
+
+        if (useRandomWords) {
+            wordsString = GetProse.Instance.GetRandomProse().Prose;
+        }
         ConvertStringToTRWords(wordsString);
+    }
+
+    private void Update()
+    {
+        comboTimer -= Time.deltaTime;
+        if(comboTimer <= 0)
+        {
+            comboTimer = 0;
+            combo = 0;
+        }
+    }
+
+    public float GetComboTimer()
+    {
+        return comboTimer / maxComboTimer;
     }
 
     void ConvertStringToTRWords(string s)
@@ -55,31 +95,74 @@ public class TypeGameManager : Singleton<TypeGameManager>
             if (!mistakeWords.Contains(words[wordIndex]))
             {
                 mistakeWords.Add(words[wordIndex]);
+                combo = 0;
             }
         }
         inputTextMesh.text = inputWord;
     }
 
+    IEnumerator CountDown(int count)
+    {
+        countDownText.text = count.ToString();
+        ButtonChime.Instance.PlayChime();
+        yield return new WaitForSeconds(0.8f);
+        count--;
+        if (count == 0)
+        {
+            gameState = GameState.Playing;
+            countDownText.gameObject.SetActive(false);
+            gameGO.SetActive(true);
+        }
+        else
+        {
+            StartCoroutine(CountDown(count));
+        }
+    }
+
     public void AddCharacterToInputString(char character)
     {
-        //Update input strings
-        inputString += character;
-        inputWord += character;
-
-        //Check to move on to the next word
-        if(character == ' ' && words[wordIndex].CompareWords(inputWord.ToCharArray()))
+        if(gameState == GameState.Ready && character == ' ')
         {
-            NextWord();
+            gameState = GameState.Countdown;
+            readyGO.SetActive(false);
+            countDownText.gameObject.SetActive(true);
+            StartCoroutine(CountDown(3));
         }
 
-        if(inputString == wordsString)
-        {
-            Complete();
+        if (gameState == GameState.Playing) {
+            //Update input strings
+            inputString += character;
+            inputWord += character;
+
+            //Check to move on to the next word
+            if (character == ' ' && words[wordIndex].CompareWords(inputWord.ToCharArray()))
+            {
+                NextWord();
+            }
+
+            if (inputString == wordsString)
+            {
+                Complete();
+            }
+
+            //Update the textMesh
+            UpdateTextMesh();
+
+            if (words[wordIndex].CompareWords(inputWord.ToCharArray()))
+            {
+                combo++;
+                float scoreTimeScale = Mathf.Pow(GetComboTimer() * 10.0f, 2);
+                score += (int)(scoreTimeScale * combo);
+
+                comboTimer = maxComboTimer;
+
+                if (combo > maxCombo)
+                {
+                    maxCombo = combo;
+                }
+            }
+            SendMessage("UpdateInput", SendMessageOptions.DontRequireReceiver);
         }
-        
-        //Update the textMesh
-        UpdateTextMesh();
-        SendMessage("UpdateInput", SendMessageOptions.DontRequireReceiver);
     }
 
     void NextWord()
@@ -97,11 +180,13 @@ public class TypeGameManager : Singleton<TypeGameManager>
     {
         Debug.Log("Complete");
         SendMessage("GameComplete", SendMessageOptions.DontRequireReceiver);
+        gameState = GameState.Analytics;
     }
 
     public void BackSpacePressed()
     {
-        if(inputWord.Length != 0)
+        combo = 0;
+        if (inputWord.Length != 0)
         {
             inputString = inputString.Substring(0, inputString.Length - 1);
             inputWord = inputWord.Substring(0, inputWord.Length - 1);

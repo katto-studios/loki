@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TypeGameRenderer : MonoBehaviour
 {
@@ -9,15 +10,27 @@ public class TypeGameRenderer : MonoBehaviour
     public TextMeshProUGUI wordTextMesh;
     public GameObject GamePanel;
 
+    public Slider slider;
+    public TextMeshProUGUI comboTextMesh;
+    public TextMeshProUGUI scoreTextMesh;
+
     private void Start()
     {
         typeGameManager = TypeGameManager.Instance;
         wordTextMesh.text = typeGameManager.wordsString;
     }
 
+    public void Update()
+    {
+        slider.value = typeGameManager.GetComboTimer();
+        comboTextMesh.text = "X" + typeGameManager.combo;
+        scoreTextMesh.text = "score: " + typeGameManager.score;
+    }
+
     public void UpdateInput()
     {
-        string newWordString = "<color=#F7CAC9>";
+        string newWordString = "<color=#BBFFBB>";
+
         for(int i = 0; i < typeGameManager.words.Count; i++)
         {
             if(i == typeGameManager.wordIndex)
