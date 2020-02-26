@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayFabLogin : MonoBehaviour {
+    [Header("Inputs")]
     public InputField inEmail, inPass;
     public Toggle rememberMe;
 

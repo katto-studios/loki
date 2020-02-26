@@ -9,10 +9,15 @@ using System;
 using UnityEngine.UI;
 
 public class MultiplayerClient : MonoBehaviour {
-    public InputField inIp, inChat;
+    [Header("Inputs")]
+    public InputField inIp;
+    public InputField inChat;
+
+    [Header("Console")]
+    public Text console;
+
     private string m_ip { get { return inIp.text; } }
     private Thread m_networkThread;
-    public Text console;
     private string m_consoleTxt = "";
     private volatile bool m_shuttingDown = false;
     private bool m_sendMsg = false;
@@ -40,14 +45,14 @@ public class MultiplayerClient : MonoBehaviour {
     private void ConnectToServer() {
         //create tcp client
         try {
-           TcpClient client = new TcpClient(m_ip, 42069);
+            TcpClient client = new TcpClient(m_ip, 42069);
 
             byte[] data = Encoding.ASCII.GetBytes("Client connection request");
             NetworkStream stream = client.GetStream();
 
             stream.Write(data, 0, data.Length);
-            Debug.Log("Client send: " + "Client connection request");
-            m_consoleTxt += "\nClient send: " + "Client connection request";
+            Debug.Log(PlayfabUserInfo.GetUsername() + "Client connection request");
+            m_consoleTxt += "\n" + PlayfabUserInfo.GetUsername() + "Client connection request";
 
             data = new byte[256];
 
@@ -59,8 +64,8 @@ public class MultiplayerClient : MonoBehaviour {
             while (!m_shuttingDown) {
                 if (m_sendMsg) {
                     byte[] sendToServer = Encoding.ASCII.GetBytes(inChat.text);
-                    Debug.Log("Client send: " + inChat.text);
-                    m_consoleTxt += "\nClient send: " + inChat.text;
+                    Debug.Log(PlayfabUserInfo.GetUsername() + inChat.text);
+                    m_consoleTxt += "\n" + PlayfabUserInfo.GetUsername() + inChat.text;
 
                     bytes = stream.Read(data, 0, data.Length);
                     responseData = Encoding.ASCII.GetString(data, 0, bytes);
@@ -108,8 +113,8 @@ public class MultiplayerClient : MonoBehaviour {
                         data = "Ack";
                         byte[] msg = Encoding.ASCII.GetBytes(data);
                         stream.Write(msg, 0, msg.Length);
-                        Debug.Log("Server sent: " + data);
-                        m_consoleTxt += "\nServer sent: " + data;
+                        Debug.Log(PlayfabUserInfo.GetUsername() + ": " + data);
+                        m_consoleTxt += "\n" + PlayfabUserInfo.GetUsername() + ": " + data;
                     }
 
                     Thread.Sleep(1);
