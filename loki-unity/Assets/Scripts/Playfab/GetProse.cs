@@ -15,7 +15,7 @@ public class GetProse : Singleton<GetProse> {
 
     public void CheckForUpdate() {
         DontDestroyOnLoad(gameObject);
-        name = "GETPROSE";
+        name = "GET_PROSE";
 
         HashSet<string> prosesToLoad = new HashSet<string>();
 
