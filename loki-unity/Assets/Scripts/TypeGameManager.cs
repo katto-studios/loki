@@ -88,15 +88,6 @@ public class TypeGameManager : Singleton<TypeGameManager>
         if (words[wordIndex].CompareWords(inputWord.ToCharArray()))
         {
             inputTextMesh.color = new Color(1, 1, 1);
-            comboTimer = maxComboTimer;
-            combo++;
-
-            if(combo > maxCombo)
-            {
-                maxCombo = combo;
-            }
-
-            score += (int)(combo * 10 * comboTimer);
         }
         else
         {
@@ -156,6 +147,19 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
             //Update the textMesh
             UpdateTextMesh();
+
+            if (words[wordIndex].CompareWords(inputWord.ToCharArray()))
+            {
+                comboTimer = maxComboTimer;
+                combo++;
+
+                if (combo > maxCombo)
+                {
+                    maxCombo = combo;
+                }
+
+                score += (int)(combo * 10 * comboTimer);
+            }
             SendMessage("UpdateInput", SendMessageOptions.DontRequireReceiver);
         }
     }
