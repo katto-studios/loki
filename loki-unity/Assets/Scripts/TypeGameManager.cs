@@ -150,15 +150,16 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
             if (words[wordIndex].CompareWords(inputWord.ToCharArray()))
             {
-                comboTimer = maxComboTimer;
                 combo++;
+                float scoreTimeScale = Mathf.Pow(GetComboTimer() * 10.0f, 2);
+                score += (int)(scoreTimeScale * combo);
+
+                comboTimer = maxComboTimer;
 
                 if (combo > maxCombo)
                 {
                     maxCombo = combo;
                 }
-
-                score += (int)(combo * 10 * comboTimer);
             }
             SendMessage("UpdateInput", SendMessageOptions.DontRequireReceiver);
         }
@@ -184,7 +185,8 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     public void BackSpacePressed()
     {
-        if(inputWord.Length != 0)
+        combo = 0;
+        if (inputWord.Length != 0)
         {
             inputString = inputString.Substring(0, inputString.Length - 1);
             inputWord = inputWord.Substring(0, inputWord.Length - 1);
