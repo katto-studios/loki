@@ -58,6 +58,16 @@ public class TypeGameManager : Singleton<TypeGameManager>
             comboTimer = 0;
             combo = 0;
         }
+
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            RestartGame();
+        }
+    }
+
+    public void RestartGame()
+    {
+        PersistantCanvas.Instance.ChangeScene(2);
     }
 
     public float GetComboTimer()
