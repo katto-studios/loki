@@ -13,6 +13,8 @@ public class PlayFabLogin : MonoBehaviour {
     private string m_userPassword;
     public string UserPassword { set { m_userPassword = value; } }
 
+    private bool m_loggingIn = false;
+
     public void Start() {
         if (string.IsNullOrEmpty(PlayFabSettings.TitleId)) {
             PlayFabSettings.TitleId = "146EC";
@@ -45,13 +47,17 @@ public class PlayFabLogin : MonoBehaviour {
     private void OnLoginFailure(PlayFabError error) {
         Debug.Log(error.GenerateErrorReport());
         PopupManager.Instance.ShowPopUp("Invalid credentials, register instead?", 5);
+        m_loggingIn = false;
     }
 
     public void Login() {
-        m_userEmail = inEmail.text;
-        m_userPassword = inPass.text;
+        if (!m_loggingIn) {
+            m_loggingIn = true;
+            m_userEmail = inEmail.text;
+            m_userPassword = inPass.text;
 
-        LoginWithEmailAddressRequest request = new LoginWithEmailAddressRequest { Email = m_userEmail, Password = m_userPassword };
-        PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
+            LoginWithEmailAddressRequest request = new LoginWithEmailAddressRequest { Email = m_userEmail, Password = m_userPassword };
+            PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
+        }
     }
 }

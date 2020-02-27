@@ -20,6 +20,14 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public List<TRWord> mistakeWords;
     public int wordIndex;
     public int charIndex;
+    char nextChar;
+
+    public int score;
+
+    public int combo;
+    public int maxCombo;
+    float comboTimer;
+    public float maxComboTimer;
 
     public GameObject readyGO;
     public GameObject gameGO;
@@ -34,10 +42,27 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     private void Start()
     {
+        comboTimer = maxComboTimer;
+
         if (useRandomWords) {
             wordsString = GetProse.Instance.GetRandomProse().Prose;
         }
         ConvertStringToTRWords(wordsString);
+    }
+
+    private void Update()
+    {
+        comboTimer -= Time.deltaTime;
+        if(comboTimer <= 0)
+        {
+            comboTimer = 0;
+            combo = 0;
+        }
+    }
+
+    public float GetComboTimer()
+    {
+        return comboTimer / maxComboTimer;
     }
 
     void ConvertStringToTRWords(string s)
@@ -70,6 +95,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
             if (!mistakeWords.Contains(words[wordIndex]))
             {
                 mistakeWords.Add(words[wordIndex]);
+                combo = 0;
             }
         }
         inputTextMesh.text = inputWord;
@@ -121,6 +147,20 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
             //Update the textMesh
             UpdateTextMesh();
+
+            if (words[wordIndex].CompareWords(inputWord.ToCharArray()))
+            {
+                combo++;
+                float scoreTimeScale = Mathf.Pow(GetComboTimer() * 10.0f, 2);
+                score += (int)(scoreTimeScale * combo);
+
+                comboTimer = maxComboTimer;
+
+                if (combo > maxCombo)
+                {
+                    maxCombo = combo;
+                }
+            }
             SendMessage("UpdateInput", SendMessageOptions.DontRequireReceiver);
         }
     }
@@ -145,7 +185,8 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     public void BackSpacePressed()
     {
-        if(inputWord.Length != 0)
+        combo = 0;
+        if (inputWord.Length != 0)
         {
             inputString = inputString.Substring(0, inputString.Length - 1);
             inputWord = inputWord.Substring(0, inputWord.Length - 1);
