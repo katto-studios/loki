@@ -279,8 +279,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1203485056}
-        m_MethodName: OnButtonCreate
+      - m_Target: {fileID: 1203485057}
+        m_MethodName: StartServerCallback
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -621,7 +621,7 @@ GameObject:
   - component: {fileID: 996606062}
   - component: {fileID: 996606061}
   m_Layer: 5
-  m_Name: InputField
+  m_Name: InIp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -906,8 +906,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1203485056}
-        m_MethodName: OnButtonConnect
+      - m_Target: {fileID: 1203485057}
+        m_MethodName: StartClientCallback
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -962,8 +962,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1203485055}
-  - component: {fileID: 1203485056}
-  - component: {fileID: 1203485058}
   - component: {fileID: 1203485057}
   m_Layer: 0
   m_Name: MultiplayerManager
@@ -986,21 +984,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1203485056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1203485054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7a6d44555da0104a80456e0523ab134, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inIp: {fileID: 996606061}
-  inChat: {fileID: 534940640}
-  console: {fileID: 1567707105}
 --- !u!114 &1203485057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1013,18 +996,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d806c3bea6e37a4c9d1f42e8351e6ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1203485058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1203485054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af7a7a45f3347684c97907ffce437544, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  inIp: {fileID: 996606061}
+  inChat: {fileID: 534940640}
+  console: {fileID: 1567707105}
+  isServer: 0
 --- !u!1 &1317234120
 GameObject:
   m_ObjectHideFlags: 0
