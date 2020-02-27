@@ -33,12 +33,12 @@ public class MulitplayerManager : Singleton<MulitplayerManager> {
 
     public void StartServerCallback() {
         isServer = true;
-        m_server = new MultiplayerServer();
-        m_client = new MultiplayerClient();
+        m_server = new MultiplayerServer("192.168.1.136");
+        //m_client = new MultiplayerClient();
     }
 
     public void StartClientCallback() {
         isServer = false;
-        m_client = new MultiplayerClient();
+        m_client = new MultiplayerClient("192.168.1.136");
     }
 }

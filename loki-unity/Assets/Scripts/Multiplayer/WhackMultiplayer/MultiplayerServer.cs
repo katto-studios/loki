@@ -25,7 +25,7 @@ public class MultiplayerServer {
 
     private void CreateServer() {
         try {
-            m_server = new TcpListener(IPAddress.Parse(m_ip), 42069);
+            m_server = new TcpListener(IPAddress.Any, 42069);
             m_server.Start();
 
             while (true) {
