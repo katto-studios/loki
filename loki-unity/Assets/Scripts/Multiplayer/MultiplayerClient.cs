@@ -9,6 +9,8 @@ using System;
 using UnityEngine.UI;
 
 public class MultiplayerClient : MonoBehaviour {
+    /*
+
     [Header("Inputs")]
     public InputField inIp;
     public InputField inChat;
@@ -135,4 +137,6 @@ public class MultiplayerClient : MonoBehaviour {
     private void OnApplicationQuit() {
         m_shuttingDown = true;
     }
+
+    */
 }

@@ -963,6 +963,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1203485055}
   - component: {fileID: 1203485056}
+  - component: {fileID: 1203485058}
+  - component: {fileID: 1203485057}
   m_Layer: 0
   m_Name: MultiplayerManager
   m_TagString: Untagged
@@ -999,6 +1001,30 @@ MonoBehaviour:
   inIp: {fileID: 996606061}
   inChat: {fileID: 534940640}
   console: {fileID: 1567707105}
+--- !u!114 &1203485057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203485054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d806c3bea6e37a4c9d1f42e8351e6ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1203485058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203485054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7a7a45f3347684c97907ffce437544, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1317234120
 GameObject:
   m_ObjectHideFlags: 0
