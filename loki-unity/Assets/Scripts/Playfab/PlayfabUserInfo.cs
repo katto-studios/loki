@@ -15,6 +15,20 @@ public static class PlayfabUserInfo {
             (_result) => { m_accountInfo = _result.AccountInfo; },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
+
+        PersistantCanvas.Instance.StartCoroutine(SetDisplayName());
+    }
+
+    private static IEnumerator SetDisplayName() {
+        while (GetUsername().Equals("")) {
+            yield return null;
+        }
+
+        PlayFab.PlayFabClientAPI.UpdateUserTitleDisplayName(
+            new UpdateUserTitleDisplayNameRequest() { DisplayName = GetUsername() },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
     }
 
     public static string GetUsername() {

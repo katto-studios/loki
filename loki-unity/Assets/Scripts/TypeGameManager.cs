@@ -12,6 +12,8 @@ public class TypeGameManager : Singleton<TypeGameManager>
     //String that the player has typed
     string inputString = "";
 
+    string awardedString = "";
+
     //Current word that the player has typed
     string inputWord = "";
 
@@ -158,8 +160,9 @@ public class TypeGameManager : Singleton<TypeGameManager>
             //Update the textMesh
             UpdateTextMesh();
 
-            if (words[wordIndex].CompareWords(inputWord.ToCharArray()))
+            if (words[wordIndex].CompareWords(inputWord.ToCharArray()) && inputString.Length > awardedString.Length)
             {
+                awardedString += character;
                 combo++;
                 float scoreTimeScale = Mathf.Pow(GetComboTimer() * 10.0f, 2);
                 score += (int)(scoreTimeScale * combo);
