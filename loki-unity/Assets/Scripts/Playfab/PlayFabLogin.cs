@@ -39,6 +39,19 @@ public class PlayFabLogin : MonoBehaviour {
             PlayerPrefs.DeleteKey("userEmail");
             PlayerPrefs.DeleteKey("userPassword");
         }
+
+        //init photon
+        PlayFabClientAPI.GetPhotonAuthenticationToken(
+            new GetPhotonAuthenticationTokenRequest() { PhotonApplicationId = PhotonNetwork.PhotonServerSettings.AppID },
+            (_result) => {
+                AuthenticationValues customAuth = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
+                customAuth.AddAuthParameter("username", result.PlayFabId);
+                customAuth.AddAuthParameter("token", _result.PhotonCustomAuthenticationToken);
+                PhotonNetwork.AuthValues = customAuth;
+            },
+            OnLoginFailure
+        );
+
         PlayfabUserInfo.Initalise();
         GetProse.Instance.CheckForUpdate();
         FindObjectOfType<SceneChanger>().ChangeScene(1);

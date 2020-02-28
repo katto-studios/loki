@@ -523,7 +523,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
-    1: ENABLE_PLAYFABADMIN_API
+    1: ENABLE_PLAYFABADMIN_API;BOLT_CLOUD
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
