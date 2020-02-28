@@ -59,5 +59,7 @@ public class TRAnalytics : MonoBehaviour
         SCOREText.text = typeGameManager.score.ToString();
 
         COMBOText.text = typeGameManager.maxCombo.ToString();
+
+        PlayfabUserInfo.UpdateWpm(typeGameManager.words.Count, timeSinceStart);
     }
 }

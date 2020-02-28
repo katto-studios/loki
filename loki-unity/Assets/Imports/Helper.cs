@@ -215,3 +215,15 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
         //m_shuttingDown = true;
     }
 }
+
+/// <summary>
+/// Used for passing reference into a coroutine
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class Ref<T> {
+    private T backing;
+    public T Value { get { return backing; } }
+    public Ref(T reference) {
+        backing = reference;
+    }
+}
