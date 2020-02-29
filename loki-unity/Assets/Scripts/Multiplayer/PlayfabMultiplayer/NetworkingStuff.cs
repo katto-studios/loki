@@ -17,6 +17,10 @@ public class NetworkingStuff : MonoBehaviour {
         PhotonNetwork.JoinOrCreateRoom("XD", new RoomOptions() { }, new TypedLobby { Type = LobbyType.Default});
     }
 
+	public void OnJoinRoom() {
+		PhotonNetwork.JoinRandomRoom();
+	}
+
     public void OnRaiseRoomEvent() {
         //raise room event
         Dictionary<string, object> data = new Dictionary<string, object>() { { "Hello", " world" } };
