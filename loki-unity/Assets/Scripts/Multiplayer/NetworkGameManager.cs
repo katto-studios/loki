@@ -41,8 +41,9 @@ public class NetworkGameManager : Singleton<NetworkGameManager> {
 
     private void Start() {
         comboTimer = maxComboTimer;
-        wordsString = (PhotonNetwork.room.CustomProperties["Paragraph"] as Paragraph).Prose;
+        wordsString = PhotonNetwork.room.CustomProperties["Paragraph"] as string;
         ConvertStringToTRWords(wordsString);
+        GetComponent<NetworkGameRenderer>().Initalise();
     }
 
     private void Update() {

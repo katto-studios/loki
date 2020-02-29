@@ -15,34 +15,52 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     [Header("Gameplay")]
     public GameObject goToPlayGameScene;
 
-    public enum PlayerStates { NONE, CREATING_ROOM, JOINING_ROOM, READY, WAITING, PLAYING };
+    public enum PlayerStates { NONE, CREATING_ROOM, JOINING_ROOM, READY, WAITING, PLAYING, WAITING_FOR_OTHER };
     public PlayerStates m_currentPlayerState = PlayerStates.NONE;
     private PhotonPlayer m_opponent;
 
     // Start is called before the first frame update
     void Start() {
-        DontDestroyOnLoad(gameObject);
         PrintToConsole("Player connection state: " + PhotonNetwork.connectionState);
     }
 
     // Update is called once per frame
     void Update() {
         goToPlayGameScene.SetActive(m_currentPlayerState == PlayerStates.READY);
+        PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+            {"PlayerState", m_currentPlayerState }
+        });
+
+        if (m_currentPlayerState == PlayerStates.WAITING_FOR_OTHER) {
+            PlayerStates opponentState = (PlayerStates)m_opponent.CustomProperties["PlayerState"];
+            if (opponentState == PlayerStates.WAITING_FOR_OTHER) {
+                if (PhotonNetwork.isMasterClient) {
+                    Paragraph para = GetProse.Instance.GetRandomProse();
+
+                    //set opponent
+                    m_opponent.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+                        { "Score", 0 },
+                        {"PlayerState", PlayerStates.PLAYING }
+                    });
+
+                    //setself
+                    PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+                        { "Score", 0 },
+                        {"PlayerState", PlayerStates.PLAYING }
+                    });
+
+                    PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+                        { "Paragraph", para.Prose }
+                     });
+                }
+                //change scene
+                GetComponent<SceneChanger>().ChangeScene(5);
+            }
+        }
     }
 
     public void WhenStartGame() {
-        Paragraph para = GetProse.Instance.GetRandomProse();
-        m_currentPlayerState = PlayerStates.PLAYING;
-        m_opponent.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
-            { "Score", 0 }
-        });
-
-        PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
-            { "Paragraph", para }
-        });
-
-        //change scene
-        GetComponent<SceneChanger>().ChangeScene(5);
+        m_currentPlayerState = PlayerStates.WAITING_FOR_OTHER;
     }
 
     private void PrintToConsole(string _message) {
@@ -55,7 +73,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void WhenCreateRoom() {
         m_currentPlayerState = PlayerStates.CREATING_ROOM;
-        PhotonNetwork.JoinOrCreateRoom(null, new RoomOptions() { MaxPlayers = 2 }, new TypedLobby { Type = LobbyType.Default });
+        PhotonNetwork.JoinOrCreateRoom("XD", new RoomOptions() { MaxPlayers = 2 }, new TypedLobby { Type = LobbyType.Default });
     }
 
     public void WhenJoinRoom() {
@@ -138,6 +156,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
                     break;
                 case 2:
                     m_currentPlayerState = PlayerStates.READY;
+                    m_opponent = PhotonNetwork.otherPlayers[0];
                     break;
             }
             PrintToConsole("Current player state: " + m_currentPlayerState);

@@ -16,6 +16,9 @@ public class NetworkGameRenderer : MonoBehaviour {
 
     private void Start() {
         typeGameManager = NetworkGameManager.Instance;
+    }
+
+    public void Initalise() {
         wordTextMesh.text = typeGameManager.wordsString;
     }
 
