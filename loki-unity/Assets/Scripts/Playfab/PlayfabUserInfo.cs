@@ -42,15 +42,23 @@ public static class PlayfabUserInfo {
         PlayFabClientAPI.ExecuteCloudScript(
             new ExecuteCloudScriptRequest() {
                 FunctionName = "UpdatePlayerWpm",
-                FunctionParameter = new { TotalWords = _totalWords, TotalTime = _secondsSinceStart },
-                GeneratePlayStreamEvent = true,
+                FunctionParameter = new { TotalWords = _totalWords, TotalTime = (int)_secondsSinceStart },
             },
-            (_result) => {
-
-            },
+            (_result) => { },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
 
+    }
+
+    public static void UpdateHighscore(int _newScore) {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest() {
+                FunctionName = "UpdatePlayerHighScore",
+                FunctionParameter = new { Points = _newScore },
+            },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
     }
 
     public static void UpdateTotalGames() {
