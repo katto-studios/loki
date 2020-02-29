@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayFab;
 using PlayFab.ClientModels;
 
-public static class PlayfabUserInfo{
+public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
 
     public static void Initalise() {
         GetAccountInfoRequest req = new GetAccountInfoRequest();
-        PlayFab.PlayFabClientAPI.GetAccountInfo(
+        PlayFabClientAPI.GetAccountInfo(
             req,
             (_result) => { m_accountInfo = _result.AccountInfo; },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
@@ -31,9 +32,61 @@ public static class PlayfabUserInfo{
     }
 
     public static string GetUsername() {
-        if(m_accountInfo != null) {
+        if (m_accountInfo != null) {
             return m_accountInfo.Username;
         }
         return string.Empty;
+    }
+
+    public static void UpdateWpm(int _totalWords, float _secondsSinceStart) {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest() {
+                FunctionName = "UpdatePlayerWpm",
+                FunctionParameter = new { TotalWords = _totalWords, TotalTime = (int)_secondsSinceStart },
+            },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+
+    }
+
+    public static void UpdateHighscore(int _newScore) {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest() {
+                FunctionName = "UpdatePlayerHighScore",
+                FunctionParameter = new { Points = _newScore },
+            },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
+
+    public static void UpdateTotalGames() {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest() {
+                FunctionName = "UpdateTotalGames",
+            },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
+
+    public static int GetPlayerStatistic(string _stat) {
+        int returnThis = -1;
+
+        PlayFabClientAPI.GetPlayerStatistics(
+            new GetPlayerStatisticsRequest(),
+            (_result) => {
+                foreach (StatisticValue stat in _result.Statistics) {
+                    if (stat.StatisticName.Equals(_stat)) {
+                        returnThis = stat.Value;
+                        break;
+                    }
+                }
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+
+        return returnThis;
     }
 }
