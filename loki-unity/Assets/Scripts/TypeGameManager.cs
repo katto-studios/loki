@@ -36,6 +36,8 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public GameObject gameGO;
     public TextMeshProUGUI countDownText;
 
+    public float progress;
+
     public enum GameState
     {
         Ready, Countdown, Playing, Analytics
