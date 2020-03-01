@@ -17,7 +17,6 @@ public class GetProse : Singleton<GetProse> {
     private UpdateMode m_currentUpdateMode;
 
     public void CheckForUpdate() {
-        PlayerPrefs.DeleteKey("VersionInfo");
         DontDestroyOnLoad(gameObject);
 
         m_currentUpdateMode = UpdateMode.Checking;
@@ -34,7 +33,7 @@ public class GetProse : Singleton<GetProse> {
                             UpdateMode.NeedsRedownload : UpdateMode.NeedsUpdate
                         : UpdateMode.Done;
                 PlayerPrefs.SetString("VersionInfo", _result.Data["Version"]);
-
+                Debug.Log("New verion: " + PlayerPrefs.GetString("VersionInfo"));
                 StartCoroutine(CheckDownload());
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
@@ -49,6 +48,7 @@ public class GetProse : Singleton<GetProse> {
 
     private IEnumerator CheckDownload() {
         switch (m_currentUpdateMode) {
+            case UpdateMode.Done:
             case UpdateMode.NeedsUpdate:
                 StartCoroutine(UpdateGame());
                 break;
@@ -146,6 +146,7 @@ public class GetProse : Singleton<GetProse> {
         if(m_prosesAvaliable.Count <= 0) {
             return null;
         }
+
         return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
 
         //DEBUGING SHIT
