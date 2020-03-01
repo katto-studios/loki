@@ -23,10 +23,11 @@ public class NetworkGameManager : TypeGameManager {
         PhotonNetwork.player.SetCustomProperties(new Hashtable() {
             { "Score", score }
         });
-
     }
 
     public void LeaveGame() {
+        //update mmr
+        PlayfabUserInfo.UpdatePlayerMmr(float.Parse(m_opponent.CustomProperties["Score"].ToString()) < score ? 25 : -25);
         PhotonNetwork.LeaveRoom();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }

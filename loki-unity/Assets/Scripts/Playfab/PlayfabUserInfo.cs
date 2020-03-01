@@ -71,6 +71,17 @@ public static class PlayfabUserInfo {
         );
     }
 
+    public static void UpdatePlayerMmr(int _mmr) {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest() {
+                FunctionName = "UpdateMmr",
+                FunctionParameter = new { mmr_update = _mmr },
+            },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
+
     public static int GetPlayerStatistic(string _stat) {
         int returnThis = -1;
 
