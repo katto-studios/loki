@@ -10,25 +10,25 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public bool useRandomWords = true;
 
     //String that the player has typed
-    string inputString = "";
+    protected string inputString = "";
 
-    string awardedString = "";
+    protected string awardedString = "";
 
     //Current word that the player has typed
-    string inputWord = "";
+    protected string inputWord = "";
 
     public TextMeshProUGUI inputTextMesh;
     public List<TRWord> words;
     public List<TRWord> mistakeWords;
     public int wordIndex;
     public int charIndex;
-    char nextChar;
+    protected char nextChar;
 
     public int score;
 
     public int combo;
     public int maxCombo;
-    float comboTimer;
+    protected float comboTimer;
     public float maxComboTimer;
 
     public GameObject readyGO;
@@ -42,7 +42,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     public GameState gameState;
 
-    private void Start()
+    public virtual void Start()
     {
         comboTimer = maxComboTimer;
 
@@ -52,7 +52,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         ConvertStringToTRWords(wordsString);
     }
 
-    private void Update()
+    public virtual void Update()
     {
         comboTimer -= Time.deltaTime;
         if(comboTimer <= 0)
@@ -77,7 +77,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         return comboTimer / maxComboTimer;
     }
 
-    void ConvertStringToTRWords(string s)
+    protected void ConvertStringToTRWords(string s)
     {
         char[] ncwords = s.ToCharArray();
         List<char> nextTRWord = new List<char>();
@@ -95,7 +95,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
     }
 
-    void UpdateTextMesh()
+    protected void UpdateTextMesh()
     {
         if (words[wordIndex].CompareWords(inputWord.ToCharArray()))
         {
@@ -113,7 +113,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         inputTextMesh.text = inputWord;
     }
 
-    IEnumerator CountDown(int count)
+    protected IEnumerator CountDown(int count)
     {
         countDownText.text = count.ToString();
         ButtonChime.Instance.PlayChime();
@@ -178,7 +178,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
     }
 
-    void NextWord()
+    protected void NextWord()
     {
         inputWord = "";
         wordIndex++;
@@ -189,7 +189,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
     }
 
-    void Complete()
+    protected void Complete()
     {
         Debug.Log("Complete");
         SendMessage("GameComplete", SendMessageOptions.DontRequireReceiver);

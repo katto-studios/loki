@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AppID: 99f28bf7-f000-4d28-bd9d-29843647aacd
   VoiceAppID: 
-  ChatAppID: 
+  ChatAppID: 99f28bf7-f000-4d28-bd9d-29843647aacd
   HostType: 1
   PreferredRegion: 2
   EnabledRegions: -1
@@ -37,10 +37,4 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
-  - ColorRpc
-  - DoJump
-  - Flash
-  - Marco
-  - Polo
-  - TaggedPlayer
   DisableAutoOpenWizard: 1
