@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TypeGameManager : Singleton<TypeGameManager>
 {
@@ -47,7 +48,13 @@ public class TypeGameManager : Singleton<TypeGameManager>
         comboTimer = maxComboTimer;
 
         if (useRandomWords) {
-            wordsString = GetProse.Instance.GetRandomProse().Prose;
+            Paragraph para = GetProse.Instance.GetRandomProse();
+            if (para == null) {
+                Debug.Log("I'm not done loading faggot");
+                //high apm players watchout
+                SceneManager.LoadScene(1);
+            }
+            wordsString = para.Prose;
         }
         ConvertStringToTRWords(wordsString);
     }

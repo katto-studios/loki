@@ -13,9 +13,95 @@ using System.IO;
 public class GetProse : Singleton<GetProse> {
     private List<Paragraph> m_prosesAvaliable = new List<Paragraph>();
 
+    private enum UpdateMode { Checking, NeedsUpdate, NeedsRedownload, Updating, Done }
+    private UpdateMode m_currentUpdateMode;
+
     public void CheckForUpdate() {
+        PlayerPrefs.DeleteKey("VersionInfo");
         DontDestroyOnLoad(gameObject);
 
+        m_currentUpdateMode = UpdateMode.Checking;
+        StartCoroutine(CheckVersion());
+    }
+
+    private IEnumerator CheckVersion() {
+        PlayFabClientAPI.GetTitleData(
+            new PlayFab.ClientModels.GetTitleDataRequest(),
+            (_result) => {
+                //compare playerpref update and my update
+                m_currentUpdateMode = !PlayerPrefs.GetString("VersionInfo").Equals(_result.Data["Version"]) ?
+                         _result.Data["RedownloadNeeded"].Equals("true") ?
+                            UpdateMode.NeedsRedownload : UpdateMode.NeedsUpdate
+                        : UpdateMode.Done;
+                PlayerPrefs.SetString("VersionInfo", _result.Data["Version"]);
+
+                StartCoroutine(CheckDownload());
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+
+        while (m_currentUpdateMode != UpdateMode.Done) {
+            yield return null;
+        }
+
+        Debug.Log("Done!");
+    }
+
+    private IEnumerator CheckDownload() {
+        switch (m_currentUpdateMode) {
+            case UpdateMode.NeedsUpdate:
+                StartCoroutine(UpdateGame());
+                break;
+            case UpdateMode.NeedsRedownload:
+                StartCoroutine(RedownloadGame());
+                break;
+        }
+
+        while(m_currentUpdateMode != UpdateMode.Done) {
+            yield return null;
+        }
+    }
+
+    private IEnumerator RedownloadGame() {
+        Debug.Log("Redownloading...");
+        bool done = false;
+        HashSet<string> prosesToLoad = new HashSet<string>();
+
+        //check if got words folder
+        Directory.CreateDirectory(Application.persistentDataPath + "/Words");
+
+        GetContentListRequest listReq = new GetContentListRequest();
+        PlayFabAdminAPI.GetContentList(
+            listReq,
+            (_result) => {
+                foreach (ContentInfo content in _result.Contents.Where(x => x.Key.StartsWith("Words"))) {
+                    //delete file
+                    File.Delete(Application.persistentDataPath + "/" + content.Key);
+
+                    GetContentDownloadUrlRequest dlReq = new GetContentDownloadUrlRequest();
+                    dlReq.Key = content.Key;
+                    PlayFabClientAPI.GetContentDownloadUrl(
+                        dlReq,
+                        (__result) => { StartCoroutine(DownloadData(__result.URL, content.Key)); },
+                        (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+                    );
+                }
+
+                m_currentUpdateMode = UpdateMode.Done;
+                done = true;
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+
+        while (!done) {
+            m_currentUpdateMode = UpdateMode.Updating;
+            yield return null;
+        }
+    }
+
+    private IEnumerator UpdateGame() {
+        Debug.Log("Updating...");
+        bool done = false;
         HashSet<string> prosesToLoad = new HashSet<string>();
 
         //check if got words folder
@@ -42,14 +128,25 @@ public class GetProse : Singleton<GetProse> {
                         m_prosesAvaliable.Add(JsonUtility.FromJson<Paragraph>(bf.Deserialize(fs) as string));
                         fs.Close();
                     }
+
+                    m_currentUpdateMode = UpdateMode.Done;
+                    done = true;
                 }
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
+
+        while (!done) {
+            m_currentUpdateMode = UpdateMode.Updating;
+            yield return null;
+        }
     }
 
     public Paragraph GetRandomProse() {
-         return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
+        if(m_prosesAvaliable.Count <= 0) {
+            return null;
+        }
+        return m_prosesAvaliable[Random.Range(0, m_prosesAvaliable.Count - 1)];
 
         //DEBUGING SHIT
         //Debug.Log("Getting cursed prose");
