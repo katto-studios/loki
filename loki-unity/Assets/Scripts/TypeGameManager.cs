@@ -64,6 +64,11 @@ public class TypeGameManager : Singleton<TypeGameManager>
         return inputWord.ToCharArray();
     }
 
+    public float GetGameProgress()
+    {
+        return wordIndex / words.Count;
+    }
+
     private void Update()
     {
         comboTimer -= Time.deltaTime;
