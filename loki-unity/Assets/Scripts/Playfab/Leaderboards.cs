@@ -12,6 +12,7 @@ public static class Leaderboards {
     public static List<KeyValuePair<string, int>> HighScores { get { return m_scores; } }
 
     public static void FetchHighScores() {
+        m_scores.Clear();
         PlayFabClientAPI.GetLeaderboard(
             new GetLeaderboardRequest() { StatisticName = "Points high score" },
             (_result) => {
@@ -28,6 +29,7 @@ public static class Leaderboards {
     public static List<KeyValuePair<string, int>> WpmScores { get { return m_wpmScores; } }
 
     public static void FetchWpmScores() {
+        m_wpmScores.Clear();
         PlayFabClientAPI.GetLeaderboard(
             new GetLeaderboardRequest() { StatisticName = "Wpm" },
             (_result) => {
