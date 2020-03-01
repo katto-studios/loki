@@ -16,7 +16,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
     string awardedString = "";
 
     //Current word that the player has typed
-    string inputWord = "";
+    public string inputWord = "";
 
     public TextMeshProUGUI inputTextMesh;
     public List<TRWord> words;
@@ -57,6 +57,16 @@ public class TypeGameManager : Singleton<TypeGameManager>
             wordsString = para.Prose;
         }
         ConvertStringToTRWords(wordsString);
+    }
+
+    public char[] GetInputWord()
+    {
+        return inputWord.ToCharArray();
+    }
+
+    public float GetGameProgress()
+    {
+        return wordIndex / words.Count;
     }
 
     private void Update()
@@ -117,7 +127,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
                 combo = 0;
             }
         }
-        inputTextMesh.text = inputWord;
+        inputTextMesh.text = @inputWord;
     }
 
     IEnumerator CountDown(int count)
@@ -181,6 +191,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
                     maxCombo = combo;
                 }
             }
+
             SendMessage("UpdateInput", SendMessageOptions.DontRequireReceiver);
         }
     }
