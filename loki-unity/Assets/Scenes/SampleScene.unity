@@ -1289,7 +1289,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 25.4
+  field of view: 11
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1315,7 +1315,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -21.81}
+  m_LocalPosition: {x: 0, y: 0.96, z: -70}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3521,6 +3521,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06fe3e5ef27b01b4fa1bd0640a14a954, type: 3}
+--- !u!1 &1582839347 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6117907291677428482, guid: 324b18337523ede4ba4b23fd22aea62f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2866190774537898335}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1582839348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582839347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d028685f519881c409b75df25b5914e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboard: {fileID: 1582839349}
+--- !u!114 &1582839349 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8296172668812640862, guid: 324b18337523ede4ba4b23fd22aea62f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2866190774537898335}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582839347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e9c2fc2ce69bea47a9004bc61589129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1602152061
 GameObject:
   m_ObjectHideFlags: 0
@@ -5050,7 +5081,7 @@ PrefabInstance:
     - target: {fileID: 6117907291677428482, guid: 324b18337523ede4ba4b23fd22aea62f,
         type: 3}
       propertyPath: m_Name
-      value: keyboard
+      value: SinglePlayerKeeb
       objectReference: {fileID: 0}
     - target: {fileID: 7114690825935812881, guid: 324b18337523ede4ba4b23fd22aea62f,
         type: 3}
