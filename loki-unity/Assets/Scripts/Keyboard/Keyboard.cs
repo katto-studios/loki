@@ -5,8 +5,9 @@ using UnityEngine;
 public class Keyboard : MonoBehaviour
 {
     public GameObject keysGO;
+    public bool usePlaceholders;
     public GameObject placeHolderKeycap;
-    public List<GameObject> keys;
+    List<GameObject> keys;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,9 +21,12 @@ public class Keyboard : MonoBehaviour
             keys.Add(child.gameObject);
         }
 
-        foreach (GameObject key in keys)
+        if (usePlaceholders)
         {
-            Instantiate(placeHolderKeycap, key.transform);
+            foreach (GameObject key in keys)
+            {
+                Instantiate(placeHolderKeycap, key.transform);
+            }
         }
     }
 
