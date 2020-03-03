@@ -86,6 +86,14 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
         PhotonNetwork.JoinOrCreateRoom(_room, new RoomOptions() { MaxPlayers = 2 }, new TypedLobby { Type = LobbyType.Default });
     }
 
+    public void WhenLeaveRoom() {
+        if(PhotonNetwork.room != null) {
+            PhotonNetwork.LeaveRoom();
+        }
+
+        GetComponent<SceneChanger>().ChangeScene(1);
+    }
+
     #region Photon callbacks
     public void OnConnectedToPhoton() {
 

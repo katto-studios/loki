@@ -36,8 +36,6 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public GameObject gameGO;
     public TextMeshProUGUI countDownText;
 
-    public float progress;
-
     public enum GameState
     {
         Ready, Countdown, Playing, Analytics
@@ -55,6 +53,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
                 Debug.Log("I'm not done loading faggot");
                 //high apm players watchout
                 SceneManager.LoadScene(1);
+                return;
             }
             wordsString = para.Prose;
         }
@@ -150,7 +149,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
     }
 
-    public void AddCharacterToInputString(char character)
+    public virtual void AddCharacterToInputString(char character)
     {
         if(gameState == GameState.Ready && character == ' ')
         {
