@@ -49,6 +49,8 @@ public class GetProse : Singleton<GetProse> {
     private IEnumerator CheckDownload() {
         switch (m_currentUpdateMode) {
             case UpdateMode.Done:
+                StartCoroutine(LoadGame());
+                break;
             case UpdateMode.NeedsUpdate:
                 StartCoroutine(UpdateGame());
                 break;
@@ -135,6 +137,23 @@ public class GetProse : Singleton<GetProse> {
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
+
+        while (!done) {
+            m_currentUpdateMode = UpdateMode.Updating;
+            yield return null;
+        }
+    }
+
+    private IEnumerator LoadGame() {
+        Debug.Log("Loading game...");
+        bool done = false;
+        foreach(string proseLoc in Directory.GetFiles(Application.persistentDataPath + "/Words")) {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream fs = File.Open(proseLoc, FileMode.Open);
+            m_prosesAvaliable.Add(JsonUtility.FromJson<Paragraph>(bf.Deserialize(fs) as string));
+            fs.Close();
+        }
+        done = true;
 
         while (!done) {
             m_currentUpdateMode = UpdateMode.Updating;
