@@ -33,12 +33,52 @@ public class TypeGameRenderer : MonoBehaviour
 
         for(int i = 0; i < typeGameManager.words.Count; i++)
         {
-            if(i == typeGameManager.wordIndex)
+            if (i == typeGameManager.wordIndex)
             {
-                newWordString += "<color=#FFFFFF>";
-            }
+                newWordString += "<color=#FFFFBB>";
 
-            newWordString += typeGameManager.words[i].word.ArrayToString();
+                bool canUnderline = true;
+
+                if (typeGameManager.GetInputWord() != ("").ToCharArray())
+                {
+                    for (int j = 0; j < typeGameManager.words[i].word.Length; j++)
+                    {
+                        char nextChar = typeGameManager.words[i].word[j];
+                        if (j < typeGameManager.GetInputWord().Length)
+                        {
+                            if (!typeGameManager.GetInputWord()[j].Equals(nextChar) && canUnderline)
+                            {
+                                canUnderline = false;
+                                newWordString += "<color=#FFFFFF>";
+                                newWordString += "<u>" + nextChar + "</u>";
+                            }
+                            else
+                            {
+                                newWordString += nextChar;
+                            }
+                        } else
+                        {
+                            if (canUnderline)
+                            {
+                                canUnderline = false;
+                                newWordString += "<color=#FFFFFF>";
+                                newWordString += "<u>" + nextChar + "</u>";
+                            }
+                            else
+                            {
+                                newWordString += nextChar;
+                            }
+                        }
+                    }
+                } else
+                {
+                    newWordString += typeGameManager.words[i].word.ArrayToString();
+                }
+            }
+            else
+            {
+                newWordString += typeGameManager.words[i].word.ArrayToString();
+            }
         }
 
         wordTextMesh.text = newWordString;

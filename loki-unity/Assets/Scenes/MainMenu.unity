@@ -922,7 +922,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Leaderboards
+  m_text: leaderboards
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3494883ed8c93e042abece37c80d98b6, type: 2}
   m_sharedMaterial: {fileID: 3483426676336721390, guid: 3494883ed8c93e042abece37c80d98b6,
