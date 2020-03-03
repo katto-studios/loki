@@ -22,7 +22,7 @@ public class NetworkGameManager : TypeGameManager {
         //update own hashtable
         PhotonNetwork.player.SetCustomProperties(new Hashtable() {
             { "Score", score },
-            //{ "Progress", GetGameProgress() }
+            { "Progress", GetGameProgress() }
         });
     }
 

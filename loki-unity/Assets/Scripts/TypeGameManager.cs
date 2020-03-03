@@ -104,7 +104,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
             nextTRWord.Add(ncwords[i]);
             if(ncwords[i].Equals(' ') || i == ncwords.Length - 1) //Make new TRWord when theres a space or is last char
             {
-                Debug.Log(new string(nextTRWord.ToArray()));
+                //Debug.Log(new string(nextTRWord.ToArray()));
                 TRWord nextTRWordSO = ScriptableObject.CreateInstance<TRWord>();
                 nextTRWordSO.word = nextTRWord.ToArray();
                 words.Add(nextTRWordSO);
