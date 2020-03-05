@@ -83,6 +83,9 @@ public static class Helper {
         MonoBehaviour.Destroy(_gameObject);   
     }
 
+    /// <summary>
+    /// Checks if array contains an item
+    /// </summary>
     public static bool ArrContains<T>(this T[] _arr, T _item) {
         foreach(T item in _arr) {
             if (item.Equals(_item)) {
@@ -92,6 +95,9 @@ public static class Helper {
         return false;
     }
 
+    /// <summary>
+    /// Finds component in scene using specified tag
+    /// </summary>
     public static T FindComponentInScene<T>(string tag) {
         GameObject go = GameObject.FindWithTag(tag);
         if (go) return go.GetComponent<T>();
@@ -108,6 +114,17 @@ public static class Helper {
             StopParticleSystem(child);
         }
     }
+
+    private const string m_characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    public static string GenerateRandomString(int _length = 8) {
+        char[] strChars = new char[_length];
+        int charsHave = m_characters.Length;
+        for(int count = 0; count <= _length - 1; count++) {
+            strChars[count] = m_characters[UnityEngine.Random.Range(0, charsHave)];
+        }
+
+        return new string(strChars);
+    }
 }
 
 public static class Layers {
@@ -118,12 +135,7 @@ public static class Layers {
         IgnoreRaycast = 2,
         Water = 4,
         UI = 5,
-        PostProcessing = 8,
-        Enemy = 9,
-        Player = 10,
-        Terrain = 11,
-        Obstacles = 1,
-        CreatedObjects = 15;
+        PostProcessing = 8;
 }
 
 //For aStar path finding

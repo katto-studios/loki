@@ -6,21 +6,18 @@ using UnityEngine.UI;
 
 public class NetworkGameRenderer : TypeGameRenderer {
     [Header("Networking")]
-    public TextMeshProUGUI opponentScoreText;
+    public Image background;
+    public NetworkUserDisplayInfo playerDisplay;
+    public NetworkUserDisplayInfo opponentDisplay;
 
     private PhotonPlayer m_opponent;
-    private string m_myName, m_opponentName;
-    private Vector3 m_bottom, m_top;
+    private bool m_prevResult = true;
     protected override void Start() {
         typeGameManager = NetworkGameManager.Instance;
         m_opponent = PhotonNetwork.otherPlayers[0];
         //Idk if it matters, but I don't feel safe putting network calls in an update function
-        m_myName = PhotonNetwork.player.NickName;
-        m_opponentName = m_opponent.NickName;
-
-        //I can't even explain this one
-        m_bottom = opponentScoreText.transform.position;
-        m_top = scoreTextMesh.transform.position;
+        playerDisplay.SetName(PhotonNetwork.player.NickName);
+        opponentDisplay.SetName(m_opponent.NickName);
     }
 
     public void Initalise() {
@@ -30,18 +27,23 @@ public class NetworkGameRenderer : TypeGameRenderer {
     protected override void Update() {
         slider.value = typeGameManager.GetComboTimer();
         comboTextMesh.text = "X" + typeGameManager.combo;
-        scoreTextMesh.text = m_myName + "\nScore: " + typeGameManager.score;
+        playerDisplay.SetScore(typeGameManager.score);
+        playerDisplay.UpdateProgress(typeGameManager.GetGameProgress());
 
         if (m_opponent != null) {
             float opponentScore = float.Parse(m_opponent.CustomProperties["Score"].ToString());
-            opponentScoreText.text = m_opponentName + "\nScore: " + opponentScore.ToString();
+            opponentDisplay.SetScore(opponentScore);
             //decide who is on the bottom
             bool isWinning = typeGameManager.score > opponentScore;
-            scoreTextMesh.transform.position = isWinning ? m_top : m_bottom;
-            opponentScoreText.transform.position = !isWinning ? m_top : m_bottom;
-        }else { //opponent left
-            opponentScoreText.gameObject.SetActive(false);
-            scoreTextMesh.transform.position = m_top;
+            if(isWinning != m_prevResult) {
+                playerDisplay.Swap(opponentDisplay);
+            }
+            m_prevResult = isWinning;
+
+            //progress
+            opponentDisplay.UpdateProgress(float.Parse(m_opponent.CustomProperties["Progress"].ToString()));
+        } else { //opponent left
+            opponentDisplay.gameObject.SetActive(false);
         }
     }
 }

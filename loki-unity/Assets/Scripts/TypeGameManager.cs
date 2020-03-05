@@ -149,7 +149,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
     }
 
-    public virtual void AddCharacterToInputString(char character)
+    public void AddCharacterToInputString(char character)
     {
         if(gameState == GameState.Ready && character == ' ')
         {

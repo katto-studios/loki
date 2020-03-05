@@ -11,6 +11,8 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     [Header("Console")]
     public Text networkConsole;
     private string m_consoleTxt = string.Empty;
+    public InputField inCreateRoom;
+    public InputField inJoinRoom;
 
     [Header("Gameplay")]
     public GameObject goToPlayGameScene;
@@ -73,17 +75,17 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void WhenCreateRoom() {
         m_currentPlayerState = PlayerStates.CREATING_ROOM;
-        PhotonNetwork.JoinOrCreateRoom("XD", new RoomOptions() { MaxPlayers = 2 }, new TypedLobby { Type = LobbyType.Default });
+        //check inCreate for text
+        PhotonNetwork.JoinOrCreateRoom(inCreateRoom.text.Equals("") ? Helper.GenerateRandomString(10) : inCreateRoom.text, new RoomOptions() { MaxPlayers = 2 }, new TypedLobby { Type = LobbyType.Default });
     }
 
     public void WhenJoinRoom() {
         m_currentPlayerState = PlayerStates.JOINING_ROOM;
-        PhotonNetwork.JoinRandomRoom();
-    }
-
-    public void WhenJoinRoom(string _room) {
-        m_currentPlayerState = PlayerStates.JOINING_ROOM;
-        PhotonNetwork.JoinOrCreateRoom(_room, new RoomOptions() { MaxPlayers = 2 }, new TypedLobby { Type = LobbyType.Default });
+        if (inJoinRoom.text.Equals("")) {
+            PhotonNetwork.JoinRandomRoom();
+        }else {
+            PhotonNetwork.JoinOrCreateRoom(inJoinRoom.text, new RoomOptions() { MaxPlayers = 2 }, new TypedLobby { Type = LobbyType.Default });
+        }
     }
 
     public void WhenLeaveRoom() {
