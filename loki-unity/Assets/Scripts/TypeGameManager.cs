@@ -45,7 +45,9 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     public virtual void Start()
     {
-        comboTimer = maxComboTimer;
+		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ReadyToPractice);
+
+		comboTimer = maxComboTimer;
 
         if (useRandomWords) {
             Paragraph para = GetProse.Instance.GetRandomProse();
@@ -160,8 +162,10 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
 
         if (gameState == GameState.Playing) {
-            //Update input strings
-            inputString += character;
+			//PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.Practicing);
+
+			//Update input strings
+			inputString += character;
             inputWord += character;
 
             //Check to move on to the next word
@@ -212,7 +216,8 @@ public class TypeGameManager : Singleton<TypeGameManager>
     {
         Debug.Log("Complete");
         SendMessage("GameComplete", SendMessageOptions.DontRequireReceiver);
-        gameState = GameState.Analytics;
+		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMainMenu);
+		gameState = GameState.Analytics;
     }
 
     public void BackSpacePressed()

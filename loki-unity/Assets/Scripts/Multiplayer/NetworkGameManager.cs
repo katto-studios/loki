@@ -8,7 +8,9 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class NetworkGameManager : TypeGameManager {
     private PhotonPlayer m_opponent;
     public override void Start() {
-        comboTimer = maxComboTimer;
+		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
+
+		comboTimer = maxComboTimer;
         wordsString = PhotonNetwork.room.CustomProperties["Paragraph"] as string;
         ConvertStringToTRWords(wordsString);
         GetComponent<NetworkGameRenderer>().Initalise();
@@ -23,7 +25,8 @@ public class NetworkGameManager : TypeGameManager {
         //update own hashtable
         PhotonNetwork.player.SetCustomProperties(new Hashtable() {
             { "Score", score },
-            { "Progress", GetGameProgress() }
+            { "Progress", GetGameProgress() },
+			{ "UserState", PlayfabUserInfo.CurrentUserState }
         });
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public static class Helper {
     /// <summary>
@@ -115,6 +116,9 @@ public static class Helper {
         }
     }
 
+	/// <summary>
+	/// Generate a random string
+	/// </summary>
     private const string m_characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     public static string GenerateRandomString(int _length = 8) {
         char[] strChars = new char[_length];
@@ -125,6 +129,16 @@ public static class Helper {
 
         return new string(strChars);
     }
+
+	/// <summary>
+	/// Set a property of a players HashTable
+	/// </summary>
+	//I actually don't know if this is needed
+	public static void SetCustomProperty<T>(this PhotonPlayer _player, string _propName, T _prop) {
+		Hashtable currentProperties = _player.CustomProperties;
+		currentProperties[_propName] = _prop;
+		_player.SetCustomProperties(currentProperties);
+	}
 }
 
 public static class Layers {
