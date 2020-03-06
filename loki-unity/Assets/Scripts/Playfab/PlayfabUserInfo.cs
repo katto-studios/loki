@@ -3,10 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
+
+	public enum UserState {
+		InMainMenu, 
+		ReadyToPractice, Practicing, ViewingLeaderBoards,
+		Disconnected, InLobby, InQueue, ReadyToType,
+		WaitingForOpponent, InMatch, WaitingForNextRound
+	}
+	private static UserState m_userState = UserState.Disconnected;
+	public static UserState CurrentUserState { get { return m_userState; } }
 
     public static void Initalise() {
         GetAccountInfoRequest req = new GetAccountInfoRequest();
@@ -18,6 +28,13 @@ public static class PlayfabUserInfo {
 
         PersistantCanvas.Instance.StartCoroutine(SetDisplayName());
     }
+
+	public static void SetUserState(UserState _newState) {
+		m_userState = _newState;
+		//update hastable
+		PhotonNetwork.player.SetCustomProperty("UserState", _newState);
+		Debug.Log(string.Format("New user state: {0}", m_userState));
+	}
 
     private static IEnumerator SetDisplayName() {
         while (GetUsername().Equals("")) {
@@ -65,6 +82,17 @@ public static class PlayfabUserInfo {
         PlayFabClientAPI.ExecuteCloudScript(
             new ExecuteCloudScriptRequest() {
                 FunctionName = "UpdateTotalGames",
+            },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
+
+    public static void UpdatePlayerMmr(int _mmr) {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest() {
+                FunctionName = "UpdateMmr",
+                FunctionParameter = new { mmr_update = _mmr },
             },
             (_result) => { },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }

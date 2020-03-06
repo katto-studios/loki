@@ -18,6 +18,7 @@ public class GetProse : Singleton<GetProse> {
 
     public void CheckForUpdate() {
         DontDestroyOnLoad(gameObject);
+        name = "GET_PROSE";
 
         m_currentUpdateMode = UpdateMode.Checking;
         StartCoroutine(CheckVersion());
@@ -33,7 +34,7 @@ public class GetProse : Singleton<GetProse> {
                             UpdateMode.NeedsRedownload : UpdateMode.NeedsUpdate
                         : UpdateMode.Done;
                 PlayerPrefs.SetString("VersionInfo", _result.Data["Version"]);
-                Debug.Log("New verion: " + PlayerPrefs.GetString("VersionInfo"));
+                Debug.Log("New version: " + PlayerPrefs.GetString("VersionInfo"));
                 StartCoroutine(CheckDownload());
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }

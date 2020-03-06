@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayFabLogin : MonoBehaviour {
+    [Header("Inputs")]
     public InputField inEmail, inPass;
     public Toggle rememberMe;
 
@@ -30,7 +31,7 @@ public class PlayFabLogin : MonoBehaviour {
     }
 
     private void OnLoginSuccess(LoginResult result) {
-        Debug.Log("User logged in");
+        Debug.Log("User logged in to playfab");
         if (rememberMe.isOn) {
             PlayerPrefs.SetString("userEmail", m_userEmail);
             PlayerPrefs.SetString("userPassword", m_userPassword);
@@ -38,6 +39,21 @@ public class PlayFabLogin : MonoBehaviour {
             PlayerPrefs.DeleteKey("userEmail");
             PlayerPrefs.DeleteKey("userPassword");
         }
+
+        //init photon
+        PlayFabClientAPI.GetPhotonAuthenticationToken(
+            new GetPhotonAuthenticationTokenRequest() { PhotonApplicationId = PhotonNetwork.PhotonServerSettings.AppID },
+            (_result) => {
+                AuthenticationValues customAuth = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
+                customAuth.AddAuthParameter("username", result.PlayFabId);
+                customAuth.AddAuthParameter("token", _result.PhotonCustomAuthenticationToken);
+                PhotonNetwork.AuthValues = customAuth;
+                PhotonNetwork.ConnectUsingSettings("0.0.1");
+                Debug.Log("User logged in to photon");
+            },
+            OnLoginFailure
+        );
+
         PlayfabUserInfo.Initalise();
         GetProse.Instance.CheckForUpdate();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
