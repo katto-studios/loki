@@ -11,6 +11,9 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
     bool settingsMenuOpen;
     public GameObject settingsMenu;
 
+	[Header("Playfab Friends")]
+	public GameObject friendMenu;
+
     // Start is called before the first frame update
     void Start()
     {

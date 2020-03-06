@@ -4,10 +4,13 @@ using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using cm = PlayFab.ClientModels;
 
 public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
+	private static List<cm::FriendInfo> m_friends;
+	public static List<cm::FriendInfo> Friends { get { return m_friends; } }
 
 	public enum UserState {
 		InMainMenu, 
@@ -26,11 +29,35 @@ public static class PlayfabUserInfo {
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
 
+		PlayFabClientAPI.GetFriendsList(
+			new GetFriendsListRequest() {
+				IncludeFacebookFriends = false,
+				IncludeSteamFriends = false,
+				XboxToken = null
+			},
+			(_results) => {
+				m_friends = _results.Friends;
+			},
+			(_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+		);
+
+		SetUserState(UserState.InMainMenu);
+
         PersistantCanvas.Instance.StartCoroutine(SetDisplayName());
     }
 
 	public static void SetUserState(UserState _newState) {
 		m_userState = _newState;
+		//update playfab
+		PlayFabClientAPI.UpdateUserData(
+			new UpdateUserDataRequest() {
+				Data = new Dictionary<string, string>() {
+					{ "PlayerState", _newState.ToString() }
+				}
+			},
+			(_result) => { },
+			(_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+		);
 		//update hastable
 		PhotonNetwork.player.SetCustomProperty("UserState", _newState);
 		Debug.Log(string.Format("New user state: {0}", m_userState));
@@ -41,7 +68,7 @@ public static class PlayfabUserInfo {
             yield return null;
         }
 
-        PlayFab.PlayFabClientAPI.UpdateUserTitleDisplayName(
+        PlayFabClientAPI.UpdateUserTitleDisplayName(
             new UpdateUserTitleDisplayNameRequest() { DisplayName = GetUsername() },
             (_result) => { },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
