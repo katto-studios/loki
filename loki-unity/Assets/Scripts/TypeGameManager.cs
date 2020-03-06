@@ -32,6 +32,8 @@ public class TypeGameManager : Singleton<TypeGameManager>
     protected float comboTimer;
     public float maxComboTimer;
 
+	public float proggress;
+
     public GameObject readyGO;
     public GameObject gameGO;
     public TextMeshProUGUI countDownText;
@@ -69,7 +71,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     public float GetGameProgress()
     {
-        return wordIndex / words.Count;
+        return (float)wordIndex / words.Count;
     }
 
     public virtual void Update()
@@ -90,6 +92,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         {
             QuitGame();
         }
+		proggress = GetGameProgress();
     }
 
     public void RestartGame()
@@ -224,7 +227,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
     }
 
-    protected void Complete()
+    protected virtual void Complete()
     {
         Debug.Log("Complete");
         SendMessage("GameComplete", SendMessageOptions.DontRequireReceiver);

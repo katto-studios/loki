@@ -6,7 +6,12 @@ using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NetworkGameManager : TypeGameManager {
+	//[Header("Regular stuff")]
+	public Button btnStartNext;
+	[Header("Networking")]
+	public int maxRounds = 3;
     private PhotonPlayer m_opponent;
+	private int m_roundNo = 1;	//round count
     public override void Start() {
 		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
 
@@ -16,11 +21,21 @@ public class NetworkGameManager : TypeGameManager {
         GetComponent<NetworkGameRenderer>().Initalise();
 
         m_opponent = PhotonNetwork.otherPlayers[0];
-        //gameState = GameState.Countdown;
-    }
+
+		gameState = GameState.Ready;
+	}
 
     public override void Update() {
         base.Update();
+
+		if(gameState == GameState.Ready) {
+			if((PlayfabUserInfo.UserState)m_opponent.CustomProperties["UserState"] == PlayfabUserInfo.UserState.InMatch) {
+				gameState = GameState.Countdown;
+				readyGO.SetActive(false);
+				countDownText.gameObject.SetActive(true);
+				StartCoroutine(CountDown(3));
+			}
+		}
 
         //update own hashtable
         PhotonNetwork.player.SetCustomProperties(new Hashtable() {
@@ -28,6 +43,24 @@ public class NetworkGameManager : TypeGameManager {
             { "Progress", GetGameProgress() },
 			{ "UserState", PlayfabUserInfo.CurrentUserState }
         });
+
+		//check for next round
+		if(PlayfabUserInfo.CurrentUserState == PlayfabUserInfo.UserState.WaitingForNextRound) {
+			PlayfabUserInfo.UserState opponentState = (PlayfabUserInfo.UserState)m_opponent.CustomProperties["UserState"];
+			if(opponentState == PlayfabUserInfo.UserState.WaitingForNextRound) {
+				//start next round
+				if (m_roundNo % 2 == 0) {
+					if (PhotonNetwork.isMasterClient) {
+						//determine prose
+					}
+				} else {
+					if (!PhotonNetwork.isMasterClient) {
+						//determine prose
+					}
+				}
+				GetComponent<SceneChanger>().ChangeScene(5);
+			}
+		}
     }
 
     public void LeaveGame() {
@@ -36,4 +69,22 @@ public class NetworkGameManager : TypeGameManager {
         PhotonNetwork.LeaveRoom();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }
+
+	public void WhenStartNextRound() {
+		gameState = GameState.Ready;
+		//set state
+		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.WaitingForNextRound);
+	}
+
+	private void StartNextRound() {
+
+	}
+
+	protected override void Complete() {
+		base.Complete();
+		if(++m_roundNo >= maxRounds) {
+			//actually finish
+			btnStartNext.onClick.AddListener(() => GetComponent<SceneChanger>().ChangeScene(1));
+		}
+	}
 }
