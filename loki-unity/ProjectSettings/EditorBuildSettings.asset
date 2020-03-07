@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MultiplayerGameScene.unity
     guid: e04c91bbc4ef47845bc8bd374b4747a0
+  - enabled: 0
+    path: Assets/Scenes/WhackMultiplayer/ScuffedMultiplayerLobby.unity
+    guid: 405b3d61a8f3f574db5f288af00ee05c
   m_configObjects: {}

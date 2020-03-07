@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class MulitplayerManager : Singleton<MulitplayerManager> {
     [Header("Inputs")]
-    public InputField inIp;
-    public InputField inChat;
+    public InputField inRoom;
 
     [Header("Console")]
     public Text console;
@@ -24,21 +23,11 @@ public class MulitplayerManager : Singleton<MulitplayerManager> {
     void Update() {
        if(m_client != null){
             console.text = m_client.ConsoleTxt;
-
-            if (Input.GetKeyDown(KeyCode.Return)) {
-                m_client.SendMessageToServer(inChat.text);
-            }
         }
-    }
-
-    public void StartServerCallback() {
-        isServer = true;
-        m_server = new MultiplayerServer("192.168.1.136");
-        //m_client = new MultiplayerClient();
     }
 
     public void StartClientCallback() {
         isServer = false;
-        m_client = new MultiplayerClient("192.168.1.136");
+        m_client = new MultiplayerClient();
     }
 }
