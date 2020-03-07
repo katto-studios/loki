@@ -2334,7 +2334,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 9
   m_Type: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9716981, g: 0.95417607, b: 0.9212798, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -3727,6 +3727,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511387681}
   m_CullTransparentMesh: 0
+--- !u!1 &1514091158 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6117907291677428482, guid: 324b18337523ede4ba4b23fd22aea62f,
+    type: 3}
+  m_PrefabInstance: {fileID: 401280907}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1514091162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514091158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26fa20b0c496fe64dadeb5f01de3c9cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 0.3
+  camera: {fileID: 860200940}
+--- !u!65 &1514091163
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514091158}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 11, y: 2, z: 4}
+  m_Center: {x: 0, y: 0.3, z: -0.63}
 --- !u!1 &1526828648
 GameObject:
   m_ObjectHideFlags: 0
