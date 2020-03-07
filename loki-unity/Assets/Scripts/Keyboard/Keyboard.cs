@@ -23,7 +23,7 @@ public class Keyboard : MonoBehaviour
         KeyCode.Alpha9,
         KeyCode.Alpha0,
         KeyCode.Minus,
-        KeyCode.Plus,
+        KeyCode.Equals,
         KeyCode.Backspace,
         KeyCode.Tab,
         KeyCode.Q,
