@@ -33,7 +33,7 @@ public class NetworkGameManager : TypeGameManager {
 				gameState = GameState.Countdown;
 				readyGO.SetActive(false);
 				countDownText.gameObject.SetActive(true);
-				StartCoroutine(CountDown(3));
+				StartCoroutine(CountDown(5));
 			}
 		}
 
