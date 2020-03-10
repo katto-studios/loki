@@ -50,7 +50,8 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
                     });
 
                     PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
-                        { "Paragraph", para.Prose }
+                        { "Paragraph", para.Prose },
+                        { "Round number", 0 }
                      });
                 }
 

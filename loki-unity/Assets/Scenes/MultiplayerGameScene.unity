@@ -1613,10 +1613,12 @@ MonoBehaviour:
   combo: 0
   maxCombo: 0
   maxComboTimer: 2
+  proggress: 0
   readyGO: {fileID: 946560618}
   gameGO: {fileID: 775661797}
   countDownText: {fileID: 289482104}
   gameState: 0
+  btnStartNext: {fileID: 0}
   maxRounds: 3
 --- !u!4 &559301636
 Transform:
@@ -4302,7 +4304,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 559301635}
-        m_MethodName: StartNextRound
+        m_MethodName: WhenStartNextRound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

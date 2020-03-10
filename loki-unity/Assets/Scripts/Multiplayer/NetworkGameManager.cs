@@ -11,7 +11,7 @@ public class NetworkGameManager : TypeGameManager {
 	[Header("Networking")]
 	public int maxRounds = 3;
     private PhotonPlayer m_opponent;
-	private int m_roundNo = 1;	//round count
+    private int m_currentRound;
     public override void Start() {
 		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
 
@@ -19,6 +19,9 @@ public class NetworkGameManager : TypeGameManager {
         wordsString = PhotonNetwork.room.CustomProperties["Paragraph"] as string;
         ConvertStringToTRWords(wordsString);
         GetComponent<NetworkGameRenderer>().Initalise();
+
+        m_currentRound = (int)PhotonNetwork.room.CustomProperties["Round number"];
+        score = (int)PhotonNetwork.player.CustomProperties["Score"];
 
         m_opponent = PhotonNetwork.otherPlayers[0];
 
@@ -37,30 +40,35 @@ public class NetworkGameManager : TypeGameManager {
 			}
 		}
 
+        //CHEAT REMOVE THIS
+        if (Input.GetKeyDown(KeyCode.P)) {
+            this.Complete();
+        }
+
+        if(PlayfabUserInfo.CurrentUserState == PlayfabUserInfo.UserState.WaitingForNextRound) {
+            //check if opponent is ready
+            PlayfabUserInfo.UserState opponentState = (PlayfabUserInfo.UserState)m_opponent.CustomProperties["UserState"];
+            if (opponentState == PlayfabUserInfo.UserState.WaitingForNextRound) {
+                //start next round
+                if (++m_currentRound % 2 == 0) {
+                    if (PhotonNetwork.isMasterClient) {
+                        SetProse();
+                    }
+                } else {
+                    if (!PhotonNetwork.isMasterClient) {
+                        SetProse();
+                    }
+                }
+                StartNextRound();
+            }
+        }
+
         //update own hashtable
         PhotonNetwork.player.SetCustomProperties(new Hashtable() {
             { "Score", score },
             { "Progress", GetGameProgress() },
 			{ "UserState", PlayfabUserInfo.CurrentUserState }
         });
-
-		//check for next round
-		if(PlayfabUserInfo.CurrentUserState == PlayfabUserInfo.UserState.WaitingForNextRound) {
-			PlayfabUserInfo.UserState opponentState = (PlayfabUserInfo.UserState)m_opponent.CustomProperties["UserState"];
-			if(opponentState == PlayfabUserInfo.UserState.WaitingForNextRound) {
-				//start next round
-				if (m_roundNo % 2 == 0) {
-					if (PhotonNetwork.isMasterClient) {
-						//determine prose
-					}
-				} else {
-					if (!PhotonNetwork.isMasterClient) {
-						//determine prose
-					}
-				}
-				GetComponent<SceneChanger>().ChangeScene(5);
-			}
-		}
     }
 
     public void LeaveGame() {
@@ -74,16 +82,28 @@ public class NetworkGameManager : TypeGameManager {
 		gameState = GameState.Ready;
 		//set state
 		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.WaitingForNextRound);
-	}
+    }
+
+    private void SetProse() {
+        //determine prose
+        Paragraph prose = GetProse.Instance.GetRandomProse();
+
+        PhotonNetwork.room.SetCustomProperties(new Hashtable() {
+            { "Paragraph", prose.Prose },
+            { "Round number", m_currentRound }
+        });
+    }
 
 	private void StartNextRound() {
+        FindObjectOfType<SceneChanger>().ChangeScene(5);
+    }
 
-	}
-
-	protected override void Complete() {
+    protected override void Complete() {
 		base.Complete();
-		if(++m_roundNo >= maxRounds) {
-			//actually finish
+
+		if(++m_currentRound >= maxRounds) {
+            //actually finish
+            btnStartNext.onClick.RemoveAllListeners();
 			btnStartNext.onClick.AddListener(() => GetComponent<SceneChanger>().ChangeScene(1));
 		}
 	}

@@ -22,7 +22,10 @@ public static class PlayfabUserInfo {
         GetAccountInfoRequest req = new GetAccountInfoRequest();
         PlayFabClientAPI.GetAccountInfo(
             req,
-            (_result) => { m_accountInfo = _result.AccountInfo; },
+            (_result) => {
+                m_accountInfo = _result.AccountInfo;
+                PhotonNetwork.player.NickName = _result.AccountInfo.Username;
+            },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
 
