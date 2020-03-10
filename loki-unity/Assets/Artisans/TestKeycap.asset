@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 128b83173bdf99044b242a5fe4d3aced, type: 3}
   m_Name: TestKeycap
   m_EditorClassIdentifier: 
-  name: Test Keycap
+  keycapName: TestKeycap
   id: 0
   keycap: {fileID: -927199367670048503, guid: cdbaa8fb83b25c341a17dd1ce336ea12, type: 3}
   rarity: 0
