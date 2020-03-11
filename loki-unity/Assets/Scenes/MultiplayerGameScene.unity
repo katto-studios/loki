@@ -1618,8 +1618,9 @@ MonoBehaviour:
   gameGO: {fileID: 775661797}
   countDownText: {fileID: 289482104}
   gameState: 0
-  btnStartNext: {fileID: 0}
+  btnStartNext: {fileID: 1479148934}
   maxRounds: 3
+  m_currentRound: 0
 --- !u!4 &559301636
 Transform:
   m_ObjectHideFlags: 0

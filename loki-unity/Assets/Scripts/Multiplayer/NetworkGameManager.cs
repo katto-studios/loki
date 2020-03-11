@@ -11,7 +11,7 @@ public class NetworkGameManager : TypeGameManager {
 	[Header("Networking")]
 	public int maxRounds = 3;
     private PhotonPlayer m_opponent;
-    private int m_currentRound;
+    public int m_currentRound;
     public override void Start() {
 		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
 
@@ -39,11 +39,6 @@ public class NetworkGameManager : TypeGameManager {
 				StartCoroutine(CountDown(5));
 			}
 		}
-
-        //CHEAT REMOVE THIS
-        if (Input.GetKeyDown(KeyCode.P)) {
-            this.Complete();
-        }
 
         if(PlayfabUserInfo.CurrentUserState == PlayfabUserInfo.UserState.WaitingForNextRound) {
             //check if opponent is ready
@@ -103,8 +98,11 @@ public class NetworkGameManager : TypeGameManager {
 
 		if(++m_currentRound >= maxRounds) {
             //actually finish
+            btnStartNext.GetComponentInChildren<TextMeshProUGUI>().SetText("Leave game");
             btnStartNext.onClick.RemoveAllListeners();
-			btnStartNext.onClick.AddListener(() => GetComponent<SceneChanger>().ChangeScene(1));
+			btnStartNext.onClick.AddListener(LeaveGame);
+
+            Debug.Log(float.Parse(m_opponent.CustomProperties["Score"] as string) > score ? "Player lost" : "Player won");
 		}
 	}
 }
