@@ -67,6 +67,7 @@ public class NetworkGameManager : TypeGameManager {
     }
 
     public void LeaveGame() {
+        Debug.Log(float.Parse(m_opponent.CustomProperties["Score"] as string) > score ? "Player lost" : "Player won");
         //update mmr
         PlayfabUserInfo.UpdatePlayerMmr(float.Parse(m_opponent.CustomProperties["Score"].ToString()) < score ? 25 : -25);
         PhotonNetwork.LeaveRoom();
@@ -101,8 +102,6 @@ public class NetworkGameManager : TypeGameManager {
             btnStartNext.GetComponentInChildren<TextMeshProUGUI>().SetText("Leave game");
             btnStartNext.onClick.RemoveAllListeners();
 			btnStartNext.onClick.AddListener(LeaveGame);
-
-            Debug.Log(float.Parse(m_opponent.CustomProperties["Score"] as string) > score ? "Player lost" : "Player won");
 		}
 	}
 }
