@@ -23,7 +23,14 @@ public class NetworkGameManager : TypeGameManager {
         m_currentRound = (int)PhotonNetwork.room.CustomProperties["Round number"];
         score = (int)PhotonNetwork.player.CustomProperties["Score"];
 
-        PhotonNetwork.room.SetRoomProperty("ReadyToStart", false);
+        //PhotonNetwork.room.SetRoomProperty("ReadyToStart", false);
+        if (PhotonNetwork.isMasterClient) {
+            PhotonNetwork.room.SetCustomProperties(new Hashtable() {
+                { "Paragraph", wordsString },
+                { "Round number", m_currentRound },
+                { "ReadyToStart", false }
+            });
+        }
 
         m_opponent = PhotonNetwork.otherPlayers[0];
 
@@ -44,19 +51,7 @@ public class NetworkGameManager : TypeGameManager {
 
         if(PlayfabUserInfo.CurrentUserState == PlayfabUserInfo.UserState.WaitingForNextRound) {
             //check if opponent is ready
-            PlayfabUserInfo.UserState opponentState = (PlayfabUserInfo.UserState)m_opponent.CustomProperties["UserState"];
-            if (opponentState == PlayfabUserInfo.UserState.WaitingForNextRound) {
-                //start next round
-                //if (++m_currentRound % 2 == 0) {
-                //    if (PhotonNetwork.isMasterClient) {
-                //        SetProse();
-                //    }
-                //} else {
-                //    if (!PhotonNetwork.isMasterClient) {
-                //        SetProse();
-                //    }
-                //}
-
+            if ((PlayfabUserInfo.UserState)m_opponent.CustomProperties["UserState"] == PlayfabUserInfo.UserState.WaitingForNextRound) {
                 if (PhotonNetwork.isMasterClient) {
                     SetProse();
                     StartNextRound();
