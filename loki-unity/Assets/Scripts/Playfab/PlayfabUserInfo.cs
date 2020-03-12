@@ -59,15 +59,27 @@ public static class PlayfabUserInfo {
     }
 
     public static void UpdateWpm(int _totalWords, float _secondsSinceStart) {
+        PersistantCanvas.Instance.StartCoroutine(SetWpm(_totalWords, (int)_secondsSinceStart));
+    }
+
+    private static IEnumerator SetWpm(int _totalWords, int _time) {
+        bool done = false;
+
         PlayFabClientAPI.ExecuteCloudScript(
             new ExecuteCloudScriptRequest() {
                 FunctionName = "UpdatePlayerWpm",
-                FunctionParameter = new { TotalWords = _totalWords, TotalTime = (int)_secondsSinceStart },
+                FunctionParameter = new { TotalWords = _totalWords, TotalTime = _time },
             },
-            (_result) => { },
+            (_result) => {
+                Debug.Log("Done updating wpm");
+                done = true;
+            },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
 
+        while (!done) {
+            yield return null;
+        }
     }
 
     public static void UpdateHighscore(int _newScore) {

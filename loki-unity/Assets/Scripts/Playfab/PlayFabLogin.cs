@@ -63,7 +63,7 @@ public class PlayFabLogin : MonoBehaviour {
 
     private void OnLoginFailure(PlayFabError error) {
         Debug.Log(error.GenerateErrorReport());
-        PopupManager.Instance.ShowPopUp("Invalid credentials, register instead?", 5);
+        PopupManager.Instance.ShowPopUp("Invalid Credentials, Register Instead?");
         m_loggingIn = false;
     }
 

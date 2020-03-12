@@ -21,4 +21,9 @@ public class PopupManager : Singleton<PopupManager>
         sequence.PrependInterval(0.5f + seconds);
         sequence.Append(transform.DOMoveX(-150, 0.5f));
     }
+
+    public void ShowPopUp(string text)
+    {
+        ShowPopUp(text, 2f);
+    }
 }
