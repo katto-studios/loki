@@ -19,11 +19,11 @@ public class KeycapDatabase : Singleton<KeycapDatabase>
         }
     }
 
-    public ArtisanKeycap getKeyCapFromID(int id)
+    public ArtisanKeycap getKeyCapFromID(string id)
     {
         foreach(ArtisanKeycap ak in artisanKeycaps)
         {
-            if(id == ak.id)
+            if(id.Equals(ak.id))
             {
                 return ak;
             }

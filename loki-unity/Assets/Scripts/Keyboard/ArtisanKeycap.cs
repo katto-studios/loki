@@ -14,7 +14,7 @@ public enum KeycapRarity {
 public class ArtisanKeycap : ScriptableObject
 {
     public string keycapName;
-    public int id;
+    public string id;
     public GameObject keycap;
     public KeycapRarity rarity;
 }
