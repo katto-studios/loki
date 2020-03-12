@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TestKeycap
   m_EditorClassIdentifier: 
   keycapName: TestKeycap
-  id: 0
+  id: TEST_KEYCAP
   keycap: {fileID: -927199367670048503, guid: cdbaa8fb83b25c341a17dd1ce336ea12, type: 3}
   rarity: 0
