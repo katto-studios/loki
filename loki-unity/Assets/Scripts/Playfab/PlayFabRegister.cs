@@ -17,6 +17,7 @@ public class PlayFabRegister : MonoBehaviour {
         Debug.Log("User registered!");
         PlayerPrefs.SetString("userEmail", m_userEmail);
         PlayerPrefs.SetString("userPassword", m_userPassword);
+        PlayfabUserInfo.Initalise();
         GetProse.Instance.CheckForUpdate();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }

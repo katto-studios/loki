@@ -24,7 +24,7 @@ public static class PlayfabUserInfo {
             yield return null;
         }
 
-        PlayFab.PlayFabClientAPI.UpdateUserTitleDisplayName(
+        PlayFabClientAPI.UpdateUserTitleDisplayName(
             new UpdateUserTitleDisplayNameRequest() { DisplayName = GetUsername() },
             (_result) => { },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
