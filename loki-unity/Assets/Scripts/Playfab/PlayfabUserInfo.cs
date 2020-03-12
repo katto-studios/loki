@@ -17,6 +17,14 @@ public static class PlayfabUserInfo {
         );
 
         PersistantCanvas.Instance.StartCoroutine(SetDisplayName());
+
+        //TODO: Wrap in Coroutine to wait for a response!
+        string dText = "";
+        foreach(ArtisanKeycap keycap in GetUserInventory())
+        {
+            dText += keycap.name + ", ";
+        }
+        Debug.Log(dText);
     }
 
     private static IEnumerator SetDisplayName() {
@@ -100,5 +108,27 @@ public static class PlayfabUserInfo {
         );
 
         return returnThis;
+    }
+
+    //INVENTORY STUFF
+    public static List<ArtisanKeycap> GetUserInventory()
+    {
+        List<ArtisanKeycap> newInventory = new List<ArtisanKeycap>();
+        PlayFabClientAPI.GetUserInventory(
+            new GetUserInventoryRequest(), 
+            (GetUserInventoryResult result) =>
+            {
+                foreach (var eachItem in result.Inventory)
+                {
+                    if (eachItem.ItemClass.Equals("KEYCAP"))
+                    {
+                        string id = eachItem.ItemId;
+                        newInventory.Add(KeycapDatabase.Instance.getKeyCapFromID(id));
+                    }
+                }
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+        return newInventory;
     }
 }
