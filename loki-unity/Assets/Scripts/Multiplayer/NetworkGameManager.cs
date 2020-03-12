@@ -11,7 +11,7 @@ public class NetworkGameManager : TypeGameManager {
 	[Header("Networking")]
 	public int maxRounds = 3;
     private PhotonPlayer m_opponent;
-    public int m_currentRound;
+    private int m_currentRound;
     public override void Start() {
 		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
 
@@ -22,6 +22,8 @@ public class NetworkGameManager : TypeGameManager {
 
         m_currentRound = (int)PhotonNetwork.room.CustomProperties["Round number"];
         score = (int)PhotonNetwork.player.CustomProperties["Score"];
+
+        PhotonNetwork.room.SetRoomProperty("ReadyToStart", false);
 
         m_opponent = PhotonNetwork.otherPlayers[0];
 
@@ -45,16 +47,24 @@ public class NetworkGameManager : TypeGameManager {
             PlayfabUserInfo.UserState opponentState = (PlayfabUserInfo.UserState)m_opponent.CustomProperties["UserState"];
             if (opponentState == PlayfabUserInfo.UserState.WaitingForNextRound) {
                 //start next round
-                if (++m_currentRound % 2 == 0) {
-                    if (PhotonNetwork.isMasterClient) {
-                        SetProse();
-                    }
-                } else {
-                    if (!PhotonNetwork.isMasterClient) {
-                        SetProse();
+                //if (++m_currentRound % 2 == 0) {
+                //    if (PhotonNetwork.isMasterClient) {
+                //        SetProse();
+                //    }
+                //} else {
+                //    if (!PhotonNetwork.isMasterClient) {
+                //        SetProse();
+                //    }
+                //}
+
+                if (PhotonNetwork.isMasterClient) {
+                    SetProse();
+                    StartNextRound();
+                }else {
+                    if ((bool)PhotonNetwork.room.CustomProperties["ReadyToStart"]) {
+                        StartNextRound();
                     }
                 }
-                StartNextRound();
             }
         }
 
@@ -67,7 +77,7 @@ public class NetworkGameManager : TypeGameManager {
     }
 
     public void LeaveGame() {
-        Debug.Log(float.Parse(m_opponent.CustomProperties["Score"] as string) > score ? "Player lost" : "Player won");
+        Debug.Log(float.Parse(m_opponent.CustomProperties["Score"].ToString()) > score ? "Player lost" : "Player won");
         //update mmr
         PlayfabUserInfo.UpdatePlayerMmr(float.Parse(m_opponent.CustomProperties["Score"].ToString()) < score ? 25 : -25);
         PhotonNetwork.LeaveRoom();
@@ -86,7 +96,8 @@ public class NetworkGameManager : TypeGameManager {
 
         PhotonNetwork.room.SetCustomProperties(new Hashtable() {
             { "Paragraph", prose.Prose },
-            { "Round number", m_currentRound }
+            { "Round number", m_currentRound },
+            { "ReadyToStart", true }
         });
     }
 

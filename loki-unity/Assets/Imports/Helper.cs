@@ -139,6 +139,15 @@ public static class Helper {
 		currentProperties[_propName] = _prop;
 		_player.SetCustomProperties(currentProperties);
 	}
+
+    /// <summary>
+    /// Set a property of a rooms HashTable
+    /// </summary>
+    public static void SetRoomProperty<T>(this Room _room, string _propName, T _prop) {
+        Hashtable currentProperties = _room.CustomProperties;
+        currentProperties[_propName] = _prop;
+        _room.SetCustomProperties(currentProperties);
+    }
 }
 
 public static class Layers {

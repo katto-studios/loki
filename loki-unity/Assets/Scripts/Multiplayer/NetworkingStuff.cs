@@ -51,12 +51,19 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
                     PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
                         { "Paragraph", para.Prose },
-                        { "Round number", 0 }
+                        { "Round number", 0 },
+                        { "ReadyToStart", true }
                      });
-                }
 
-                //change scene
-                GetComponent<SceneChanger>().ChangeScene(5);
+                    //change scene
+                    GetComponent<SceneChanger>().ChangeScene(5);
+                } else {
+                    //wait for readytostart
+                    if ((bool)PhotonNetwork.room.CustomProperties["ReadyToStart"]) {
+                        //change scene
+                        GetComponent<SceneChanger>().ChangeScene(5);
+                    }
+                }
             }
         }
     }
