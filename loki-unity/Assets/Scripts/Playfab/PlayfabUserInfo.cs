@@ -165,7 +165,7 @@ public static class PlayfabUserInfo {
 		return returnThis;
 	}
 
-	public static void GetFriendsList(List<cm::FriendInfo> _friends) {
+	public static void GetFriendsList(FriendsMenuHandler _handle) {
 		PlayFabClientAPI.GetFriendsList(
 			new GetFriendsListRequest(){
 				IncludeFacebookFriends = false,
@@ -173,9 +173,19 @@ public static class PlayfabUserInfo {
 			},
 			(_result) => {
 				foreach (cm::FriendInfo friend in _result.Friends) {
-					_friends.Add(friend);
+					_handle.AddToList(friend);
 				}
 			},
+			(_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+		);
+	}
+
+	public static void AddFriend(string _friendName) {
+		PlayFabClientAPI.AddFriend(
+			new AddFriendRequest() {
+				FriendTitleDisplayName = _friendName
+			},
+			(_result) => { Debug.Log(string.Format("{0} added as friend!", _friendName)); },
 			(_error) => { Debug.LogError(_error.GenerateErrorReport()); }
 		);
 	}

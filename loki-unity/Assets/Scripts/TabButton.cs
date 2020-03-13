@@ -20,13 +20,18 @@ public class TabButton : MonoBehaviour, IPointerDownHandler {
 			}
 			return m_text.text;
 		}
-		set { m_text.SetText(value); }
+		set {
+			if (!m_text) {
+				m_text = GetComponentInChildren<TextMeshProUGUI>();
+			}
+			m_text.SetText(value);
+		}
 	}
 
 	public Image Image { get; private set; }
 	public event Action OnButtonClick;
 
-	void Start() {
+	void Awake() {
 		RectTransform = GetComponent<RectTransform>();
 		Image = GetComponent<Image>();
 		m_text = GetComponentInChildren<TextMeshProUGUI>();
