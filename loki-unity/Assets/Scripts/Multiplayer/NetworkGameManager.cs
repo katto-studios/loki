@@ -14,10 +14,18 @@ public class NetworkGameManager : TypeGameManager {
     private int m_currentRound;
 	private bool changed = false;
     public override void Start() {
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
+        m_opponent = PhotonNetwork.otherPlayers[0];
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
 
 		comboTimer = maxComboTimer;
         wordsString = PhotonNetwork.room.CustomProperties["Paragraph"] as string;
+        //check if it has the same paragaph as the master client
+        if (!PhotonNetwork.isMasterClient) {
+            string otherProse = m_opponent.CustomProperties["ProseToWrite"] as string;
+            if (!wordsString.Equals(otherProse)) {
+                wordsString = otherProse;
+            }
+        }
         ConvertStringToTRWords(wordsString);
         GetComponent<NetworkGameRenderer>().Initalise();
 
@@ -32,8 +40,6 @@ public class NetworkGameManager : TypeGameManager {
                 { "ReadyToStart", false }
             });
         }
-
-        m_opponent = PhotonNetwork.otherPlayers[0];
 
 		gameState = GameState.Ready;
 	}
@@ -74,9 +80,9 @@ public class NetworkGameManager : TypeGameManager {
 			{ "UserState", PlayfabUserInfo.CurrentUserState }
         });
 
-		//if (Input.GetKeyDown(KeyCode.P)) {
-		//	Complete();
-		//}
+        if (Input.GetKeyDown(KeyCode.P)) {
+            Complete();
+        }
     }
 
     public void LeaveGame() {
@@ -102,6 +108,15 @@ public class NetworkGameManager : TypeGameManager {
             { "Round number", m_currentRound },
             { "ReadyToStart", true }
         });
+
+        //set master client prose to write
+        if (PhotonNetwork.isMasterClient) {
+            PhotonNetwork.player.SetCustomProperties(new Hashtable() {
+                    { "Score", score },
+                    {"PlayerState", PlayfabUserInfo.UserState.InMatch },
+                    { "ProseToWrite", prose.Prose }
+            });
+        }
     }
 
 	private void StartNextRound() {

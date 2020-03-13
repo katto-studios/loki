@@ -40,13 +40,14 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
                     //set opponent
                     m_opponent.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
                         { "Score", 0 },
-                        {"PlayerState", PlayfabUserInfo.UserState.InMatch }
+                        {"PlayerState", PlayfabUserInfo.UserState.InMatch },
                     });
 
                     //setself
                     PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
                         { "Score", 0 },
-                        {"PlayerState", PlayfabUserInfo.UserState.InMatch }
+                        {"PlayerState", PlayfabUserInfo.UserState.InMatch },
+                        { "ProseToWrite", para.Prose }
                     });
 
                     PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
