@@ -181,11 +181,13 @@ public static class PlayfabUserInfo {
 	}
 
 	public static void AddFriend(string _friendName) {
-		PlayFabClientAPI.AddFriend(
-			new AddFriendRequest() {
-				FriendTitleDisplayName = _friendName
+		PlayFabClientAPI.ExecuteCloudScript(
+			new ExecuteCloudScriptRequest()
+			{
+				FunctionName = "AddFriend",
+				FunctionParameter = new { RecieverName = _friendName },
 			},
-			(_result) => { Debug.Log(string.Format("{0} added as friend!", _friendName)); },
+			(_result) => { },
 			(_error) => { Debug.LogError(_error.GenerateErrorReport()); }
 		);
 	}

@@ -25,7 +25,7 @@ public class FriendsMenuHandler : MonoBehaviour {
 	}
 
 	public void AddFriend() {
-		PlayfabUserInfo.AddFriend(inSearch.text.ToString().Trim());
+		PlayfabUserInfo.AddFriend(inSearch.text);
 		//refresh list
 		PlayfabUserInfo.GetFriendsList(this);
 	}
