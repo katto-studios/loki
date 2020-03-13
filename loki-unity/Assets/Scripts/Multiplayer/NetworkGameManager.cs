@@ -80,9 +80,9 @@ public class NetworkGameManager : TypeGameManager {
 			{ "UserState", PlayfabUserInfo.CurrentUserState }
         });
 
-        if (Input.GetKeyDown(KeyCode.P)) {
-            Complete();
-        }
+        //if (Input.GetKeyDown(KeyCode.P)) {
+        //    Complete();
+        //}
     }
 
     public void LeaveGame() {
