@@ -1,32 +1,29 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//master control for tabs
+[ExecuteAlways]
 public class TabView : MonoBehaviour {
-    [Header("Tab info")]
-    public float tabHeight = 20;
-    public float maxTabWidth = 200;
-    public Sprite tabImg;
+	[Header("Tab info")]
+	public int buttonSpacing = 50;
+	public Vector2 buttonSize = new Vector2(250, 50);
 
-    private GameObject[] m_tabs;
-    // Start is called before the first frame update
-    void Start() {
-        int noOfChildren = transform.childCount;
-        if(noOfChildren > 1) {
-            List<GameObject> children = new List<GameObject>();
-            foreach(Transform child in transform) {
-                children.Add(child.gameObject);
-                child.gameObject.SetActive(false);
-            }
+	private HashSet<IndividualTab> m_tabs = new HashSet<IndividualTab>();
+	public void Subscribe(IndividualTab _tab) {
+		//alignment
+		_tab.TabButton.RectTransform.sizeDelta = buttonSize;
+		_tab.TabButton.RectTransform.anchoredPosition = Vector2.down * (buttonSize.y + buttonSpacing) * m_tabs.Count;
+		//select it
+		OnSelectOther(_tab);
+		m_tabs.Add(_tab);
+	}
 
-            m_tabs = children.ToArray();
-            m_tabs[0].SetActive(true);
-        }
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
+	public void OnSelectOther(IndividualTab _new) {
+		foreach (IndividualTab tab in m_tabs) {
+			tab.Panel.SetActive(tab == _new);
+		}
+	}
 }
