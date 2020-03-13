@@ -7,6 +7,7 @@ using PlayFab.ClientModels;
 public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
+    public static List<ArtisanKeycap> playerKeycaps;
 
     public static void Initalise() {
         GetAccountInfoRequest req = new GetAccountInfoRequest();
@@ -100,5 +101,58 @@ public static class PlayfabUserInfo {
         );
 
         return returnThis;
+    }
+
+    //INVENTORY STUFF
+
+    static bool recievedKeycaps;
+    public static void UpdatePlayerKeycaps()
+    {
+        recievedKeycaps = false;
+        PersistantCanvas.Instance.StartCoroutine(GetUserInventoryRequest());
+    }
+
+    static IEnumerator GetUserInventoryRequest()
+    {
+        List<ArtisanKeycap> newInventory = GetUserInventory();
+
+        while (!recievedKeycaps)
+        {
+            yield return null;
+        }
+
+        playerKeycaps = newInventory;
+
+        string dText = "Inventory Items: ";
+        foreach (ArtisanKeycap keycap in playerKeycaps)
+        {
+            dText += keycap.name + ", ";
+        }
+
+        Debug.Log(dText);
+    }
+
+    public static List<ArtisanKeycap> GetUserInventory()
+    {
+        List<ArtisanKeycap> newInventory = new List<ArtisanKeycap>();
+        PlayFabClientAPI.GetUserInventory(
+            new GetUserInventoryRequest(), 
+            (GetUserInventoryResult result) =>
+            {
+                foreach (var eachItem in result.Inventory)
+                {
+                    if (eachItem.ItemClass.Equals("KEYCAP"))
+                    {
+                        Debug.Log(eachItem.ItemId);
+                        string id = eachItem.ItemId;
+                        newInventory.Add(KeycapDatabase.Instance.getKeyCapFromID(id));
+                    }
+                }
+
+                recievedKeycaps = true;
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+        return newInventory;
     }
 }
