@@ -12,6 +12,7 @@ public class NetworkGameManager : TypeGameManager {
 	public int maxRounds = 3;
     private PhotonPlayer m_opponent;
     private int m_currentRound;
+	private bool changed = false;
     public override void Start() {
 		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
 
@@ -53,8 +54,11 @@ public class NetworkGameManager : TypeGameManager {
             //check if opponent is ready
             if ((PlayfabUserInfo.UserState)m_opponent.CustomProperties["UserState"] == PlayfabUserInfo.UserState.WaitingForNextRound) {
                 if (PhotonNetwork.isMasterClient) {
-                    SetProse();
-                    StartNextRound();
+					if (!changed) {
+						SetProse();
+						StartNextRound();
+						changed = true;
+					}
                 }else {
                     if ((bool)PhotonNetwork.room.CustomProperties["ReadyToStart"]) {
                         StartNextRound();
@@ -69,6 +73,10 @@ public class NetworkGameManager : TypeGameManager {
             { "Progress", GetGameProgress() },
 			{ "UserState", PlayfabUserInfo.CurrentUserState }
         });
+
+		//if (Input.GetKeyDown(KeyCode.P)) {
+		//	Complete();
+		//}
     }
 
     public void LeaveGame() {
