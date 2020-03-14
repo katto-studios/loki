@@ -10,34 +10,43 @@ public class NetworkUserDisplayInfo : MonoBehaviour {
     public TextMeshProUGUI displayScoreText;
     public Slider displayProgress;
     [Header("Unique values")]
-    public float spacing = 50;
+    public PhotonPlayer player;
+    
+    //HAHHAH
+    public int PlayerScore { get { return int.Parse(displayScoreText.text); } }
 
+    private bool initalised = false;
     // Start is called before the first frame update
     void Start() {
-        //transform.position = Vector3.up * (spacing * (transform.GetSiblingIndex() + 1));
         displayProgress.value = 0;
+    }
+
+    public void Initalise(PhotonPlayer _player) {
+        player = _player;
+        displayNameText.SetText(player.NickName);
+        initalised = true;
     }
 
     // Update is called once per frame
     void Update() {
+        if (initalised) {
+            displayScoreText.SetText(player.CustomProperties["Score"].ToString());
+            displayProgress.value = float.Parse(player.CustomProperties["Progress"].ToString());
 
-    }
+            //check if got someone ontop
+            int siblingIndex = transform.GetSiblingIndex();
+            if (siblingIndex > 0) {
+                Transform onTop = transform.parent.GetChild(siblingIndex - 1);
+                while(onTop.GetComponent<NetworkUserDisplayInfo>().PlayerScore < PlayerScore) {
+                    transform.SetSiblingIndex(--siblingIndex);
+                    if(siblingIndex > 0) {
+                        onTop = transform.parent.GetChild(siblingIndex - 1);
+                    }else {
+                        break;
+                    }
+                }
+            }
 
-    public void SetName(string _name) {
-        displayNameText.SetText(_name.ToUpper());
-    }
-
-    public void SetScore(float _score) {
-        displayScoreText.SetText(string.Format("Score: {0}", _score.ToString()));
-    }
-
-    public void UpdateProgress(float _progress) {
-        displayProgress.value = _progress;
-    }
-
-    public void Swap(NetworkUserDisplayInfo _other) {
-        Vector3 temp = _other.transform.position;
-        _other.transform.position = transform.position;
-        transform.position = temp;
+         }
     }
 }

@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NetworkGameManager : TypeGameManager {
-	//[Header("Regular stuff")]
-	public Button btnStartNext;
-	[Header("Networking")]
-	public int maxRounds = 3;
-    private PhotonPlayer m_opponent;
+    //[Header("Regular stuff")]
+    public Button btnStartNext;
+    [Header("Networking")]
+    public int maxRounds = 3;
+    private HashSet<PhotonPlayer> m_opponents = new HashSet<PhotonPlayer>();
     private int m_currentRound;
-	private bool changed = false;
+    private bool changed = false;
     public override void Start() {
-        m_opponent = PhotonNetwork.otherPlayers[0];
+        foreach (PhotonPlayer other in PhotonNetwork.otherPlayers) {
+            m_opponents.Add(other);
+        }
         PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
 
-		comboTimer = maxComboTimer;
+        comboTimer = maxComboTimer;
         wordsString = PhotonNetwork.room.CustomProperties["Paragraph"] as string;
         //check if it has the same paragaph as the master client
         if (!PhotonNetwork.isMasterClient) {
-            string otherProse = m_opponent.CustomProperties["ProseToWrite"] as string;
+            string otherProse = m_opponents.First(x => { return x.IsMasterClient; }).CustomProperties["ProseToWrite"] as string;
+
             if (!wordsString.Equals(otherProse)) {
+                Debug.LogError("Client and master mismatch!");
                 wordsString = otherProse;
             }
         }
@@ -41,31 +46,37 @@ public class NetworkGameManager : TypeGameManager {
             });
         }
 
-		gameState = GameState.Ready;
-	}
+        gameState = GameState.Ready;
+    }
 
     public override void Update() {
         base.Update();
 
-		if(gameState == GameState.Ready) {
-			if((PlayfabUserInfo.UserState)m_opponent.CustomProperties["UserState"] == PlayfabUserInfo.UserState.InMatch) {
-				gameState = GameState.Countdown;
-				readyGO.SetActive(false);
-				countDownText.gameObject.SetActive(true);
-				StartCoroutine(CountDown(5));
-			}
-		}
+        //start countdown
+        if (gameState == GameState.Ready) {
+            if (m_opponents.All(x => {
+                return (PlayfabUserInfo.UserState)x.CustomProperties["UserState"] == PlayfabUserInfo.UserState.InMatch;
+            }))
+            {
+                gameState = GameState.Countdown;
+                readyGO.SetActive(false);
+                countDownText.gameObject.SetActive(true);
+                StartCoroutine(CountDown(5));
+            }
+        }
 
-        if(PlayfabUserInfo.CurrentUserState == PlayfabUserInfo.UserState.WaitingForNextRound) {
-            //check if opponent is ready
-            if ((PlayfabUserInfo.UserState)m_opponent.CustomProperties["UserState"] == PlayfabUserInfo.UserState.WaitingForNextRound) {
+        if (PlayfabUserInfo.CurrentUserState == PlayfabUserInfo.UserState.WaitingForNextRound) {
+            //check if opponents are ready
+            if (m_opponents.All(x => {
+                return (PlayfabUserInfo.UserState)x.CustomProperties["UserState"] == PlayfabUserInfo.UserState.WaitingForNextRound;
+            })) {
                 if (PhotonNetwork.isMasterClient) {
-					if (!changed) {
-						SetProse();
-						StartNextRound();
-						changed = true;
-					}
-                }else {
+                    if (!changed) {
+                        SetProse();
+                        StartNextRound();
+                        changed = true;
+                    }
+                } else {
                     if ((bool)PhotonNetwork.room.CustomProperties["ReadyToStart"]) {
                         StartNextRound();
                     }
@@ -77,26 +88,34 @@ public class NetworkGameManager : TypeGameManager {
         PhotonNetwork.player.SetCustomProperties(new Hashtable() {
             { "Score", score },
             { "Progress", GetGameProgress() },
-			{ "UserState", PlayfabUserInfo.CurrentUserState }
+            { "UserState", PlayfabUserInfo.CurrentUserState }
         });
 
-        //if (Input.GetKeyDown(KeyCode.P)) {
-        //    Complete();
-        //}
+        if (Input.GetKeyDown(KeyCode.P)) {
+            Complete();
+        }
     }
 
     public void LeaveGame() {
-        Debug.Log(float.Parse(m_opponent.CustomProperties["Score"].ToString()) > score ? "Player lost" : "Player won");
+        //assume last place
+        int position = m_opponents.Count + 1;
+        foreach(PhotonPlayer player in m_opponents) {
+            if(float.Parse(player.CustomProperties["Score"].ToString()) < score) {
+                position++;
+            }
+        }
+
+        Debug.Log(string.Format("Player came in {0} place", position.ToString()));
         //update mmr
-        PlayfabUserInfo.UpdatePlayerMmr(float.Parse(m_opponent.CustomProperties["Score"].ToString()) < score ? 25 : -25);
+        //PlayfabUserInfo.UpdatePlayerMmr(float.Parse(m_opponent.CustomProperties["Score"].ToString()) < score ? 25 : -25);
         PhotonNetwork.LeaveRoom();
         FindObjectOfType<SceneChanger>().ChangeScene(1);
     }
 
-	public void WhenStartNextRound() {
-		gameState = GameState.Ready;
-		//set state
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.WaitingForNextRound);
+    public void WhenStartNextRound() {
+        gameState = GameState.Ready;
+        //set state
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.WaitingForNextRound);
     }
 
     private void SetProse() {
@@ -119,18 +138,18 @@ public class NetworkGameManager : TypeGameManager {
         }
     }
 
-	private void StartNextRound() {
+    private void StartNextRound() {
         FindObjectOfType<SceneChanger>().ChangeScene(5);
     }
 
     protected override void Complete() {
-		base.Complete();
+        base.Complete();
 
-		if(++m_currentRound >= maxRounds) {
+        if (++m_currentRound >= maxRounds) {
             //actually finish
             btnStartNext.GetComponentInChildren<TextMeshProUGUI>().SetText("Leave game");
             btnStartNext.onClick.RemoveAllListeners();
-			btnStartNext.onClick.AddListener(LeaveGame);
-		}
-	}
+            btnStartNext.onClick.AddListener(LeaveGame);
+        }
+    }
 }
