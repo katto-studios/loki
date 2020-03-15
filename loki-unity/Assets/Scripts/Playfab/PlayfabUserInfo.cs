@@ -263,7 +263,24 @@ public static class PlayfabUserInfo {
     }
 
     public static void DenyFriend(string _friendName) {
-
+        //get friends id
+        PlayFabClientAPI.GetAccountInfo(
+            new GetAccountInfoRequest() {
+                Username = _friendName
+            },
+            (_result) => {
+                //actually add the friend
+                PlayFabClientAPI.ExecuteCloudScript(
+                    new ExecuteCloudScriptRequest() {
+                        FunctionName = "DenyFriend",
+                        FunctionParameter = new { ReceiverId = _result.AccountInfo.PlayFabId },
+                    },
+                    (__result) => { Debug.Log(string.Format("Friend request from {0} denied", _friendName)); },
+                    (__error) => { Debug.LogError(__error.GenerateErrorReport()); }
+                );
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
     }
     #endregion
 }
