@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using cm = PlayFab.ClientModels;
 using TMPro;
+using System;
 
-public class FriendsMenuHandler : MonoBehaviour {
+public class FriendsMenuHandler : Singleton<FriendsMenuHandler> {
 	[Header("Friend display")]
 	public GameObject friendContent;
 	public GameObject friendInfoPfb;
@@ -15,11 +16,11 @@ public class FriendsMenuHandler : MonoBehaviour {
     public GameObject pendingFriends;
     public GameObject pendingFriendPfb;
 
-    private List<cm::FriendInfo> m_friends = new List<cm.FriendInfo>();
-    private List<cm::FriendInfo> m_pending = new List<cm.FriendInfo>();
+    private List<cm::FriendInfo> m_friends = new List<cm::FriendInfo>();
+    private List<cm::FriendInfo> m_pending = new List<cm::FriendInfo>();
 
     private void Awake() {
-		PlayfabUserInfo.GetFriendsList(this);
+		PlayfabUserInfo.GetFriendsList();
 	}
 
 	public void AddToFriendsList(cm::FriendInfo _newFriend) {
@@ -37,13 +38,22 @@ public class FriendsMenuHandler : MonoBehaviour {
 	public void AddFriend() {
 		PlayfabUserInfo.AddFriend(inSearch.text);
 		//refresh list
-		PlayfabUserInfo.GetFriendsList(this);
+		PlayfabUserInfo.GetFriendsList();
 	}
 
     //listener for button
     public void AcceptFriend() {
         PlayfabUserInfo.AcceptFriend(GetComponent<FriendDisplay>().nameDisplay.text);
         //refresh list
-        PlayfabUserInfo.GetFriendsList(this);
+        PlayfabUserInfo.GetFriendsList();
+    }
+
+    public void DenyFriend() {
+
+    }
+
+    public void ClearFriendsList() {
+        m_friends.Clear();
+        m_pending.Clear();
     }
 }

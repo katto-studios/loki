@@ -201,18 +201,19 @@ public static class PlayfabUserInfo {
 	}
 
     #region Friends
-    public static void GetFriendsList(FriendsMenuHandler _handle) {
+    public static void GetFriendsList() {
 		PlayFabClientAPI.GetFriendsList(
 			new GetFriendsListRequest(){
 				IncludeFacebookFriends = false,
 				IncludeSteamFriends = false
 			},
 			(_result) => {
+                FriendsMenuHandler.Instance.ClearFriendsList();
 				foreach (cm::FriendInfo friend in _result.Friends) {
                     if (friend.Tags.Contains("Friends")) {
-                        _handle.AddToFriendsList(friend);
+                        FriendsMenuHandler.Instance.AddToFriendsList(friend);
                     }else if (friend.Tags.Contains("Requestee")) {
-                        _handle.AddToPendingFriendsList(friend);
+                        FriendsMenuHandler.Instance.AddToPendingFriendsList(friend);
                     }
 				}
 			},
@@ -227,7 +228,6 @@ public static class PlayfabUserInfo {
                 Username = _friendName
             },
             (_result) => {
-                //actually add the friend
                 PlayFabClientAPI.ExecuteCloudScript(
                     new ExecuteCloudScriptRequest() {
                         FunctionName = "AddFriend",
@@ -254,7 +254,10 @@ public static class PlayfabUserInfo {
                         FunctionName = "AcceptFriend",
                         FunctionParameter = new { ReceiverId = _result.AccountInfo.PlayFabId },
                     },
-                    (__result) => { Debug.Log(string.Format("Friend request from {0} accepted", _friendName)); },
+                    (__result) => {
+                        Debug.Log(string.Format("Friend request from {0} accepted", _friendName));
+                        GetFriendsList();
+                    },
                     (__error) => { Debug.LogError(__error.GenerateErrorReport()); }
                 );
             },
@@ -269,13 +272,16 @@ public static class PlayfabUserInfo {
                 Username = _friendName
             },
             (_result) => {
-                //actually add the friend
+                //get rid of friend
                 PlayFabClientAPI.ExecuteCloudScript(
                     new ExecuteCloudScriptRequest() {
                         FunctionName = "DenyFriend",
                         FunctionParameter = new { ReceiverId = _result.AccountInfo.PlayFabId },
                     },
-                    (__result) => { Debug.Log(string.Format("Friend request from {0} denied", _friendName)); },
+                    (__result) => {
+                        Debug.Log(string.Format("Friend request from {0} denied", _friendName));
+                        GetFriendsList();
+                    },
                     (__error) => { Debug.LogError(__error.GenerateErrorReport()); }
                 );
             },
