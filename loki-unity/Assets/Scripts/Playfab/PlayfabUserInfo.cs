@@ -8,7 +8,7 @@ public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
     public static List<ArtisanKeycap> playerKeycaps;
-    public static Dictionary<ArtisanKeycap, int> keycapEquipInfo;
+    public static Dictionary<ArtisanKeycap, int> keycapEquipInfo = new Dictionary<ArtisanKeycap, int>();
 
     public static void Initalise() {
         GetAccountInfoRequest req = new GetAccountInfoRequest();
