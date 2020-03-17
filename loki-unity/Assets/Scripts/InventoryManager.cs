@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    public GameObject inventoryContent;
+    public GameObject inventorySlotPrefab;
     // Start is called before the first frame update
     void Start()
     {
-
+        RenderInventory();
     }
 
     // Update is called once per frame
@@ -16,13 +18,13 @@ public class InventoryManager : MonoBehaviour
         
     }
 
-    public void RenderPlayerKeycaps()
+    public void RenderInventory()
     {
         List<ArtisanKeycap> playerKeycaps = PlayfabUserInfo.playerKeycaps;
         
         foreach(ArtisanKeycap keycap in playerKeycaps)
         {
-            
+            GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventoryContent.transform);
         }
     }
 }
