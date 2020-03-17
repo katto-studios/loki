@@ -8,6 +8,7 @@ public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
     public static List<ArtisanKeycap> playerKeycaps;
+    public static Dictionary<ArtisanKeycap, int> keycapEquipInfo;
 
     public static void Initalise() {
         GetAccountInfoRequest req = new GetAccountInfoRequest();
@@ -145,7 +146,14 @@ public static class PlayfabUserInfo {
                     {
                         Debug.Log(eachItem.ItemId);
                         string id = eachItem.ItemId;
-                        newInventory.Add(KeycapDatabase.Instance.getKeyCapFromID(id));
+                        ArtisanKeycap newKey = KeycapDatabase.Instance.getKeyCapFromID(id);
+                        newInventory.Add(newKey);
+
+                        string equipIndex = "-2";
+                        eachItem.CustomData.TryGetValue("EQUIP_SLOT", out equipIndex);
+                        int ei = int.Parse(equipIndex);
+                        Debug.Log(ei);
+                        keycapEquipInfo.Add(newKey, ei);
                     }
                 }
 
