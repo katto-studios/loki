@@ -7,7 +7,7 @@ using PlayFab.ClientModels;
 public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
-    public static List<ArtisanKeycap> playerKeycaps;
+    public static List<ArtisanKeycap> playerKeycaps = new List<ArtisanKeycap>();
     public static Dictionary<ArtisanKeycap, int> keycapEquipInfo = new Dictionary<ArtisanKeycap, int>();
 
     public static void Initalise() {
@@ -109,6 +109,8 @@ public static class PlayfabUserInfo {
     static bool recievedKeycaps;
     public static void UpdatePlayerKeycaps()
     {
+        playerKeycaps.Clear();
+        keycapEquipInfo.Clear();
         recievedKeycaps = false;
         PersistantCanvas.Instance.StartCoroutine(GetUserInventoryRequest());
     }
