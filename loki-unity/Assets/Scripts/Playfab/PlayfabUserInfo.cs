@@ -152,7 +152,8 @@ public static class PlayfabUserInfo {
                         newInventory.Add(newKey);
 
                         string equipIndex = "-2";
-                        eachItem.CustomData.TryGetValue("EQUIP_SLOT", out equipIndex);
+                        try { eachItem.CustomData.TryGetValue("EQUIP_SLOT", out equipIndex); }
+                        catch { };
                         int ei = int.Parse(equipIndex);
                         Debug.Log(ei);
                         keycapEquipInfo.Add(newKey, ei);

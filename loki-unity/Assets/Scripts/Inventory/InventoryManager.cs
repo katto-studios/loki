@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager : Singleton<InventoryManager>
 {
     public GameObject inventoryContent;
     public GameObject inventorySlotPrefab;
@@ -25,6 +25,7 @@ public class InventoryManager : MonoBehaviour
         foreach(ArtisanKeycap keycap in playerKeycaps)
         {
             GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventoryContent.transform);
+            newInventorySlot.GetComponent<InventorySlot>().SetArtisanKeycap(keycap);
         }
     }
 }
