@@ -19,6 +19,9 @@ public class InventorySlot : MonoBehaviour
     private InventorySlotState inventorySlotState;
     private int equipInfo;
 
+    public GameObject equipedPanel;
+    public GameObject selectedPanel;
+
     public void SetArtisanKeycap(ArtisanKeycap newKeycap, int newEquipInfo)
     {
         itemName = GetComponentInChildren<TextMeshProUGUI>();   
@@ -28,10 +31,10 @@ public class InventorySlot : MonoBehaviour
         equipInfo = newEquipInfo;
         if(equipInfo < 0)
         {
-            inventorySlotState = InventorySlotState.INVENTORY;
+            SetSelectedState();
         } else
         {
-            inventorySlotState = InventorySlotState.EQUIPED;
+            SetEquipedState();
         }
     }
 
@@ -43,16 +46,22 @@ public class InventorySlot : MonoBehaviour
 
     public void SetEquipedState()
     {
-
+        selectedPanel.SetActive(false);
+        equipedPanel.SetActive(true);
+        inventorySlotState = InventorySlotState.EQUIPED;
     }
 
     public void SetSelectedState()
     {
-
+        selectedPanel.SetActive(true);
+        equipedPanel.SetActive(false);
+        inventorySlotState = InventorySlotState.SELECTED;
     }
 
     public void SetInventoryState()
     {
-
+        selectedPanel.SetActive(false);
+        equipedPanel.SetActive(false);
+        inventorySlotState = InventorySlotState.INVENTORY;
     }
 }
