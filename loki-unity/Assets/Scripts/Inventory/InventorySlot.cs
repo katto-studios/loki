@@ -4,16 +4,35 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum InventorySlotState
+{
+    INVENTORY,
+    SELECTED,
+    EQUIPED
+}
+
 public class InventorySlot : MonoBehaviour
 {
     private ArtisanKeycap keycap;
-    public TextMeshProUGUI itemName;
+    private TextMeshProUGUI itemName;
+    [SerializeField]
+    private InventorySlotState inventorySlotState;
+    private int equipInfo;
 
-    public void SetArtisanKeycap(ArtisanKeycap newKeycap)
+    public void SetArtisanKeycap(ArtisanKeycap newKeycap, int newEquipInfo)
     {
         itemName = GetComponentInChildren<TextMeshProUGUI>();   
         keycap = newKeycap;
         itemName.text = keycap.keycapName;
+
+        equipInfo = newEquipInfo;
+        if(equipInfo < 0)
+        {
+            inventorySlotState = InventorySlotState.INVENTORY;
+        } else
+        {
+            inventorySlotState = InventorySlotState.EQUIPED;
+        }
     }
 
     // Start is called before the first frame update
@@ -22,9 +41,18 @@ public class InventorySlot : MonoBehaviour
         itemName = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetEquipedState()
     {
-        
+
+    }
+
+    public void SetSelectedState()
+    {
+
+    }
+
+    public void SetInventoryState()
+    {
+
     }
 }
