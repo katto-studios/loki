@@ -590,6 +590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   artisanKeycaps:
   - {fileID: 11400000, guid: e573f825261586647b5376b7ce3498b6, type: 2}
+  - {fileID: 11400000, guid: 8397c67626f30f74f8053ab850554b80, type: 2}
 --- !u!4 &222443008
 Transform:
   m_ObjectHideFlags: 0

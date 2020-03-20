@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 128b83173bdf99044b242a5fe4d3aced, type: 3}
-  m_Name: TestKeycap
+  m_Name: TestKeycap_data
   m_EditorClassIdentifier: 
   keycapName: TestKeycap
   id: TEST_KEYCAP
-  keycap: {fileID: -927199367670048503, guid: cdbaa8fb83b25c341a17dd1ce336ea12, type: 3}
+  keycap: {fileID: 6001055811025725057, guid: 842387256664dfd4f9e17b1b7baa56b3, type: 3}
   rarity: 0
