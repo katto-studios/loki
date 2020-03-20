@@ -31,7 +31,7 @@ public class InventorySlot : MonoBehaviour
         equipInfo = newEquipInfo;
         if(equipInfo < 0)
         {
-            SetSelectedState();
+            SetInventoryState();
         } else
         {
             SetEquipedState();
