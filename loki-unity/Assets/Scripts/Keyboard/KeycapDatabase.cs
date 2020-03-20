@@ -17,6 +17,8 @@ public class KeycapDatabase : Singleton<KeycapDatabase>
         {
             DontDestroyOnLoad(gameObject);
         }
+
+        PlayfabUserInfo.UpdatePlayerKeycaps();
     }
 
     public ArtisanKeycap getKeyCapFromID(string id)
