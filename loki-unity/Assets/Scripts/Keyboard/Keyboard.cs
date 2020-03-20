@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Keyboard : MonoBehaviour
+public class Keyboard : Singleton<Keyboard>
 {
     public GameObject keysGO;
     public bool usePlaceholders;
@@ -80,7 +80,7 @@ public class Keyboard : MonoBehaviour
         InitKeyboard();
     }
 
-    void InitKeyboard()
+    public void InitKeyboard()
     {
         foreach(Transform child in keysGO.GetComponentInChildren<Transform>())
         {
@@ -92,6 +92,26 @@ public class Keyboard : MonoBehaviour
             foreach (GameObject key in keys)
             {
                 Instantiate(placeHolderKeycap, key.transform);
+            }
+        }
+
+        if(PlayfabUserInfo.playerKeycaps != null)
+        {
+            foreach (ArtisanKeycap keycap in PlayfabUserInfo.playerKeycaps)
+            {
+                int keySlot = -1;
+                try { PlayfabUserInfo.keycapEquipInfo.TryGetValue(keycap, out keySlot); }
+                catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };
+
+                if (keySlot >= 0)
+                {
+                    GameObject currentSlot = keys[keySlot];
+                    foreach (Transform child in currentSlot.transform) {
+                        Destroy(child.gameObject);
+                    }
+                    Instantiate(keycap.keycap, currentSlot.transform);
+                    Debug.Log("Inited" + keycap.keycapName);
+                }
             }
         }
     }

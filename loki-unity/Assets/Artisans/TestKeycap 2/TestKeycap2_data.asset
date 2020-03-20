@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keycapName: TestKeycap2
   id: TEST_KEYCAP2
-  keycap: {fileID: 6001055811025725057, guid: 842387256664dfd4f9e17b1b7baa56b3, type: 3}
+  keycap: {fileID: 6001055811025725057, guid: 20a0ae88ef66cf44abfa12d3dc951523, type: 3}
   rarity: 1

@@ -132,6 +132,12 @@ public static class PlayfabUserInfo {
             dText += keycap.name + ", ";
         }
 
+        if (Keyboard.Instance)
+        {
+            Debug.Log("Initing");
+            Keyboard.Instance.InitKeyboard();
+        }
+
         Debug.Log(dText);
     }
 
