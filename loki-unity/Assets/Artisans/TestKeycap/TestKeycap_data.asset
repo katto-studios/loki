@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128b83173bdf99044b242a5fe4d3aced, type: 3}
+  m_Name: TestKeycap_data
+  m_EditorClassIdentifier: 
+  keycapName: TestKeycap
+  id: TEST_KEYCAP
+  keycap: {fileID: 6001055811025725057, guid: 842387256664dfd4f9e17b1b7baa56b3, type: 3}
+  rarity: 0

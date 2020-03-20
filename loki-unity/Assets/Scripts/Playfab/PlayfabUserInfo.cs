@@ -7,7 +7,8 @@ using PlayFab.ClientModels;
 public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
-    public static List<ArtisanKeycap> playerKeycaps;
+    public static List<ArtisanKeycap> playerKeycaps = new List<ArtisanKeycap>();
+    public static Dictionary<ArtisanKeycap, int> keycapEquipInfo = new Dictionary<ArtisanKeycap, int>();
 
     public static void Initalise() {
         GetAccountInfoRequest req = new GetAccountInfoRequest();
@@ -108,6 +109,8 @@ public static class PlayfabUserInfo {
     static bool recievedKeycaps;
     public static void UpdatePlayerKeycaps()
     {
+        playerKeycaps.Clear();
+        keycapEquipInfo.Clear();
         recievedKeycaps = false;
         PersistantCanvas.Instance.StartCoroutine(GetUserInventoryRequest());
     }
@@ -129,6 +132,12 @@ public static class PlayfabUserInfo {
             dText += keycap.name + ", ";
         }
 
+        if (Keyboard.Instance)
+        {
+            Debug.Log("Initing");
+            Keyboard.Instance.InitKeyboard();
+        }
+
         Debug.Log(dText);
     }
 
@@ -145,7 +154,15 @@ public static class PlayfabUserInfo {
                     {
                         Debug.Log(eachItem.ItemId);
                         string id = eachItem.ItemId;
-                        newInventory.Add(KeycapDatabase.Instance.getKeyCapFromID(id));
+                        ArtisanKeycap newKey = KeycapDatabase.Instance.getKeyCapFromID(id);
+                        newInventory.Add(newKey);
+
+                        string equipIndex = "-2";
+                        try { eachItem.CustomData.TryGetValue("EQUIP_SLOT", out equipIndex); }
+                        catch { };
+                        int ei = int.Parse(equipIndex);
+                        Debug.Log(ei);
+                        keycapEquipInfo.Add(newKey, ei);
                     }
                 }
 
