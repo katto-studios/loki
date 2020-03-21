@@ -116,6 +116,9 @@ public class NetworkGameManager : TypeGameManager {
         gameState = GameState.Ready;
         //set state
         PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.WaitingForNextRound);
+
+        //disable button
+        btnStartNext.gameObject.SetActive(false);
     }
 
     private void SetProse() {

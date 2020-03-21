@@ -41,10 +41,10 @@ public class GameplayConsole : Singleton<GameplayConsole> {
         m_cg.blocksRaycasts = m_isActive;
     }
 
-    public void Log(string _logMessage) {
+    public static void Log(string _logMessage) {
         Debug.Log(_logMessage);
-        m_consoleText += string.Format("\n{1}", _logMessage);
-        outText.text = m_consoleText;
+        Instance.m_consoleText += string.Format("\n{0}", _logMessage);
+        Instance.outText.text = Instance.m_consoleText;
     }
 
     public void ParseEvent() {

@@ -32,7 +32,7 @@ public class PlayFabLogin : MonoBehaviour {
     }
 
     private void OnLoginSuccess(LoginResult result) {
-        Debug.Log("User logged in to playfab");
+        GameplayConsole.Log("User logged in to playfab");
         if (rememberMe.isOn) {
             PlayerPrefs.SetString("userEmail", m_userEmail);
             PlayerPrefs.SetString("userPassword", m_userPassword);
@@ -51,7 +51,7 @@ public class PlayFabLogin : MonoBehaviour {
                 PhotonNetwork.AuthValues = customAuth;
                 PhotonNetwork.ConnectUsingSettings("0.0.1");
                 //PhotonNetwork.ConnectToMaster("13.250.188.229", 42069, "99f28bf7-f000-4d28-bd9d-29843647aacd", "0.0.1");
-                Debug.Log("User logged in to photon");
+                GameplayConsole.Log("User logged in to photon");
             },
             OnLoginFailure
         );

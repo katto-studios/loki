@@ -73,15 +73,13 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
 	private void PrintToConsole(string _message) {
         try {
-            //m_consoleTxt += string.Format("\n{0}", _message);
-            //networkConsole.text = m_consoleTxt;
-            GameplayConsole.Instance.Log(_message);
+            GameplayConsole.Log(_message);
         } catch (Exception) { }
     }
 
     public void WhenCreateRoom() {
 		//check inCreate for text
-		PhotonNetwork.CreateRoom(inCreateRoom.text.Equals("") ? Helper.GenerateRandomString(10) : inCreateRoom.text, new RoomOptions() { MaxPlayers = 2 }, new TypedLobby { Type = LobbyType.Default });
+		PhotonNetwork.CreateRoom(inCreateRoom.text.Equals("") ? Helper.GenerateRandomString(10) : inCreateRoom.text, new RoomOptions() { MaxPlayers = 8 }, new TypedLobby { Type = LobbyType.Default });
     }
 
     public void WhenJoinRoom() {

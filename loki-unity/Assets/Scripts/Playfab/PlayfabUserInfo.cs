@@ -37,7 +37,7 @@ public static class PlayfabUserInfo {
 		m_userState = _newState;
 		//update hastable
 		PhotonNetwork.player.SetCustomProperty("UserState", _newState);
-		Debug.Log(string.Format("New user state: {0}", m_userState));
+		GameplayConsole.Log(string.Format("New user state: {0}", m_userState));
 	}
 
     private static IEnumerator SetDisplayName() {
