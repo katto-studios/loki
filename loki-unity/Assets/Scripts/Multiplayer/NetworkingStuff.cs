@@ -9,8 +9,6 @@ using System.Linq;
 //for photon networking
 public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     [Header("Console")]
-    public Text networkConsole;
-    private string m_consoleTxt = string.Empty;
     public InputField inCreateRoom;
     public InputField inJoinRoom;
 
@@ -75,19 +73,15 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
 	private void PrintToConsole(string _message) {
         try {
-            Debug.Log(_message);
-            m_consoleTxt += string.Format("\n{0}", _message);
-            networkConsole.text = m_consoleTxt;
+            //m_consoleTxt += string.Format("\n{0}", _message);
+            //networkConsole.text = m_consoleTxt;
+            GameplayConsole.Instance.Log(_message);
         } catch (Exception) { }
     }
 
     public void WhenCreateRoom() {
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
 		//check inCreate for text
 		PhotonNetwork.CreateRoom(inCreateRoom.text.Equals("") ? Helper.GenerateRandomString(10) : inCreateRoom.text, new RoomOptions() { MaxPlayers = 2 }, new TypedLobby { Type = LobbyType.Default });
-        PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
-            { "ReadyToStart", false }
-        });
     }
 
     public void WhenJoinRoom() {
@@ -135,7 +129,10 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
         PrintToConsole("Creation of room succeeded");
         PrintToConsole(string.Format("Currently in room: {0}", PhotonNetwork.room.Name));
 		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
-	}
+        PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+            { "ReadyToStart", false }
+        });
+    }
 
 	public void OnJoinedLobby() {
 
