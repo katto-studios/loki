@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EditorKey : MonoBehaviour
 {
-    public int KeyIndex;
+    public KeySlot keySlot;
 }

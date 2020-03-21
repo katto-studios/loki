@@ -8,6 +8,7 @@ public class Keyboard : Singleton<Keyboard>
     public bool usePlaceholders;
     public GameObject placeHolderKeycap;
     public List<GameObject> keys;
+    public List<KeySlot> keySlots;
 
     KeyCode[] keyCodes =
     {
@@ -82,9 +83,13 @@ public class Keyboard : Singleton<Keyboard>
 
     public void InitKeyboard()
     {
+        int ind = 0;
         foreach(Transform child in keysGO.GetComponentInChildren<Transform>())
         {
             keys.Add(child.gameObject);
+            child.GetComponent<KeySlot>().InitKey(ind, keyCodes[ind]);
+            keySlots.Add(child.GetComponent<KeySlot>());
+            ind++;
         }
 
         if (usePlaceholders)
@@ -114,6 +119,8 @@ public class Keyboard : Singleton<Keyboard>
                 }
             }
         }
+
+        if (EditorManager.Instance) EditorManager.Instance.Init();
     }
 
     public void KeyboardKeyDown(KeyCode keyCode)

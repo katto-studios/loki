@@ -1010,7 +1010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dee422e18c813949bc0ddaf03d52e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionBoundsPrefab: {fileID: 0}
+  collisionBoundsPrefab: {fileID: 1630415486656078331, guid: 4200b18ecfe41bf49b05d36bac6ad796,
+    type: 3}
   keyboard: {fileID: 0}
 --- !u!1001 &1669331817
 PrefabInstance:
