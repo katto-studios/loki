@@ -11,9 +11,9 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public bool useRandomWords = true;
 
     //String that the player has typed
-    string inputString = "";
+    protected string inputString = "";
 
-    string awardedString = "";
+    protected string awardedString = "";
 
     //Current word that the player has typed
     public string inputWord = "";
@@ -23,13 +23,13 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public List<TRWord> mistakeWords;
     public int wordIndex;
     public int charIndex;
-    char nextChar;
+    protected char nextChar;
 
     public int score;
 
     public int combo;
     public int maxCombo;
-    float comboTimer;
+    protected float comboTimer;
     public float maxComboTimer;
 
     public GameObject readyGO;
@@ -43,9 +43,11 @@ public class TypeGameManager : Singleton<TypeGameManager>
 
     public GameState gameState;
 
-    private void Start()
+    public virtual void Start()
     {
-        comboTimer = maxComboTimer;
+		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ReadyToPractice);
+
+		comboTimer = maxComboTimer;
 
         if (useRandomWords) {
             Paragraph para = GetProse.Instance.GetRandomProse();
@@ -53,6 +55,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
                 Debug.Log("I'm not done loading faggot");
                 //high apm players watchout
                 SceneManager.LoadScene(1);
+                return;
             }
             wordsString = para.Prose;
         }
@@ -69,7 +72,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         return wordIndex / words.Count;
     }
 
-    private void Update()
+    public virtual void Update()
     {
         comboTimer -= Time.deltaTime;
         if(comboTimer <= 0)
@@ -106,7 +109,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         return comboTimer / maxComboTimer;
     }
 
-    void ConvertStringToTRWords(string s)
+    protected void ConvertStringToTRWords(string s)
     {
         char[] ncwords = s.ToCharArray();
         List<char> nextTRWord = new List<char>();
@@ -115,7 +118,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
             nextTRWord.Add(ncwords[i]);
             if(ncwords[i].Equals(' ') || i == ncwords.Length - 1) //Make new TRWord when theres a space or is last char
             {
-                Debug.Log(new string(nextTRWord.ToArray()));
+                //Debug.Log(new string(nextTRWord.ToArray()));
                 TRWord nextTRWordSO = ScriptableObject.CreateInstance<TRWord>();
                 nextTRWordSO.word = nextTRWord.ToArray();
                 words.Add(nextTRWordSO);
@@ -124,7 +127,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
     }
 
-    void UpdateTextMesh()
+    protected void UpdateTextMesh()
     {
         if (words[wordIndex].CompareWords(inputWord.ToCharArray()))
         {
@@ -142,7 +145,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         inputTextMesh.text = @inputWord;
     }
 
-    IEnumerator CountDown(int count)
+    protected IEnumerator CountDown(int count)
     {
         countDownText.text = count.ToString();
         ButtonChime.Instance.PlayChime();
@@ -171,8 +174,10 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
 
         if (gameState == GameState.Playing) {
-            //Update input strings
-            inputString += character;
+			//PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.Practicing);
+
+			//Update input strings
+			inputString += character;
             inputWord += character;
 
             //Check to move on to the next word
@@ -208,7 +213,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
     }
 
-    void NextWord()
+    protected void NextWord()
     {
         inputWord = "";
         wordIndex++;
@@ -219,11 +224,12 @@ public class TypeGameManager : Singleton<TypeGameManager>
         }
     }
 
-    void Complete()
+    protected void Complete()
     {
         Debug.Log("Complete");
         SendMessage("GameComplete", SendMessageOptions.DontRequireReceiver);
-        gameState = GameState.Analytics;
+		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMainMenu);
+		gameState = GameState.Analytics;
     }
 
     public void BackSpacePressed()

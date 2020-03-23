@@ -22,6 +22,7 @@ public class LeaderboardManager : MonoBehaviour {
     void Start() {
         StartCoroutine(SetHighScoreHighscoreBoard());
         StartCoroutine(SetWpmHighscoreBoard());
+		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ViewingLeaderBoards);
     }
 
     // Update is called once per frame
