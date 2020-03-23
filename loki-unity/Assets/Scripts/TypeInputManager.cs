@@ -7,7 +7,7 @@ public class TypeInputManager : MonoBehaviour
     public TypeGameManager typeGameManager;
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         LetterCheck();
     }
