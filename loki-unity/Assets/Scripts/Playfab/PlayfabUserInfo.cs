@@ -11,6 +11,7 @@ public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
     public static List<ArtisanKeycap> playerKeycaps;
+    public static Dictionary<ArtisanKeycap, int> keycapEquipInfo;
     private static List<cm::FriendInfo> m_friends;
     public static List<cm::FriendInfo> Friends { get { return m_friends; } }
 
