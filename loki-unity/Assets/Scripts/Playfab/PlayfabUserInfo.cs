@@ -12,7 +12,6 @@ public static class PlayfabUserInfo {
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
     public static List<ArtisanKeycap> playerKeycaps = new List<ArtisanKeycap>();
     public static Dictionary<ArtisanKeycap, int> keycapEquipInfo = new Dictionary<ArtisanKeycap, int>();
-    public static List<ArtisanKeycap> playerKeycaps;
     private static List<cm::FriendInfo> m_friends;
     public static List<cm::FriendInfo> Friends { get { return m_friends; } }
 
