@@ -8,17 +8,13 @@ using System.Linq;
 using System.Threading;
 
 public static class Leaderboards {
-    private static List<KeyValuePair<string, int>> m_scores = new List<KeyValuePair<string, int>>();
-    public static List<KeyValuePair<string, int>> HighScores { get { return m_scores; } }
-
-    public static void FetchHighScores() {
-        m_scores.Clear();
+    public static void FetchHighScores(LeaderboardManager _manager) {
         PlayFabClientAPI.GetLeaderboard(
             new GetLeaderboardRequest() { StatisticName = "Points high score" },
             (_result) => {
                 int limit = Mathf.Clamp(_result.Leaderboard.Count, 0, 5);
                 for (int count = 0; count <= limit - 1; count++) {
-                    m_scores.Add(new KeyValuePair<string, int>(_result.Leaderboard[count].DisplayName, _result.Leaderboard[count].StatValue));
+                    _manager.AddToScores(_result.Leaderboard[count].DisplayName, _result.Leaderboard[count].StatValue);
                 }
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
