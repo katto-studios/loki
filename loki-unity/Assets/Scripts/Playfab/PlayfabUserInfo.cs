@@ -197,24 +197,6 @@ public static class PlayfabUserInfo {
         return newInventory;
     }
 
-	public static void SetUserState(UserState _newState) {
-		m_userState = _newState;
-		//update playfab
-		PlayFabClientAPI.UpdateUserData(
-			new UpdateUserDataRequest()
-			{
-				Data = new Dictionary<string, string>() {
-					{ "PlayerState", _newState.ToString() }
-				}
-			},
-			(_result) => { },
-			(_error) => { Debug.LogError(_error.GenerateErrorReport()); }
-		);
-		//update hastable
-		PhotonNetwork.player.SetCustomProperty("UserState", _newState);
-		Debug.Log(string.Format("New user state: {0}", m_userState));
-	}
-
 	public static void UpdatePlayerMmr(int _mmr) {
 		PlayFabClientAPI.ExecuteCloudScript(
 			new ExecuteCloudScriptRequest()
