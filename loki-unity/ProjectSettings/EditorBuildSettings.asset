@@ -26,6 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Friends.unity
     guid: cca7476b74f4c3e4886e331d57940a47
+  - enabled: 1
     path: Assets/Scenes/KeyboardEditor.unity
     guid: b447951264bc52c45add1a6fc4ceefd9
   m_configObjects: {}

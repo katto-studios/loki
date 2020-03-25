@@ -120,7 +120,7 @@ public class Keyboard : Singleton<Keyboard>
             }
         }
 
-        if (EditorManager.Instance) EditorManager.Instance.Init();
+        if (FindObjectOfType<EditorManager>()) EditorManager.Instance.Init();
     }
 
     public void KeyboardKeyDown(KeyCode keyCode)
