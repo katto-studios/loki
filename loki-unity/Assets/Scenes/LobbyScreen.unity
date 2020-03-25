@@ -2233,7 +2233,8 @@ MonoBehaviour:
   inJoinRoom: {fileID: 591471996}
   goToPlayGameScene: {fileID: 406949528}
   roomDisplay: {fileID: 891243990}
-  pfbRoomDisplay: {fileID: 0}
+  pfbRoomDisplay: {fileID: 7120537578200538659, guid: edb8fc1a36a5d8144b578ec5156a32f7,
+    type: 3}
 --- !u!4 &2128938661
 Transform:
   m_ObjectHideFlags: 0

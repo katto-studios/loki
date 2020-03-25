@@ -25,7 +25,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     void Start() {
         PrintToConsole("Player connection state: " + PhotonNetwork.connectionState);
         //load all rooms
-        foreach(RoomInfo ri in PhotonNetwork.GetRoomList()) {
+        foreach (RoomInfo ri in PhotonNetwork.GetRoomList()) {
             Instantiate(pfbRoomDisplay, roomDisplay.transform).GetComponent<RoomInfoDisplay>().SetInfo(ri);
         }
     }
@@ -87,7 +87,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void WhenCreateRoom() {
 		//check inCreate for text
-		PhotonNetwork.CreateRoom(inCreateRoom.text.Equals("") ? Helper.GenerateRandomString(10) : inCreateRoom.text, new RoomOptions() { MaxPlayers = 8 }, new TypedLobby { Type = LobbyType.Default });
+		PhotonNetwork.CreateRoom(inCreateRoom.text.Equals("") ? Helper.GenerateRandomString(10) : inCreateRoom.text, new RoomOptions() { MaxPlayers = 8, IsVisible = true, IsOpen = true }, TypedLobby.Default);
     }
 
     public void WhenJoinRoom() {
@@ -169,6 +169,16 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void OnReceivedRoomListUpdate() {
         PrintToConsole("Room list updated");
+
+        //delete and instanitate
+        foreach(Transform child in roomDisplay.transform) {
+            Destroy(child.gameObject);
+        }
+
+        //load all rooms
+        foreach (RoomInfo ri in PhotonNetwork.GetRoomList()) {
+            Instantiate(pfbRoomDisplay, roomDisplay.transform).GetComponent<RoomInfoDisplay>().SetInfo(ri);
+        }
     }
 
     public void OnJoinedRoom() {
