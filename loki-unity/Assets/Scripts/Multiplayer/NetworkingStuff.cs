@@ -15,11 +15,19 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     [Header("Gameplay")]
     public GameObject goToPlayGameScene;
 
+    [Header("Room list")]
+    public GameObject roomDisplay;
+    public GameObject pfbRoomDisplay;
+
     private PhotonPlayer m_opponent;
 
     // Start is called before the first frame update
     void Start() {
         PrintToConsole("Player connection state: " + PhotonNetwork.connectionState);
+        //load all rooms
+        foreach(RoomInfo ri in PhotonNetwork.GetRoomList()) {
+            Instantiate(pfbRoomDisplay, roomDisplay.transform).GetComponent<RoomInfoDisplay>().SetInfo(ri);
+        }
     }
 
     // Update is called once per frame

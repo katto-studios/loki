@@ -9,14 +9,22 @@ public class RoomInfoDisplay : MonoBehaviour {
     [Header("Fields")]
     public TextMeshProUGUI roomName;
     public TextMeshProUGUI roomNumberOfPeople;
+    [Header("Network")]
+    [Tooltip("Refreshes every (refreshTime) seconds")]
+    public float refreshTime = 1;
 
     private RoomInfo m_roomInfo;
+    private volatile bool m_shuttingDown = false;
     public void SetInfo(RoomInfo _roomInfo) {
         roomName.SetText(_roomInfo.Name);
+        roomNumberOfPeople.SetText(string.Format("{0}/{1}", _roomInfo.PlayerCount.ToString(), _roomInfo.MaxPlayers.ToString()));
         m_roomInfo = _roomInfo;
     }
 
     private IEnumerator UpdateRoomNumberOfPeople() {
-        yield return null;
+        while (!m_shuttingDown) {
+            roomNumberOfPeople.SetText(string.Format("{0}/{1}", m_roomInfo.PlayerCount.ToString(), m_roomInfo.MaxPlayers.ToString()));
+            yield return new WaitForSeconds(refreshTime);
+        }
     }
 }
