@@ -6,6 +6,7 @@ public class EditorManager : Singleton<EditorManager>
 {
     public GameObject collisionBoundsPrefab;
     public Keyboard keyboard;
+    public List<EditorKey> editorKeys = new List<EditorKey>();
     // Start is called before the first frame update
     public void Init()
     {
@@ -16,6 +17,7 @@ public class EditorManager : Singleton<EditorManager>
         {
             GameObject newColBound = Instantiate(collisionBoundsPrefab, ks.gameObject.transform);
             newColBound.GetComponent<EditorKey>().keySlot = ks;
+            editorKeys.Add(newColBound.GetComponent<EditorKey>());
         }
     }
 

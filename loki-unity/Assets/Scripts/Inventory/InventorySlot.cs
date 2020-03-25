@@ -64,4 +64,9 @@ public class InventorySlot : MonoBehaviour
         equipedPanel.SetActive(false);
         inventorySlotState = InventorySlotState.INVENTORY;
     }
+
+    public void OnClick()
+    {
+        Debug.Log("Clicked");
+    }
 }

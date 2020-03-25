@@ -984,6 +984,7 @@ MonoBehaviour:
   inventoryContent: {fileID: 1217827051}
   inventorySlotPrefab: {fileID: 275008395277534403, guid: 4697d59026bddd14eac5afb62c312ed3,
     type: 3}
+  inventorySlots: []
 --- !u!4 &1662902464
 Transform:
   m_ObjectHideFlags: 0
@@ -1013,6 +1014,7 @@ MonoBehaviour:
   collisionBoundsPrefab: {fileID: 1630415486656078331, guid: 4200b18ecfe41bf49b05d36bac6ad796,
     type: 3}
   keyboard: {fileID: 0}
+  editorKeys: []
 --- !u!1001 &1669331817
 PrefabInstance:
   m_ObjectHideFlags: 0

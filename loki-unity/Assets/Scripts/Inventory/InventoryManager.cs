@@ -6,6 +6,7 @@ public class InventoryManager : Singleton<InventoryManager>
 {
     public GameObject inventoryContent;
     public GameObject inventorySlotPrefab;
+    public List<InventorySlot> inventorySlots = new List<InventorySlot>();
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +32,7 @@ public class InventoryManager : Singleton<InventoryManager>
                 PlayfabUserInfo.keycapEquipInfo.TryGetValue(keycap, out ei);
             } catch { };
             newInventorySlot.GetComponent<InventorySlot>().SetArtisanKeycap(keycap, ei);
+            inventorySlots.Add(newInventorySlot.GetComponent<InventorySlot>());
         }
     }
 }
