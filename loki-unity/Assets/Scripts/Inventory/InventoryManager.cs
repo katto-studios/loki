@@ -13,12 +13,6 @@ public class InventoryManager : Singleton<InventoryManager>
         RenderInventory();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void RenderInventory()
     {
         List<ArtisanKeycap> playerKeycaps = PlayfabUserInfo.playerKeycaps;
@@ -33,6 +27,14 @@ public class InventoryManager : Singleton<InventoryManager>
             } catch { };
             newInventorySlot.GetComponent<InventorySlot>().SetArtisanKeycap(keycap, ei);
             inventorySlots.Add(newInventorySlot.GetComponent<InventorySlot>());
+        }
+    }
+
+    public void OnInventorySlotClicked(InventorySlot slot)
+    {
+        if(EditorManager.Instance.state == EditorManagerState.IDLE)
+        {
+            EditorManager.Instance.ChangeSelectedArtisan(slot);
         }
     }
 }

@@ -38,6 +38,11 @@ public class InventorySlot : MonoBehaviour
         }
     }
 
+    public ArtisanKeycap GetKeyCap()
+    {
+        return keycap;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +72,6 @@ public class InventorySlot : MonoBehaviour
 
     public void OnClick()
     {
-        Debug.Log("Clicked");
+        InventoryManager.Instance.OnInventorySlotClicked(this);
     }
 }
