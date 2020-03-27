@@ -115,12 +115,8 @@ public class Keyboard : Singleton<Keyboard>
 
                 if (keySlot >= 0)
                 {
-                    GameObject currentSlot = keys[keySlot];
-                    foreach (Transform child in currentSlot.transform) {
-                        Destroy(child.gameObject);
-                    }
-                    Instantiate(keycap.keycap, currentSlot.transform);
-                    Debug.Log("Inited" + keycap.keycapName);
+                    KeySlot thisKs = EquipInfoToKeySlot(keySlot);
+                    thisKs.ChangeKey(keycap);
                 }
             }
         }
