@@ -15,9 +15,12 @@ public class EditorManager : Singleton<EditorManager>
     public List<EditorKey> editorKeys = new List<EditorKey>();
     public EditorManagerState state = EditorManagerState.IDLE;
     public InventorySlot selectedSlot;
+    private Camera camera;
+
     // Start is called before the first frame update
     public void Init()
     {
+        camera = FindObjectsOfType<Camera>()[0];
         Debug.Log("EditorManager Inited");
         state = EditorManagerState.IDLE;
         if (!keyboard) keyboard = Keyboard.Instance;
@@ -35,5 +38,32 @@ public class EditorManager : Singleton<EditorManager>
         state = EditorManagerState.SELECTED;
         selectedSlot = slot;
         slot.SetSelectedState();
+    }
+
+    public void Update()
+    {
+        if(state == EditorManagerState.SELECTED)
+        {
+            RaycastHit hit;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                Debug.Log(hit.collider.gameObject.name);
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (hit.collider.GetComponent<EditorKey>())
+                {
+                    KeySlot ks = hit.collider.GetComponent<EditorKey>().keySlot;
+                    ChangeKey(ks, selectedSlot);
+                }
+            }
+        }
+    }
+
+    public void ChangeKey(KeySlot ks, InventorySlot invSlot)
+    {
+
     }
 }

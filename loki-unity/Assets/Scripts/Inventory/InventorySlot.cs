@@ -18,6 +18,7 @@ public class InventorySlot : MonoBehaviour
     [SerializeField]
     private InventorySlotState inventorySlotState;
     private int equipInfo;
+    private KeySlot currentKeySlot;
 
     public GameObject equipedPanel;
     public GameObject selectedPanel;
@@ -27,6 +28,8 @@ public class InventorySlot : MonoBehaviour
         itemName = GetComponentInChildren<TextMeshProUGUI>();   
         keycap = newKeycap;
         itemName.text = keycap.keycapName;
+
+        currentKeySlot = Keyboard.Instance.EquipInfoToKeySlot(newEquipInfo);
 
         equipInfo = newEquipInfo;
         if(equipInfo < 0)

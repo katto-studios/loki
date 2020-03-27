@@ -81,6 +81,11 @@ public class Keyboard : Singleton<Keyboard>
         InitKeyboard();
     }
 
+    public KeySlot EquipInfoToKeySlot(int ei)
+    {
+        return keySlots[ei];
+    }
+
     public void InitKeyboard()
     {
         int ind = 0;
