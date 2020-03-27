@@ -57,6 +57,7 @@ public class EditorManager : Singleton<EditorManager>
                 {
                     KeySlot ks = hit.collider.GetComponent<EditorKey>().keySlot;
                     ChangeKey(ks, selectedSlot);
+                    state = EditorManagerState.IDLE;
                 }
             }
         }
@@ -64,6 +65,18 @@ public class EditorManager : Singleton<EditorManager>
 
     public void ChangeKey(KeySlot ks, InventorySlot invSlot)
     {
+        invSlot.GetCurrentKeySlot().EmptySlot();
+        foreach(InventorySlot eachIS in InventoryManager.Instance.inventorySlots)
+        {
+            if(eachIS.GetCurrentKeySlot() == ks)
+            {
+                eachIS.SetInventoryState();
+            }
+        }
+        //Add New Key
+        ks.ChangeKey(invSlot.GetKeyCap());
+        invSlot.SetEquipedState(ks);
 
+        //Update the KeycapEquipInfo
     }
 }

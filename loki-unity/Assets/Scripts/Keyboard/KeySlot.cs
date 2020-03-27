@@ -12,4 +12,22 @@ public class KeySlot : MonoBehaviour
         keyIndex = index;
         keyCode = code;
     }
+
+    public void ChangeKey(ArtisanKeycap keycap)
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        Instantiate(keycap.keycap, transform);
+        Debug.Log("Inited" + keycap.keycapName);
+    }
+
+    public void EmptySlot()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 }

@@ -29,16 +29,19 @@ public class InventorySlot : MonoBehaviour
         keycap = newKeycap;
         itemName.text = keycap.keycapName;
 
-        currentKeySlot = Keyboard.Instance.EquipInfoToKeySlot(newEquipInfo);
-
         equipInfo = newEquipInfo;
         if(equipInfo < 0)
         {
             SetInventoryState();
         } else
         {
-            SetEquipedState();
+            SetEquipedState(Keyboard.Instance.EquipInfoToKeySlot(newEquipInfo));
         }
+    }
+
+    public KeySlot GetCurrentKeySlot()
+    {
+        return currentKeySlot;
     }
 
     public ArtisanKeycap GetKeyCap()
@@ -52,11 +55,12 @@ public class InventorySlot : MonoBehaviour
         itemName = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    public void SetEquipedState()
+    public void SetEquipedState(KeySlot ks)
     {
         selectedPanel.SetActive(false);
         equipedPanel.SetActive(true);
         inventorySlotState = InventorySlotState.EQUIPED;
+        currentKeySlot = ks;
     }
 
     public void SetSelectedState()
@@ -71,6 +75,7 @@ public class InventorySlot : MonoBehaviour
         selectedPanel.SetActive(false);
         equipedPanel.SetActive(false);
         inventorySlotState = InventorySlotState.INVENTORY;
+        currentKeySlot = null;
     }
 
     public void OnClick()
