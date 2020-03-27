@@ -80,6 +80,9 @@ public class InventorySlot : MonoBehaviour
 
     public void OnClick()
     {
-        InventoryManager.Instance.OnInventorySlotClicked(this);
+        if (inventorySlotState != InventorySlotState.SELECTED)
+        {
+            InventoryManager.Instance.OnInventorySlotClicked(this);
+        }
     }
 }

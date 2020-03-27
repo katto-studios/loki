@@ -44,15 +44,15 @@ public class EditorManager : Singleton<EditorManager>
     {
         if(state == EditorManagerState.SELECTED)
         {
-            RaycastHit hit;
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                Debug.Log(hit.collider.gameObject.name);
-            }
-
             if (Input.GetMouseButtonDown(0))
             {
+                RaycastHit hit;
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log(hit.collider.gameObject.name);
+                }
+
                 if (hit.collider.GetComponent<EditorKey>())
                 {
                     KeySlot ks = hit.collider.GetComponent<EditorKey>().keySlot;
@@ -61,11 +61,24 @@ public class EditorManager : Singleton<EditorManager>
                 }
             }
         }
+
+        if (state == EditorManagerState.IDLE)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit;
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log(hit.collider.gameObject.name);
+                }
+            }
+        }
     }
 
     public void ChangeKey(KeySlot ks, InventorySlot invSlot)
     {
-        invSlot.GetCurrentKeySlot().EmptySlot();
+        if(invSlot.GetCurrentKeySlot()) invSlot.GetCurrentKeySlot().EmptySlot();
         foreach(InventorySlot eachIS in InventoryManager.Instance.inventorySlots)
         {
             if(eachIS.GetCurrentKeySlot() == ks)
