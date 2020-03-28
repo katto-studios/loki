@@ -27,7 +27,6 @@ public class KeySlot : MonoBehaviour
         defaultKeycapGO.SetActive(false);
         Destroy(currentKeycapGO);
         currentKeycapGO = Instantiate(keycap.keycap, transform);
-        Debug.Log("Inited" + keycap.keycapName);
     }
 
     public void EmptySlot()

@@ -109,10 +109,10 @@ public class Keyboard : Singleton<Keyboard>
         {
             foreach (ArtisanKeycap keycap in PlayfabUserInfo.playerKeycaps)
             {
-                int keySlot = -1;
-                try { PlayfabUserInfo.keycapEquipInfo.TryGetValue(keycap, out keySlot); }
+                ArtisanData ad = new ArtisanData(-1, "");
+                try { PlayfabUserInfo.artisanData.TryGetValue(keycap, out ad); }
                 catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };
-
+                int keySlot = ad.equipInfo;
                 if (keySlot >= 0)
                 {
                     KeySlot thisKs = EquipInfoToKeySlot(keySlot);

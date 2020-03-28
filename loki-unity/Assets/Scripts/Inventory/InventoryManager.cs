@@ -20,11 +20,15 @@ public class InventoryManager : Singleton<InventoryManager>
         foreach(ArtisanKeycap keycap in playerKeycaps)
         {
             GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventoryContent.transform);
-            int ei = -1;
+            ArtisanData ad = new ArtisanData(-1, "");
             try
             {
-                PlayfabUserInfo.keycapEquipInfo.TryGetValue(keycap, out ei);
-            } catch { };
+                PlayfabUserInfo.artisanData.TryGetValue(keycap, out ad);
+            } catch {
+                PopupManager.Instance.ShowPopUp("Error getting keycap data");
+            };
+
+            int ei = ad.equipInfo;
             newInventorySlot.GetComponent<InventorySlot>().SetArtisanKeycap(keycap, ei);
             inventorySlots.Add(newInventorySlot.GetComponent<InventorySlot>());
         }
