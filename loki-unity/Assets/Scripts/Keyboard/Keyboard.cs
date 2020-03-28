@@ -81,6 +81,11 @@ public class Keyboard : Singleton<Keyboard>
         InitKeyboard();
     }
 
+    public KeySlot EquipInfoToKeySlot(int ei)
+    {
+        return keySlots[ei];
+    }
+
     public void InitKeyboard()
     {
         int ind = 0;
@@ -104,23 +109,19 @@ public class Keyboard : Singleton<Keyboard>
         {
             foreach (ArtisanKeycap keycap in PlayfabUserInfo.playerKeycaps)
             {
-                int keySlot = -1;
-                try { PlayfabUserInfo.keycapEquipInfo.TryGetValue(keycap, out keySlot); }
+                ArtisanData ad = new ArtisanData(-1, "");
+                try { PlayfabUserInfo.artisanData.TryGetValue(keycap, out ad); }
                 catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };
-
+                int keySlot = ad.equipInfo;
                 if (keySlot >= 0)
                 {
-                    GameObject currentSlot = keys[keySlot];
-                    foreach (Transform child in currentSlot.transform) {
-                        Destroy(child.gameObject);
-                    }
-                    Instantiate(keycap.keycap, currentSlot.transform);
-                    Debug.Log("Inited" + keycap.keycapName);
+                    KeySlot thisKs = EquipInfoToKeySlot(keySlot);
+                    thisKs.ChangeKey(keycap);
                 }
             }
         }
 
-        if (EditorManager.Instance) EditorManager.Instance.Init();
+        if (FindObjectOfType<EditorManager>()) EditorManager.Instance.Init();
     }
 
     public void KeyboardKeyDown(KeyCode keyCode)
