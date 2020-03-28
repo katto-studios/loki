@@ -4,11 +4,13 @@ using UnityEngine;
 using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System;
+using UnityEngine.UI;
 
 public class RoomInfoDisplay : MonoBehaviour {
     [Header("Fields")]
     public TextMeshProUGUI roomName;
     public TextMeshProUGUI roomNumberOfPeople;
+    public Button joinRoom;
     [Header("Network")]
     [Tooltip("Refreshes every (refreshTime) seconds")]
     public float refreshTime = 1;
@@ -26,5 +28,10 @@ public class RoomInfoDisplay : MonoBehaviour {
             roomNumberOfPeople.SetText(string.Format("{0}/{1}", m_roomInfo.PlayerCount.ToString(), m_roomInfo.MaxPlayers.ToString()));
             yield return new WaitForSeconds(refreshTime);
         }
+    }
+
+    public void WhenJoinRoom() {
+        joinRoom.enabled = false;
+        PhotonNetwork.JoinRoom(roomName.text);
     }
 }
