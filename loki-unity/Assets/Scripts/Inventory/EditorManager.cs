@@ -84,6 +84,7 @@ public class EditorManager : Singleton<EditorManager>
             if(eachIS.GetCurrentKeySlot() == ks)
             {
                 eachIS.SetInventoryState();
+                PlayFabKeycapEquipInfo(eachIS, -1);
             }
         }
         //Add New Key
@@ -91,5 +92,16 @@ public class EditorManager : Singleton<EditorManager>
         invSlot.SetEquipedState(ks);
 
         //Update the KeycapEquipInfo
+        PlayFabKeycapEquipInfo(invSlot, ks.keyIndex);
+    }
+
+    void PlayFabKeycapEquipInfo(InventorySlot inv, int data)
+    {
+        ArtisanData ad = new ArtisanData(-1, "");
+        try { PlayfabUserInfo.artisanData.TryGetValue(inv.GetKeyCap(), out ad); }
+        catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };
+        string keycapInstanceId = ad.itemInstanceID;
+        PlayfabUserInfo.UpdateKeycapCustomData(keycapInstanceId, data);
+        Debug.Log(keycapInstanceId + " " + data);
     }
 }

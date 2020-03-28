@@ -229,6 +229,19 @@ public static class PlayfabUserInfo {
 		);
 	}
 
+    public static void UpdateKeycapCustomData(string instanceID, int data)
+    {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest()
+            {
+                FunctionName = "UpdateKeycapInfo",
+                FunctionParameter = new { ItemId = instanceID, Data_update = data },
+            },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
+
     #region Friends
     public static void GetFriendsList() {
 		PlayFabClientAPI.GetFriendsList(
