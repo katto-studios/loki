@@ -31,6 +31,7 @@ public class KeySlot : MonoBehaviour
 
     public void EmptySlot()
     {
+        equipedKeycap = null;
         defaultKeycapGO.SetActive(true);
         Destroy(currentKeycapGO);
     }
