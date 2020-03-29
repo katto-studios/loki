@@ -114,7 +114,8 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void OnLeftRoom() {
         PrintToConsole("Left room");
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+        PlayfabUserInfo.UpdatePlayerRoom("NotInRoom");
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
 	}
 
 	public void OnMasterClientSwitched(PhotonPlayer newMasterClient) {
@@ -193,7 +194,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 					m_opponent = PhotonNetwork.otherPlayers[0];
                     break;
             }
-            PrintToConsole("Current player state: " + PlayfabUserInfo.CurrentUserState.ToString());
+            PlayfabUserInfo.UpdatePlayerRoom(PhotonNetwork.room.Name);
         } else {
             PrintToConsole("Failed to create/join room");
 			PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
@@ -212,7 +213,6 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 					PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ReadyToType);
 					break;
             }
-            PrintToConsole("Current player state: " + PlayfabUserInfo.CurrentUserState.ToString());
         } else {
             PrintToConsole("Failed to create/join room");
 			PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
@@ -231,7 +231,6 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 					PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ReadyToType);
 					break;
             }
-            PrintToConsole("Current player state: " + PlayfabUserInfo.CurrentUserState.ToString());
         } else {
             PrintToConsole("Failed to create/join room");
 			PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);

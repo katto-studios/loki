@@ -42,8 +42,34 @@ public static class PlayfabUserInfo {
 		m_userState = _newState;
 		//update hastable
 		PhotonNetwork.player.SetCustomProperty("UserState", _newState);
+        //update playfab
+        PlayFabClientAPI.UpdateUserData(
+            new UpdateUserDataRequest() {
+                Data = new Dictionary<string, string>() {
+                    { "PlayerState", _newState.ToString() }
+                },
+                Permission = UserDataPermission.Public
+            },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+        //print to console
 		GameplayConsole.Log(string.Format("New user state: {0}", m_userState));
 	}
+
+    public static void UpdatePlayerRoom(string _room) {
+
+        PlayFab.PlayFabClientAPI.UpdateUserData(
+            new PlayFab.ClientModels.UpdateUserDataRequest() {
+                Data = new Dictionary<string, string>() {
+                        { "RoomName", _room }
+                },
+                Permission = PlayFab.ClientModels.UserDataPermission.Public
+            },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
 
     private static IEnumerator SetDisplayName() {
         while (GetUsername().Equals("")) {
