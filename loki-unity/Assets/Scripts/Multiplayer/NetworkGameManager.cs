@@ -90,10 +90,6 @@ public class NetworkGameManager : TypeGameManager {
             { "Progress", GetGameProgress() },
             { "UserState", PlayfabUserInfo.CurrentUserState }
         });
-
-        if (Input.GetKeyDown(KeyCode.P)) {
-            Complete();
-        }
     }
 
     public void LeaveGame() {
