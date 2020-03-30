@@ -137,8 +137,7 @@ public class Keyboard : Singleton<Keyboard>
 
     public void KeyboardKeyDown(int i)
     {
-        Transform keyTransform = keys[i].transform.GetChild(0);
-        keyTransform.localPosition = new Vector3(0, -0.2f, 0);
+        keySlots[i].KeyDown();
     }
 
     public void KeyboardKeyUp(KeyCode keyCode)
@@ -154,7 +153,6 @@ public class Keyboard : Singleton<Keyboard>
 
     public void KeyboardKeyUp(int i)
     {
-        Transform keyTransform = keys[i].transform.GetChild(0);
-        keyTransform.localPosition = new Vector3(0, 0, 0);
+        keySlots[i].KeyUp();
     }
 }

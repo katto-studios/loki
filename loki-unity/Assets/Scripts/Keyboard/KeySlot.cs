@@ -35,4 +35,24 @@ public class KeySlot : MonoBehaviour
         defaultKeycapGO.SetActive(true);
         Destroy(currentKeycapGO);
     }
+
+    public void KeyDown()
+    {
+        Transform keyTransform = defaultKeycapGO.transform;
+        if (currentKeycapGO)
+        {
+            keyTransform = currentKeycapGO.transform;
+        }
+        keyTransform.localPosition = new Vector3(0, -0.2f, 0);
+    }
+
+    public void KeyUp()
+    {
+        Transform keyTransform = defaultKeycapGO.transform;
+        if (currentKeycapGO)
+        {
+            keyTransform = currentKeycapGO.transform;
+        }
+        keyTransform.localPosition = new Vector3(0, 0, 0);
+    }
 }
