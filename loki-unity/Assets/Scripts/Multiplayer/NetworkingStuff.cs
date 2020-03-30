@@ -31,69 +31,74 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
         });
 
         if (PlayfabUserInfo.CurrentUserState == PlayfabUserInfo.UserState.WaitingForOpponent) {
-			PlayfabUserInfo.UserState opponentState = (PlayfabUserInfo.UserState)m_opponent.CustomProperties["PlayerState"];
-            if (opponentState == PlayfabUserInfo.UserState.WaitingForOpponent) {
-                if (PhotonNetwork.isMasterClient) {
-                    Paragraph para = GetProse.Instance.GetRandomProse();
+            StartGame();
+        }
+    }
 
-                    //set opponent
-                    m_opponent.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
-                        { "Score", 0 },
-                        {"PlayerState", PlayfabUserInfo.UserState.InMatch },
-                    });
+    private void StartGame() {
+        if ((PlayfabUserInfo.UserState)m_opponent.CustomProperties["PlayerState"] == PlayfabUserInfo.UserState.WaitingForOpponent) {
+            if (PhotonNetwork.isMasterClient) {
+                Paragraph para = GetProse.Instance.GetRandomProse();
 
-                    //setself
-                    PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
-                        { "Score", 0 },
-                        {"PlayerState", PlayfabUserInfo.UserState.InMatch },
-                        { "ProseToWrite", para.Prose }
-                    });
+                //set opponent
+                m_opponent.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+                    { "Score", 0 },
+                    {"PlayerState", PlayfabUserInfo.UserState.InMatch },
+                });
 
-                    PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+                //setself
+                PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+                    { "Score", 0 },
+                    {"PlayerState", PlayfabUserInfo.UserState.InMatch },
+                    { "ProseToWrite", para.Prose }
+                });
+
+                //set room
+                PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
                         { "Paragraph", para.Prose },
                         { "Round number", 0 },
-                        { "ReadyToStart", true }
-                     });
+                        { "ReadyToStart", true },
+                        { "ProsesUsed", para.Prose }
+                });
 
+                //change scene
+                GetComponent<SceneChanger>().ChangeScene(5);
+            } else {
+                //wait for readytostart
+                if ((bool)PhotonNetwork.room.CustomProperties["ReadyToStart"]) {
                     //change scene
                     GetComponent<SceneChanger>().ChangeScene(5);
-                } else {
-                    //wait for readytostart
-                    if ((bool)PhotonNetwork.room.CustomProperties["ReadyToStart"]) {
-                        //change scene
-                        GetComponent<SceneChanger>().ChangeScene(5);
-                    }
                 }
             }
         }
     }
 
     public void WhenStartGame() {
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.WaitingForOpponent);
-	}
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.WaitingForOpponent);
+    }
 
-	private void PrintToConsole(string _message) {
+    private void PrintToConsole(string _message) {
         try {
             GameplayConsole.Log(_message);
         } catch (Exception) { }
     }
 
     public void WhenCreateRoom() {
-		//check inCreate for text
-		PhotonNetwork.CreateRoom(inCreateRoom.text.Equals("") ? Helper.GenerateRandomString(10) : inCreateRoom.text, new RoomOptions() { MaxPlayers = 8, IsVisible = true, IsOpen = true }, TypedLobby.Default);
+        //check inCreate for text
+        PhotonNetwork.CreateRoom(inCreateRoom.text.Equals("") ? Helper.GenerateRandomString(10) : inCreateRoom.text, new RoomOptions() { MaxPlayers = 8, IsVisible = true, IsOpen = true }, TypedLobby.Default);
     }
 
     public void WhenJoinRoom() {
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
-		if (inJoinRoom.text.Equals("")) {
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
+        if (inJoinRoom.text.Equals("")) {
             PhotonNetwork.JoinRandomRoom();
-        }else {
+        } else {
             PhotonNetwork.JoinRoom(inJoinRoom.text);
         }
     }
 
     public void WhenLeaveRoom() {
-        if(PhotonNetwork.room != null) {
+        if (PhotonNetwork.room != null) {
             PhotonNetwork.LeaveRoom();
         }
 
@@ -109,32 +114,32 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
         PrintToConsole("Left room");
         PlayfabUserInfo.UpdatePlayerRoom("NotInRoom");
         PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
-	}
+    }
 
-	public void OnMasterClientSwitched(PhotonPlayer newMasterClient) {
+    public void OnMasterClientSwitched(PhotonPlayer newMasterClient) {
 
     }
 
     public void OnPhotonCreateRoomFailed(object[] codeAndMsg) {
         PrintToConsole("Creation of room failed");
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
-	}
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+    }
 
-	public void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
+    public void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
         PrintToConsole("Join room failed");
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
-	}
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+    }
 
-	public void OnCreatedRoom() {
+    public void OnCreatedRoom() {
         PrintToConsole("Creation of room succeeded");
         PrintToConsole(string.Format("Currently in room: {0}", PhotonNetwork.room.Name));
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
         PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
             { "ReadyToStart", false }
         });
     }
 
-	public void OnJoinedLobby() {
+    public void OnJoinedLobby() {
 
     }
 
@@ -144,20 +149,20 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void OnFailedToConnectToPhoton(DisconnectCause cause) {
         PrintToConsole(string.Format("Failed to connect to photon: {0}", cause));
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
-	}
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+    }
 
-	public void OnConnectionFail(DisconnectCause cause) {
+    public void OnConnectionFail(DisconnectCause cause) {
         PrintToConsole(string.Format("Failed to connect: {0}", cause));
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
-	}
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+    }
 
-	public void OnDisconnectedFromPhoton() {
+    public void OnDisconnectedFromPhoton() {
         PrintToConsole("Disconnected from photon");
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.Disconnected);
-	}
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.Disconnected);
+    }
 
-	public void OnPhotonInstantiate(PhotonMessageInfo info) {
+    public void OnPhotonInstantiate(PhotonMessageInfo info) {
 
     }
 
@@ -171,19 +176,19 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
             PrintToConsole("Player is in room: " + PhotonNetwork.room.Name);
             switch (PhotonNetwork.room.PlayerCount) {
                 case 1:
-					PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
-					break;
+                    PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
+                    break;
                 case 2:
-					PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ReadyToType);
-					m_opponent = PhotonNetwork.otherPlayers[0];
+                    PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ReadyToType);
+                    m_opponent = PhotonNetwork.otherPlayers[0];
                     break;
             }
             PlayfabUserInfo.UpdatePlayerRoom(PhotonNetwork.room.Name);
         } else {
             PrintToConsole("Failed to create/join room");
-			PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
-		}
-	}
+            PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+        }
+    }
 
     public void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
         if (PhotonNetwork.room != null) {
@@ -191,17 +196,17 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
             PrintToConsole("Player joined room: " + newPlayer.NickName);
             switch (PhotonNetwork.room.PlayerCount) {
                 case 1:
-					PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
-					break;
+                    PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
+                    break;
                 case 2:
-					PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ReadyToType);
-					break;
+                    PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ReadyToType);
+                    break;
             }
         } else {
             PrintToConsole("Failed to create/join room");
-			PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
-		}
-	}
+            PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+        }
+    }
 
     public void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) {
         if (PhotonNetwork.room != null) {
@@ -209,30 +214,30 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
             PrintToConsole("Player left room: " + otherPlayer.NickName);
             switch (PhotonNetwork.room.PlayerCount) {
                 case 1:
-					PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
-					break;
+                    PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
+                    break;
                 case 2:
-					PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ReadyToType);
-					break;
+                    PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.ReadyToType);
+                    break;
             }
         } else {
             PrintToConsole("Failed to create/join room");
-			PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
-		}
-	}
+            PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+        }
+    }
 
     public void OnPhotonRandomJoinFailed(object[] codeAndMsg) {
         PrintToConsole("Failed to join random room");
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
-	}
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+    }
 
-	public void OnConnectedToMaster() {
+    public void OnConnectedToMaster() {
 
     }
 
     public void OnPhotonMaxCccuReached() {
-		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
-		Debug.LogError("PHOTON MAX PLAYERS REACHED!!");
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+        Debug.LogError("PHOTON MAX PLAYERS REACHED!!");
         Application.Quit();
     }
 

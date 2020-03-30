@@ -69,7 +69,7 @@ public class NetworkGameManager : TypeGameManager {
             //check if opponents are ready
             if (m_opponents.All(x => {
                 return (PlayfabUserInfo.UserState)x.CustomProperties["UserState"] == PlayfabUserInfo.UserState.WaitingForNextRound;
-            })) {
+            }) && m_currentRound < maxRounds) {
                 if (PhotonNetwork.isMasterClient) {
                     if (!changed) {
                         SetProse();
@@ -90,6 +90,10 @@ public class NetworkGameManager : TypeGameManager {
             { "Progress", GetGameProgress() },
             { "UserState", PlayfabUserInfo.CurrentUserState }
         });
+
+        if (Input.GetKeyDown(KeyCode.P)) {
+            Complete();
+        }
     }
 
     public void LeaveGame() {
@@ -120,11 +124,18 @@ public class NetworkGameManager : TypeGameManager {
     private void SetProse() {
         //determine prose
         Paragraph prose = GetProse.Instance.GetRandomProse();
+        string currentProses = (string)PhotonNetwork.room.CustomProperties["ProsesUsed"];
+        GameplayConsole.Log(currentProses);
+        while (currentProses.Contains(prose.Prose)) {
+            prose = GetProse.Instance.GetRandomProse();
+        }
+        currentProses += prose.Prose;
 
         PhotonNetwork.room.SetCustomProperties(new Hashtable() {
             { "Paragraph", prose.Prose },
             { "Round number", m_currentRound },
-            { "ReadyToStart", true }
+            { "ReadyToStart", true },
+            { "ProsesUsed", currentProses }
         });
 
         //set master client prose to write
