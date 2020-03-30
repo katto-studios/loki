@@ -21,6 +21,7 @@ public class RoomInfoDisplay : MonoBehaviour {
         roomName.SetText(_roomInfo.Name);
         roomNumberOfPeople.SetText(string.Format("{0}/{1}", _roomInfo.PlayerCount.ToString(), _roomInfo.MaxPlayers.ToString()));
         m_roomInfo = _roomInfo;
+        StartCoroutine(UpdateRoomNumberOfPeople());
     }
 
     private IEnumerator UpdateRoomNumberOfPeople() {
@@ -33,5 +34,13 @@ public class RoomInfoDisplay : MonoBehaviour {
     public void WhenJoinRoom() {
         joinRoom.enabled = false;
         PhotonNetwork.JoinRoom(m_roomInfo.Name);
+    }
+
+    private void OnDestroy() {
+        m_shuttingDown = true;
+    }
+
+    private void OnApplicationQuit() {
+        m_shuttingDown = true;
     }
 }
