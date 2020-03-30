@@ -7,11 +7,23 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using cm = PlayFab.ClientModels;
 using System;
 
+public struct ArtisanData
+{
+    public int equipInfo;
+    public string itemInstanceID;
+
+    public ArtisanData(int e, string instanceId)
+    {
+        equipInfo = e;
+        itemInstanceID = instanceId;
+    }
+}
+
 public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
     public static List<ArtisanKeycap> playerKeycaps = new List<ArtisanKeycap>();
-    public static Dictionary<ArtisanKeycap, int> keycapEquipInfo = new Dictionary<ArtisanKeycap, int>();
+    public static Dictionary<ArtisanKeycap, ArtisanData> artisanData = new Dictionary<ArtisanKeycap, ArtisanData>();
     private static List<cm::FriendInfo> m_friends;
     public static List<cm::FriendInfo> Friends { get { return m_friends; } }
 
@@ -160,7 +172,7 @@ public static class PlayfabUserInfo {
     public static void UpdatePlayerKeycaps()
     {
         playerKeycaps.Clear();
-        keycapEquipInfo.Clear();
+        artisanData.Clear();
         recievedKeycaps = false;
         PersistantCanvas.Instance.StartCoroutine(GetUserInventoryRequest());
     }
@@ -212,7 +224,7 @@ public static class PlayfabUserInfo {
                         catch { };
                         int ei = int.Parse(equipIndex);
                         Debug.Log(ei);
-                        keycapEquipInfo.Add(newKey, ei);
+                        artisanData.Add(newKey, new ArtisanData(ei, eachItem.ItemInstanceId));
                     }
                 }
 
@@ -234,6 +246,19 @@ public static class PlayfabUserInfo {
 			(_error) => { Debug.LogError(_error.GenerateErrorReport()); }
 		);
 	}
+
+    public static void UpdateKeycapCustomData(string instanceID, int data)
+    {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest()
+            {
+                FunctionName = "UpdateKeycapInfo",
+                FunctionParameter = new { ItemId = instanceID, Data_update = data },
+            },
+            (_result) => { },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
 
     #region Friends
     public static void GetFriendsList() {

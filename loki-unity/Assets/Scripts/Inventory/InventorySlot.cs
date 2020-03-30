@@ -18,6 +18,7 @@ public class InventorySlot : MonoBehaviour
     [SerializeField]
     private InventorySlotState inventorySlotState;
     private int equipInfo;
+    private KeySlot currentKeySlot;
 
     public GameObject equipedPanel;
     public GameObject selectedPanel;
@@ -34,8 +35,18 @@ public class InventorySlot : MonoBehaviour
             SetInventoryState();
         } else
         {
-            SetEquipedState();
+            SetEquipedState(Keyboard.Instance.EquipInfoToKeySlot(newEquipInfo));
         }
+    }
+
+    public KeySlot GetCurrentKeySlot()
+    {
+        return currentKeySlot;
+    }
+
+    public ArtisanKeycap GetKeyCap()
+    {
+        return keycap;
     }
 
     // Start is called before the first frame update
@@ -44,11 +55,12 @@ public class InventorySlot : MonoBehaviour
         itemName = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    public void SetEquipedState()
+    public void SetEquipedState(KeySlot ks)
     {
         selectedPanel.SetActive(false);
         equipedPanel.SetActive(true);
         inventorySlotState = InventorySlotState.EQUIPED;
+        currentKeySlot = ks;
     }
 
     public void SetSelectedState()
@@ -63,5 +75,14 @@ public class InventorySlot : MonoBehaviour
         selectedPanel.SetActive(false);
         equipedPanel.SetActive(false);
         inventorySlotState = InventorySlotState.INVENTORY;
+        currentKeySlot = null;
+    }
+
+    public void OnClick()
+    {
+        if (inventorySlotState != InventorySlotState.SELECTED)
+        {
+            InventoryManager.Instance.OnInventorySlotClicked(this);
+        }
     }
 }

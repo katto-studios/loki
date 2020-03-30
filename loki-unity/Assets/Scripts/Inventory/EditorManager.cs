@@ -2,26 +2,117 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EditorManagerState
+{
+    IDLE,
+    SELECTED
+}
+
 public class EditorManager : Singleton<EditorManager>
 {
     public GameObject collisionBoundsPrefab;
     public Keyboard keyboard;
+    public List<EditorKey> editorKeys = new List<EditorKey>();
+    public EditorManagerState state = EditorManagerState.IDLE;
+    public InventorySlot selectedSlot;
+    private Camera camera;
+
     // Start is called before the first frame update
     public void Init()
     {
+        camera = FindObjectsOfType<Camera>()[0];
         Debug.Log("EditorManager Inited");
+        state = EditorManagerState.IDLE;
         if (!keyboard) keyboard = Keyboard.Instance;
 
         foreach(KeySlot ks in keyboard.keySlots)
         {
             GameObject newColBound = Instantiate(collisionBoundsPrefab, ks.gameObject.transform);
             newColBound.GetComponent<EditorKey>().keySlot = ks;
+            editorKeys.Add(newColBound.GetComponent<EditorKey>());
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeSelectedArtisan(InventorySlot slot)
     {
-        
+        state = EditorManagerState.SELECTED;
+        selectedSlot = slot;
+        slot.SetSelectedState();
+    }
+
+    public void Update()
+    {
+        if(state == EditorManagerState.SELECTED)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit;
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log(hit.collider.gameObject.name);
+                }
+
+                if (hit.collider.GetComponent<EditorKey>())
+                {
+                    KeySlot ks = hit.collider.GetComponent<EditorKey>().keySlot;
+                    ChangeKey(ks, selectedSlot);
+                    state = EditorManagerState.IDLE;
+                }
+            }
+        } else if (state == EditorManagerState.IDLE)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit;
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider.GetComponent<EditorKey>())
+                    {
+                        KeySlot ks = hit.collider.GetComponent<EditorKey>().keySlot;
+                        if (ks.equipedKeycap)
+                        {
+                            foreach (InventorySlot eachIS in InventoryManager.Instance.inventorySlots)
+                            {
+                                if (eachIS.GetCurrentKeySlot() == ks)
+                                {
+                                    ChangeSelectedArtisan(eachIS);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void ChangeKey(KeySlot ks, InventorySlot invSlot)
+    {
+        if(invSlot.GetCurrentKeySlot()) invSlot.GetCurrentKeySlot().EmptySlot();
+        foreach(InventorySlot eachIS in InventoryManager.Instance.inventorySlots)
+        {
+            if(eachIS.GetCurrentKeySlot() == ks)
+            {
+                eachIS.SetInventoryState();
+                PlayFabKeycapEquipInfo(eachIS, -1);
+            }
+        }
+        //Add New Key
+        ks.ChangeKey(invSlot.GetKeyCap());
+        invSlot.SetEquipedState(ks);
+
+        //Update the KeycapEquipInfo
+        PlayFabKeycapEquipInfo(invSlot, ks.keyIndex);
+    }
+
+    void PlayFabKeycapEquipInfo(InventorySlot inv, int data)
+    {
+        ArtisanData ad = new ArtisanData(-1, "");
+        try { PlayfabUserInfo.artisanData.TryGetValue(inv.GetKeyCap(), out ad); }
+        catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };
+        string keycapInstanceId = ad.itemInstanceID;
+        PlayfabUserInfo.UpdateKeycapCustomData(keycapInstanceId, data);
+        Debug.Log(keycapInstanceId + " " + data);
     }
 }
