@@ -32,6 +32,6 @@ public class RoomInfoDisplay : MonoBehaviour {
 
     public void WhenJoinRoom() {
         joinRoom.enabled = false;
-        PhotonNetwork.JoinRoom(roomName.text);
+        PhotonNetwork.JoinRoom(m_roomInfo.Name);
     }
 }
