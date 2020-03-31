@@ -85,7 +85,17 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void WhenCreateRoom() {
         //check inCreate for text
-        PhotonNetwork.CreateRoom(inCreateRoom.text.Equals("") ? Helper.GenerateRandomString(10) : inCreateRoom.text, new RoomOptions() { MaxPlayers = 8, IsVisible = true, IsOpen = true }, TypedLobby.Default);
+        if (inCreateRoom.text.Equals("")) {
+            //keep polling to make sure it creates a room
+            while (!PhotonNetwork.CreateRoom(Helper.GenerateRandomWord(), new RoomOptions() { MaxPlayers = 8, IsVisible = true, IsOpen = true }, TypedLobby.Default));
+            PopupManager.Instance.ShowPopUp(string.Format("Room {0} successfully created!", PhotonNetwork.room.Name), 3);
+        } else {
+            if (!PhotonNetwork.CreateRoom(inCreateRoom.text, new RoomOptions() { MaxPlayers = 8, IsVisible = true, IsOpen = true }, TypedLobby.Default)) {
+                PopupManager.Instance.ShowPopUp("Room already exists, join it instead?", 5);
+            }else {
+                PopupManager.Instance.ShowPopUp(string.Format("Room {0} successfully created!", PhotonNetwork.room.Name), 3);
+            }
+        }
     }
 
     public void WhenJoinRoom() {

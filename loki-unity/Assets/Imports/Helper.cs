@@ -130,6 +130,22 @@ public static class Helper {
         return new string(strChars);
     }
 
+    /// <summary>
+    /// Generates a random word
+    /// </summary>
+    public static string GenerateRandomWord() {
+        const string fruits = 
+        "Apple Apricots Avocado Banana Blackberries Blackcurrant Blueberries Breadfruit Cantaloupe Carambola Cherimoya  Cherries " +
+        "Clementine Coconut Cranberries CustardApple Date Durian Elderberries Feijoa Figs Gooseberries Grapefruit Grapes Guava " +
+        "HoneydewMelon Jackfruit JavaPlum JujubeFruit Kiwifruit Kumquat Lemon Lime Longan Loquat Lychee Mandarin Mango Mangosteen" +
+        "Mulberries Nectarine Olives Orange Papaya PassionFruit Peaches Pear Persimmon Pitaya Pineapple Pitanga Plantain Plums Pomegranate" +
+        "PricklyPear Prunes Pummelo Quince Raspberries Rhubarb RoseApple Sapodilla SapoteMamey Soursop Strawberries SugarApple Tamarind"+
+        "Tangerine Watermelon";
+
+        string[] fruitsArr = fruits.Split(' ');
+        return fruitsArr[UnityEngine.Random.Range(0, fruitsArr.Length)];
+    }
+
 	/// <summary>
 	/// Set a property of a players HashTable
 	/// </summary>
