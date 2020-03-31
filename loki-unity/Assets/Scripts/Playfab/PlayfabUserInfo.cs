@@ -62,7 +62,11 @@ public static class PlayfabUserInfo {
                 },
                 Permission = UserDataPermission.Public
             },
-            (_result) => { },
+            (_result) => {
+                if(_newState == UserState.Disconnected) {
+                    UpdatePlayerRoom("NotInRoom");
+                }
+            },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
         //print to console
@@ -70,9 +74,8 @@ public static class PlayfabUserInfo {
 	}
 
     public static void UpdatePlayerRoom(string _room) {
-
-        PlayFab.PlayFabClientAPI.UpdateUserData(
-            new PlayFab.ClientModels.UpdateUserDataRequest() {
+        PlayFabClientAPI.UpdateUserData(
+            new cm::UpdateUserDataRequest() {
                 Data = new Dictionary<string, string>() {
                         { "RoomName", _room }
                 },

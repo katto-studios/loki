@@ -11,6 +11,7 @@ public class FriendDisplay : MonoBehaviour {
 	public Image backgroundImage;
     public TextMeshProUGUI nameDisplay;
     public TextMeshProUGUI highscoreDisplay;
+    public TextMeshProUGUI statusDisplay;
     public Button btnJoinGame;
 
     private cm::FriendInfo m_friendInfo;
@@ -38,5 +39,20 @@ public class FriendDisplay : MonoBehaviour {
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
+    }
+
+    private bool m_updating = false;
+    private void Update() {
+        if (!m_updating) {
+            m_updating = true;
+            PlayFab.PlayFabClientAPI.GetUserData(
+                new cm.GetUserDataRequest(),
+                (_result) => {
+                    statusDisplay.SetText(_result.Data["PlayerState"].Value);
+                    m_updating = false;
+                },
+                (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+            );
+        }
     }
 }
