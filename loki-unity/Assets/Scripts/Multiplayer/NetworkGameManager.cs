@@ -91,7 +91,8 @@ public class NetworkGameManager : TypeGameManager {
             { "UserState", PlayfabUserInfo.CurrentUserState }
         });
 
-        if (Input.GetKeyDown(KeyCode.P)) {
+        //EDITOR ONLY
+        if (Input.GetKeyDown(KeyCode.P) && Application.isEditor) {
             Complete();
         }
     }
