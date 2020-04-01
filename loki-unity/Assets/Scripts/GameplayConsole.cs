@@ -58,6 +58,6 @@ public class GameplayConsole : Singleton<GameplayConsole> {
     }
 
     private void OnApplicationQuit() {
-        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.Disconnected);
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.Offline);
     }
 }

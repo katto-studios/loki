@@ -30,10 +30,10 @@ public static class PlayfabUserInfo {
     public enum UserState {
         InMainMenu,
         ReadyToPractice, Practicing, ViewingLeaderBoards,
-        Disconnected, InLobby, InQueue, ReadyToType,
+        Offline, InLobby, InQueue, ReadyToType,
         WaitingForOpponent, InMatch, WaitingForNextRound
     }
-    private static UserState m_userState = UserState.Disconnected;
+    private static UserState m_userState = UserState.Offline;
     public static UserState CurrentUserState { get { return m_userState; } }
 
     public static void Initalise() {
@@ -63,7 +63,7 @@ public static class PlayfabUserInfo {
                 Permission = UserDataPermission.Public
             },
             (_result) => {
-                if(_newState == UserState.Disconnected) {
+                if(_newState == UserState.Offline) {
                     UpdatePlayerRoom("NotInRoom");
                 }
             },

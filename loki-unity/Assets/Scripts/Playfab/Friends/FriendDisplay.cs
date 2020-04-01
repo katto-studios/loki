@@ -13,46 +13,53 @@ public class FriendDisplay : MonoBehaviour {
     public TextMeshProUGUI highscoreDisplay;
     public TextMeshProUGUI statusDisplay;
     public Button btnJoinGame;
+    [Header("Networking")]
+    [Tooltip("Number of times per second status is refreshed")]
+    public float refreshRate = 1;
+    private bool m_shuttingDown = false;
+    private float m_refRate;
 
     private cm::FriendInfo m_friendInfo;
     public void SetFriendInfo(cm::FriendInfo _fr) {
         m_friendInfo = _fr;
 		nameDisplay.SetText(_fr.TitleDisplayName);
-	}
+        m_refRate = 1 / refreshRate;
+        StartCoroutine(RefreshStatus());
+    }
+
+    private IEnumerator RefreshStatus() {
+        while (!m_shuttingDown) {
+            PlayFab.PlayFabClientAPI.GetUserData(
+                new cm::GetUserDataRequest() {
+                    PlayFabId = m_friendInfo.FriendPlayFabId
+                },
+                (_result) => {
+                    statusDisplay.SetText(_result.Data["PlayerState"].Value);
+                },
+                (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+            );
+            yield return new WaitForSeconds(1 / refreshRate);
+        }
+    }
 
     public void OnJoinFriend() {
-        PlayFab.PlayFabClientAPI.GetAccountInfo(
-            new cm.GetAccountInfoRequest() {
-                TitleDisplayName = m_friendInfo.TitleDisplayName
+        PlayFab.PlayFabClientAPI.GetUserData(
+            new cm::GetUserDataRequest() {
+                PlayFabId = m_friendInfo.FriendPlayFabId
             },
             (_result) => {
-                PlayFab.PlayFabClientAPI.GetUserData(
-                    new cm::GetUserDataRequest() {
-                        PlayFabId = _result.AccountInfo.PlayFabId
-                    },
-                    (__result) => {
-                        PhotonNetwork.JoinRoom(__result.Data["RoomName"].Value);
-                        FindObjectOfType<SceneChanger>().ChangeScene(3);
-                    },
-                    (__error) => { Debug.LogError(__error.GenerateErrorReport()); }
-                );
+                PhotonNetwork.JoinRoom(_result.Data["RoomName"].Value);
+                FindObjectOfType<SceneChanger>().ChangeScene(3);
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
     }
 
-    private bool m_updating = false;
-    private void Update() {
-        if (!m_updating) {
-            m_updating = true;
-            PlayFab.PlayFabClientAPI.GetUserData(
-                new cm.GetUserDataRequest(),
-                (_result) => {
-                    statusDisplay.SetText(_result.Data["PlayerState"].Value);
-                    m_updating = false;
-                },
-                (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
-            );
-        }
+    private void OnDestroy() {
+        m_shuttingDown = true;
+    }
+
+    private void OnApplicationQuit() {
+        m_shuttingDown = true;
     }
 }
