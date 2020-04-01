@@ -58,7 +58,7 @@ public static class PlayfabUserInfo {
         PlayFabClientAPI.UpdateUserData(
             new UpdateUserDataRequest() {
                 Data = new Dictionary<string, string>() {
-                    { "PlayerState", _newState.ToString() }
+                    { "PlayerState", FriendDisplay.UserStateToString(_newState) }
                 },
                 Permission = UserDataPermission.Public
             },

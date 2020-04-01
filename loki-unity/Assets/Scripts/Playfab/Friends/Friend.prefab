@@ -285,6 +285,7 @@ MonoBehaviour:
   highscoreDisplay: {fileID: 0}
   statusDisplay: {fileID: 4122718997517269535}
   btnJoinGame: {fileID: 8228938257958307670}
+  refreshRate: 1
 --- !u!1 &1418323722391517593
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,7 +476,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 300, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &8798890151857846591
 CanvasRenderer:

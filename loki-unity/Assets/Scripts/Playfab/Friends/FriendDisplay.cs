@@ -24,6 +24,7 @@ public class FriendDisplay : MonoBehaviour {
         m_friendInfo = _fr;
 		nameDisplay.SetText(_fr.TitleDisplayName);
         m_refRate = 1 / refreshRate;
+        btnJoinGame.interactable = false;
         StartCoroutine(RefreshStatus());
     }
 
@@ -34,7 +35,9 @@ public class FriendDisplay : MonoBehaviour {
                     PlayFabId = m_friendInfo.FriendPlayFabId
                 },
                 (_result) => {
-                    statusDisplay.SetText(_result.Data["PlayerState"].Value);
+                    string value = _result.Data["PlayerState"].Value;
+                    btnJoinGame.interactable = value.Equals("Waiting for an opponent");
+                    statusDisplay.SetText(value);
                 },
                 (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
             );
@@ -61,5 +64,36 @@ public class FriendDisplay : MonoBehaviour {
 
     private void OnApplicationQuit() {
         m_shuttingDown = true;
+    }
+
+    public static string UserStateToString(PlayfabUserInfo.UserState _state) {
+        switch (_state) {
+            case PlayfabUserInfo.UserState.InMainMenu:
+                return "Main menu";
+            case PlayfabUserInfo.UserState.ReadyToPractice:
+                return "Practicing";
+            case PlayfabUserInfo.UserState.Practicing:
+                return "Practicing";
+            case PlayfabUserInfo.UserState.ViewingLeaderBoards:
+                return "Viewing leaderboards";
+            case PlayfabUserInfo.UserState.Offline:
+                return "Offline";
+            case PlayfabUserInfo.UserState.InLobby:
+                return "In lobby";
+            case PlayfabUserInfo.UserState.InQueue:
+                return "Waiting for an opponent";
+            case PlayfabUserInfo.UserState.ReadyToType:
+                return "In a match";
+            case PlayfabUserInfo.UserState.WaitingForOpponent:
+                return "Waiting for an opponent";
+            case PlayfabUserInfo.UserState.InMatch:
+                return "In a match";
+            case PlayfabUserInfo.UserState.WaitingForNextRound:
+                return "In a match";
+            default:
+                break;
+        }
+
+        return null;
     }
 }
