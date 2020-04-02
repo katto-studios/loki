@@ -20,7 +20,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     // Start is called before the first frame update
     void Start() {
         PrintToConsole("Player connection state: " + PhotonNetwork.connectionState);
-        RoomDisplayManager.Instance.UpdateRooms();
+        LobbyUIManager.Instance.UpdateRooms();
     }
 
     // Update is called once per frame
@@ -124,6 +124,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
         PrintToConsole("Left room");
         PlayfabUserInfo.UpdatePlayerRoom("NotInRoom");
         PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
+        LobbyUIManager.Instance.LeftRoom();
     }
 
     public void OnMasterClientSwitched(PhotonPlayer newMasterClient) {
@@ -178,7 +179,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void OnReceivedRoomListUpdate() {
         PrintToConsole("Room list updated");
-        RoomDisplayManager.Instance.UpdateRooms();
+        LobbyUIManager.Instance.UpdateRooms();
     }
 
     public void OnJoinedRoom() {
@@ -194,6 +195,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
                     break;
             }
             PlayfabUserInfo.UpdatePlayerRoom(PhotonNetwork.room.Name);
+            LobbyUIManager.Instance.JoinedRoom();
         } else {
             PrintToConsole("Failed to create/join room");
             PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
