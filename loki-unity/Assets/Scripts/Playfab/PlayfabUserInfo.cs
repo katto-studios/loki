@@ -237,7 +237,7 @@ public static class PlayfabUserInfo {
 		);
 	}
 
-    public static void UpdateKeycapCustomData(string instanceID, int data)
+    public static void UpdateKeycapCustomData(string instanceID, int data, KeySlot ks, InventorySlot invSlot)
     {
         PlayFabClientAPI.ExecuteCloudScript(
             new ExecuteCloudScriptRequest()
@@ -245,7 +245,9 @@ public static class PlayfabUserInfo {
                 FunctionName = "UpdateKeycapInfo",
                 FunctionParameter = new { ItemId = instanceID, Data_update = data },
             },
-            (_result) => { },
+            (_result) => {
+                EditorManager.Instance.ChangeKey(ks, invSlot);
+            },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
     }
