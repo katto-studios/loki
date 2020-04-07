@@ -86,8 +86,17 @@ public class Keyboard : Singleton<Keyboard>
         return keySlots[ei];
     }
 
+    public void ClearKeyboardData()
+    {
+        foreach(KeySlot keySlot in keySlots)
+        {
+            keySlot.EmptySlot();
+        }
+    }
+
     public void InitKeyboard()
     {
+        ClearKeyboardData();
         int ind = 0;
         foreach(Transform child in keysGO.GetComponentInChildren<Transform>())
         {
@@ -109,6 +118,7 @@ public class Keyboard : Singleton<Keyboard>
         {
             foreach (ArtisanKeycap keycap in PlayfabUserInfo.playerKeycaps)
             {
+                Debug.Log("YES");
                 ArtisanData ad = new ArtisanData(-1, "");
                 try { PlayfabUserInfo.artisanData.TryGetValue(keycap, out ad); }
                 catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };
