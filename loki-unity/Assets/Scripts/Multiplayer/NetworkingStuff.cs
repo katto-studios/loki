@@ -170,7 +170,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void OnDisconnectedFromPhoton() {
         PrintToConsole("Disconnected from photon");
-        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.Disconnected);
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.Offline);
     }
 
     public void OnPhotonInstantiate(PhotonMessageInfo info) {
