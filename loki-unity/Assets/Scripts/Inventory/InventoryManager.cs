@@ -7,11 +7,6 @@ public class InventoryManager : Singleton<InventoryManager>
     public GameObject inventoryContent;
     public GameObject inventorySlotPrefab;
     public List<InventorySlot> inventorySlots = new List<InventorySlot>();
-    // Start is called before the first frame update
-    void Start()
-    {
-        //InitInventory();
-    }
 
     public void InitInventory()
     {
