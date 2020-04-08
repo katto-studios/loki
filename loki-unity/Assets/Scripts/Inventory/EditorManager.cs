@@ -31,6 +31,8 @@ public class EditorManager : Singleton<EditorManager>
             newColBound.GetComponent<EditorKey>().keySlot = ks;
             editorKeys.Add(newColBound.GetComponent<EditorKey>());
         }
+
+        InventoryManager.Instance.InitInventory();
     }
 
     public void ChangeSelectedArtisan(InventorySlot slot)

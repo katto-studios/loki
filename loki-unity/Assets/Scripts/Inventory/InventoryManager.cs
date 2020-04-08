@@ -10,10 +10,10 @@ public class InventoryManager : Singleton<InventoryManager>
     // Start is called before the first frame update
     void Start()
     {
-        RenderInventory();
+        //InitInventory();
     }
 
-    public void RenderInventory()
+    public void InitInventory()
     {
         List<ArtisanKeycap> playerKeycaps = PlayfabUserInfo.playerKeycaps;
         
