@@ -5,8 +5,6 @@ using UnityEngine;
 public class Keyboard : Singleton<Keyboard>
 {
     public GameObject keysGO;
-    public bool usePlaceholders;
-    public GameObject placeHolderKeycap;
     public List<GameObject> keys;
     public List<KeySlot> keySlots;
 
@@ -104,14 +102,6 @@ public class Keyboard : Singleton<Keyboard>
             child.GetComponent<KeySlot>().InitKey(ind, keyCodes[ind]);
             keySlots.Add(child.GetComponent<KeySlot>());
             ind++;
-        }
-
-        if (usePlaceholders)
-        {
-            foreach (GameObject key in keys)
-            {
-                Instantiate(placeHolderKeycap, key.transform);
-            }
         }
 
         if(PlayfabUserInfo.playerKeycaps != null)
