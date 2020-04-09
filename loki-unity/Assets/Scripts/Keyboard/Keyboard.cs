@@ -5,8 +5,6 @@ using UnityEngine;
 public class Keyboard : Singleton<Keyboard>
 {
     public GameObject keysGO;
-    public bool usePlaceholders;
-    public GameObject placeHolderKeycap;
     public List<GameObject> keys;
     public List<KeySlot> keySlots;
 
@@ -86,8 +84,17 @@ public class Keyboard : Singleton<Keyboard>
         return keySlots[ei];
     }
 
+    public void ClearKeyboardData()
+    {
+        foreach(KeySlot keySlot in keySlots)
+        {
+            keySlot.EmptySlot();
+        }
+    }
+
     public void InitKeyboard()
     {
+        ClearKeyboardData();
         int ind = 0;
         foreach(Transform child in keysGO.GetComponentInChildren<Transform>())
         {
@@ -97,18 +104,11 @@ public class Keyboard : Singleton<Keyboard>
             ind++;
         }
 
-        if (usePlaceholders)
-        {
-            foreach (GameObject key in keys)
-            {
-                Instantiate(placeHolderKeycap, key.transform);
-            }
-        }
-
         if(PlayfabUserInfo.playerKeycaps != null)
         {
             foreach (ArtisanKeycap keycap in PlayfabUserInfo.playerKeycaps)
             {
+                Debug.Log("YES");
                 ArtisanData ad = new ArtisanData(-1, "");
                 try { PlayfabUserInfo.artisanData.TryGetValue(keycap, out ad); }
                 catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };

@@ -30,10 +30,10 @@ public static class PlayfabUserInfo {
     public enum UserState {
         InMainMenu,
         ReadyToPractice, Practicing, ViewingLeaderBoards,
-        Disconnected, InLobby, InQueue, ReadyToType,
+        Offline, InLobby, InQueue, ReadyToType,
         WaitingForOpponent, InMatch, WaitingForNextRound
     }
-    private static UserState m_userState = UserState.Disconnected;
+    private static UserState m_userState = UserState.Offline;
     public static UserState CurrentUserState { get { return m_userState; } }
 
     public static void Initalise() {
@@ -58,11 +58,15 @@ public static class PlayfabUserInfo {
         PlayFabClientAPI.UpdateUserData(
             new UpdateUserDataRequest() {
                 Data = new Dictionary<string, string>() {
-                    { "PlayerState", _newState.ToString() }
+                    { "PlayerState", FriendDisplay.UserStateToString(_newState) }
                 },
                 Permission = UserDataPermission.Public
             },
-            (_result) => { },
+            (_result) => {
+                if(_newState == UserState.Offline) {
+                    UpdatePlayerRoom("NotInRoom");
+                }
+            },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
         //print to console
@@ -70,9 +74,8 @@ public static class PlayfabUserInfo {
 	}
 
     public static void UpdatePlayerRoom(string _room) {
-
-        PlayFab.PlayFabClientAPI.UpdateUserData(
-            new PlayFab.ClientModels.UpdateUserDataRequest() {
+        PlayFabClientAPI.UpdateUserData(
+            new cm::UpdateUserDataRequest() {
                 Data = new Dictionary<string, string>() {
                         { "RoomName", _room }
                 },
@@ -103,27 +106,14 @@ public static class PlayfabUserInfo {
     }
 
     public static void UpdateWpm(int _totalWords, float _secondsSinceStart) {
-        PersistantCanvas.Instance.StartCoroutine(SetWpm(_totalWords, (int)_secondsSinceStart));
-    }
-
-    private static IEnumerator SetWpm(int _totalWords, int _time) {
-        bool done = false;
-
         PlayFabClientAPI.ExecuteCloudScript(
             new ExecuteCloudScriptRequest() {
                 FunctionName = "UpdatePlayerWpm",
-                FunctionParameter = new { TotalWords = _totalWords, TotalTime = _time },
+                FunctionParameter = new { TotalWords = _totalWords, TotalTime = _secondsSinceStart },
             },
-            (_result) => {
-                Debug.Log("Done updating wpm");
-                done = true;
-            },
+            (_result) => { },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
-
-        while (!done) {
-            yield return null;
-        }
     }
 
     public static void UpdateHighscore(int _newScore) {
@@ -247,7 +237,7 @@ public static class PlayfabUserInfo {
 		);
 	}
 
-    public static void UpdateKeycapCustomData(string instanceID, int data)
+    public static void UpdateKeycapCustomData(string instanceID, int data, KeySlot ks, InventorySlot invSlot)
     {
         PlayFabClientAPI.ExecuteCloudScript(
             new ExecuteCloudScriptRequest()
@@ -255,7 +245,9 @@ public static class PlayfabUserInfo {
                 FunctionName = "UpdateKeycapInfo",
                 FunctionParameter = new { ItemId = instanceID, Data_update = data },
             },
-            (_result) => { },
+            (_result) => {
+                EditorManager.Instance.ChangeKey(ks, invSlot);
+            },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
     }

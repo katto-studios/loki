@@ -842,6 +842,7 @@ GameObject:
   - component: {fileID: 476691210}
   - component: {fileID: 476691214}
   - component: {fileID: 476691215}
+  - component: {fileID: 476691216}
   m_Layer: 5
   m_Name: CONSOLE
   m_TagString: Untagged
@@ -955,6 +956,18 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &476691216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476691209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b33be3d7ce8e214da0f9add464107fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &519879458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2546,6 +2559,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 161159409, guid: 06fe3e5ef27b01b4fa1bd0640a14a954, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 161159409, guid: 06fe3e5ef27b01b4fa1bd0640a14a954, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 281284198, guid: 06fe3e5ef27b01b4fa1bd0640a14a954, type: 3}

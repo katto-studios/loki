@@ -20,8 +20,8 @@ public class GameplayConsole : Singleton<GameplayConsole> {
     }
 
     public void Update() {
-        if (Input.GetKey(KeyCode.LeftAlt)) {
-            if (Input.GetKeyDown(KeyCode.BackQuote)) {
+        if (Input.GetKey(KeyCode.F1)) {
+            if (Input.GetKeyDown(KeyCode.LeftAlt)) {
                 ToggleActive();
             }
         }
@@ -58,6 +58,6 @@ public class GameplayConsole : Singleton<GameplayConsole> {
     }
 
     private void OnApplicationQuit() {
-        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.Disconnected);
+        PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.Offline);
     }
 }
