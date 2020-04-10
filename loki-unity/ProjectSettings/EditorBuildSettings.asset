@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/KeyboardEditor.unity
     guid: b447951264bc52c45add1a6fc4ceefd9
+  - enabled: 1
+    path: Assets/Scenes/Gacha.unity
+    guid: 3c72b40a513bbb54fa63ae4e55c55617
   m_configObjects: {}
