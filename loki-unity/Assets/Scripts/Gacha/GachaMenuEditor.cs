@@ -12,9 +12,6 @@ public class GachaMenuEditor : Editor {
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
         m_handler = (GachaMenuHandler)target;
-
-        if (GUILayout.Button("Gacha")) {
-            m_handler.Gacha();
-        }
+        
     }
 }
