@@ -6,6 +6,8 @@ using PlayFab.ClientModels;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using cm = PlayFab.ClientModels;
 using System;
+using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public struct ArtisanData
 {
@@ -26,6 +28,15 @@ public static class PlayfabUserInfo {
     public static Dictionary<ArtisanKeycap, ArtisanData> artisanData = new Dictionary<ArtisanKeycap, ArtisanData>();
     private static List<cm::FriendInfo> m_friends;
     public static List<cm::FriendInfo> Friends { get { return m_friends; } }
+    public static string Username {
+        get {
+            if (m_accountInfo != null) {
+                return m_accountInfo.Username;
+            }
+            return string.Empty;
+        }
+    }
+    public static Texture ProfilePicture { get; private set; }
 
     public enum UserState {
         InMainMenu,
@@ -48,9 +59,10 @@ public static class PlayfabUserInfo {
         );
 
         PersistantCanvas.Instance.StartCoroutine(SetDisplayName());
+        PersistantCanvas.Instance.StartCoroutine(DownloadProfilePicture());
     }
 
-	public static void SetUserState(UserState _newState) {
+    public static void SetUserState(UserState _newState) {
 		m_userState = _newState;
 		//update hastable
 		PhotonNetwork.player.SetCustomProperty("UserState", _newState);
@@ -87,22 +99,15 @@ public static class PlayfabUserInfo {
     }
 
     private static IEnumerator SetDisplayName() {
-        while (GetUsername().Equals("")) {
+        while (Username.Equals("")) {
             yield return null;
         }
 
         PlayFabClientAPI.UpdateUserTitleDisplayName(
-            new UpdateUserTitleDisplayNameRequest() { DisplayName = GetUsername() },
+            new UpdateUserTitleDisplayNameRequest() { DisplayName = Username },
             (_result) => { },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
-    }
-
-    public static string GetUsername() {
-        if (m_accountInfo != null) {
-            return m_accountInfo.Username;
-        }
-        return string.Empty;
     }
 
     public static void UpdateWpm(int _totalWords, float _secondsSinceStart) {
@@ -154,6 +159,19 @@ public static class PlayfabUserInfo {
         );
 
         return returnThis;
+    }
+
+    private static IEnumerator DownloadProfilePicture() {
+        while (m_accountInfo == null) yield return null;
+            
+        using (UnityWebRequest webReq = UnityWebRequestTexture.GetTexture(m_accountInfo.TitleInfo.AvatarUrl)) {
+            yield return webReq.SendWebRequest();
+            if (webReq.isNetworkError) {
+                Debug.LogError("Network error: " + webReq.error);
+            } else {
+                ProfilePicture = DownloadHandlerTexture.GetContent(webReq);
+            }
+        }
     }
 
     //INVENTORY STUFF
