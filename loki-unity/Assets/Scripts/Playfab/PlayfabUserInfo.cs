@@ -5,9 +5,6 @@ using PlayFab;
 using PlayFab.ClientModels;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using cm = PlayFab.ClientModels;
-using UnityEngine.Networking;
-using System.Net.Sockets;
-using System.Text;
 using System;
 
 public struct ArtisanData
@@ -29,7 +26,6 @@ public static class PlayfabUserInfo {
     public static Dictionary<ArtisanKeycap, ArtisanData> artisanData = new Dictionary<ArtisanKeycap, ArtisanData>();
     private static List<cm::FriendInfo> m_friends;
     public static List<cm::FriendInfo> Friends { get { return m_friends; } }
-    public static Sprite ProfilePicture { get; private set; }
 
     public enum UserState {
         InMainMenu,
@@ -47,7 +43,6 @@ public static class PlayfabUserInfo {
             (_result) => {
                 m_accountInfo = _result.AccountInfo;
                 PhotonNetwork.player.NickName = _result.AccountInfo.Username;
-                LoadProfilePic();
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
@@ -111,27 +106,14 @@ public static class PlayfabUserInfo {
     }
 
     public static void UpdateWpm(int _totalWords, float _secondsSinceStart) {
-        PersistantCanvas.Instance.StartCoroutine(SetWpm(_totalWords, (int)_secondsSinceStart));
-    }
-
-    private static IEnumerator SetWpm(int _totalWords, int _time) {
-        bool done = false;
-
         PlayFabClientAPI.ExecuteCloudScript(
             new ExecuteCloudScriptRequest() {
                 FunctionName = "UpdatePlayerWpm",
-                FunctionParameter = new { TotalWords = _totalWords, TotalTime = _time },
+                FunctionParameter = new { TotalWords = _totalWords, TotalTime = _secondsSinceStart },
             },
-            (_result) => {
-                Debug.Log("Done updating wpm");
-                done = true;
-            },
+            (_result) => { },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
-
-        while (!done) {
-            yield return null;
-        }
     }
 
     public static void UpdateHighscore(int _newScore) {
@@ -174,58 +156,36 @@ public static class PlayfabUserInfo {
         return returnThis;
     }
 
-    #region ProfilePicture
-    private static void LoadProfilePic() {
-        //PlayFabClientAPI.GetContentDownloadUrl(
-        //    new GetContentDownloadUrlRequest() {
-        //        Key = string.Format("ProfilePictures/{0}.png", )
-        //    })
-        if (!m_accountInfo.TitleInfo.AvatarUrl.Equals("")) {
-            PersistantCanvas.Instance.StartCoroutine(DownloadData(m_accountInfo.TitleInfo.AvatarUrl));
-        }
-    }
-
-
-    private static IEnumerator DownloadData(string _url) {
-        using (UnityWebRequest webReq = UnityWebRequestTexture.GetTexture(_url)) {
-            yield return webReq.SendWebRequest();
-            if (webReq.isNetworkError) {
-                Debug.LogError("Network error: " + webReq.error);
-            } else {
-                Texture2D texture = ((DownloadHandlerTexture)webReq.downloadHandler).texture;
-                ProfilePicture = Sprite.Create(texture, new Rect(0, 0, 300, 300), Vector2.one * 0.5f);
-            }
-        }
-    }
-    #endregion
-
-    #region Inventory
-
     //INVENTORY STUFF
 
     static bool recievedKeycaps;
-    public static void UpdatePlayerKeycaps() {
+    public static void UpdatePlayerKeycaps()
+    {
         playerKeycaps.Clear();
         artisanData.Clear();
         recievedKeycaps = false;
         PersistantCanvas.Instance.StartCoroutine(GetUserInventoryRequest());
     }
 
-    static IEnumerator GetUserInventoryRequest() {
+    static IEnumerator GetUserInventoryRequest()
+    {
         List<ArtisanKeycap> newInventory = GetUserInventory();
 
-        while (!recievedKeycaps) {
+        while (!recievedKeycaps)
+        {
             yield return null;
         }
 
         playerKeycaps = newInventory;
 
         string dText = "Inventory Items: ";
-        foreach (ArtisanKeycap keycap in playerKeycaps) {
+        foreach (ArtisanKeycap keycap in playerKeycaps)
+        {
             dText += keycap.name + ", ";
         }
 
-        if (Keyboard.Instance) {
+        if (Keyboard.Instance)
+        {
             Debug.Log("Initing");
             Keyboard.Instance.InitKeyboard();
         }
@@ -233,20 +193,25 @@ public static class PlayfabUserInfo {
         Debug.Log(dText);
     }
 
-    public static List<ArtisanKeycap> GetUserInventory() {
+    public static List<ArtisanKeycap> GetUserInventory()
+    {
         List<ArtisanKeycap> newInventory = new List<ArtisanKeycap>();
         PlayFabClientAPI.GetUserInventory(
-            new GetUserInventoryRequest(),
-            (GetUserInventoryResult result) => {
-                foreach (var eachItem in result.Inventory) {
-                    if (eachItem.ItemClass.Equals("KEYCAP")) {
+            new GetUserInventoryRequest(), 
+            (GetUserInventoryResult result) =>
+            {
+                foreach (var eachItem in result.Inventory)
+                {
+                    if (eachItem.ItemClass.Equals("KEYCAP"))
+                    {
                         Debug.Log(eachItem.ItemId);
                         string id = eachItem.ItemId;
                         ArtisanKeycap newKey = KeycapDatabase.Instance.getKeyCapFromID(id);
                         newInventory.Add(newKey);
 
                         string equipIndex = "-2";
-                        try { eachItem.CustomData.TryGetValue("EQUIP_SLOT", out equipIndex); } catch { };
+                        try { eachItem.CustomData.TryGetValue("EQUIP_SLOT", out equipIndex); }
+                        catch { };
                         int ei = int.Parse(equipIndex);
                         Debug.Log(ei);
                         artisanData.Add(newKey, new ArtisanData(ei, eachItem.ItemInstanceId));
@@ -260,28 +225,32 @@ public static class PlayfabUserInfo {
         return newInventory;
     }
 
-    public static void UpdatePlayerMmr(int _mmr) {
-        PlayFabClientAPI.ExecuteCloudScript(
-            new ExecuteCloudScriptRequest() {
-                FunctionName = "UpdateMmr",
-                FunctionParameter = new { mmr_update = _mmr },
-            },
-            (_result) => { },
-            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
-        );
-    }
+	public static void UpdatePlayerMmr(int _mmr) {
+		PlayFabClientAPI.ExecuteCloudScript(
+			new ExecuteCloudScriptRequest()
+			{
+				FunctionName = "UpdateMmr",
+				FunctionParameter = new { mmr_update = _mmr },
+			},
+			(_result) => { },
+			(_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+		);
+	}
 
-    public static void UpdateKeycapCustomData(string instanceID, int data) {
+    public static void UpdateKeycapCustomData(string instanceID, int data, KeySlot ks, InventorySlot invSlot)
+    {
         PlayFabClientAPI.ExecuteCloudScript(
-            new ExecuteCloudScriptRequest() {
+            new ExecuteCloudScriptRequest()
+            {
                 FunctionName = "UpdateKeycapInfo",
                 FunctionParameter = new { ItemId = instanceID, Data_update = data },
             },
-            (_result) => { },
+            (_result) => {
+                EditorManager.Instance.ChangeKey(ks, invSlot);
+            },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
-    } 
-    #endregion
+    }
 
     #region Friends
     public static void GetFriendsList() {

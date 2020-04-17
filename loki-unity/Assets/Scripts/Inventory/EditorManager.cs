@@ -31,6 +31,8 @@ public class EditorManager : Singleton<EditorManager>
             newColBound.GetComponent<EditorKey>().keySlot = ks;
             editorKeys.Add(newColBound.GetComponent<EditorKey>());
         }
+
+        InventoryManager.Instance.InitInventory();
     }
 
     public void ChangeSelectedArtisan(InventorySlot slot)
@@ -56,7 +58,7 @@ public class EditorManager : Singleton<EditorManager>
                 if (hit.collider.GetComponent<EditorKey>())
                 {
                     KeySlot ks = hit.collider.GetComponent<EditorKey>().keySlot;
-                    ChangeKey(ks, selectedSlot);
+                    ChangeKeyRequest(ks, selectedSlot);
                     state = EditorManagerState.IDLE;
                 }
             }
@@ -90,29 +92,31 @@ public class EditorManager : Singleton<EditorManager>
     public void ChangeKey(KeySlot ks, InventorySlot invSlot)
     {
         if(invSlot.GetCurrentKeySlot()) invSlot.GetCurrentKeySlot().EmptySlot();
-        foreach(InventorySlot eachIS in InventoryManager.Instance.inventorySlots)
-        {
-            if(eachIS.GetCurrentKeySlot() == ks)
-            {
-                eachIS.SetInventoryState();
-                PlayFabKeycapEquipInfo(eachIS, -1);
-            }
-        }
         //Add New Key
         ks.ChangeKey(invSlot.GetKeyCap());
         invSlot.SetEquipedState(ks);
-
-        //Update the KeycapEquipInfo
-        PlayFabKeycapEquipInfo(invSlot, ks.keyIndex);
     }
 
-    void PlayFabKeycapEquipInfo(InventorySlot inv, int data)
+    public void ChangeKeyRequest(KeySlot ks, InventorySlot invSlot)
+    {
+        foreach (InventorySlot eachIS in InventoryManager.Instance.inventorySlots)
+        {
+            if (eachIS.GetCurrentKeySlot() == ks)
+            {
+                eachIS.SetInventoryState();
+                PlayFabKeycapEquipInfo(eachIS, -1, null);
+            }
+        }
+        PlayFabKeycapEquipInfo(invSlot, ks.keyIndex, ks);
+    }
+
+    void PlayFabKeycapEquipInfo(InventorySlot inv, int data, KeySlot ks)
     {
         ArtisanData ad = new ArtisanData(-1, "");
         try { PlayfabUserInfo.artisanData.TryGetValue(inv.GetKeyCap(), out ad); }
         catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };
         string keycapInstanceId = ad.itemInstanceID;
-        PlayfabUserInfo.UpdateKeycapCustomData(keycapInstanceId, data);
+        PlayfabUserInfo.UpdateKeycapCustomData(keycapInstanceId, data, ks, inv);
         Debug.Log(keycapInstanceId + " " + data);
     }
 }
