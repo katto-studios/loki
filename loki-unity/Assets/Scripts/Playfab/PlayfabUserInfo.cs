@@ -44,6 +44,7 @@ public static class PlayfabUserInfo {
         Offline, InLobby, InQueue, ReadyToType,
         WaitingForOpponent, InMatch, WaitingForNextRound
     }
+
     private static UserState m_userState = UserState.Offline;
     public static UserState CurrentUserState { get { return m_userState; } }
 
@@ -60,6 +61,57 @@ public static class PlayfabUserInfo {
 
         PersistantCanvas.Instance.StartCoroutine(SetDisplayName());
         PersistantCanvas.Instance.StartCoroutine(SetProfilePicture());
+    }
+
+    public static IEnumerator SetProfilePicture() {
+        while (m_accountInfo == null) yield return null;
+
+        if (string.IsNullOrEmpty(m_accountInfo.TitleInfo.AvatarUrl)) {
+            bool done = false;
+            string defaultAvatarUrl = null;
+            //get default pfp url
+            PlayFabClientAPI.GetContentDownloadUrl(
+                new GetContentDownloadUrlRequest() {
+                    Key = "ProfilePictures/defaultImg.png",
+                    ThruCDN = true
+                },
+                (_result) => {
+                    defaultAvatarUrl = _result.URL;
+                    //set as current pfp
+                    PlayFabClientAPI.UpdateAvatarUrl(
+                        new UpdateAvatarUrlRequest() {
+                            ImageUrl = _result.URL
+                        },
+                        (__result) => { done = true; },
+                        (__error) => { Debug.LogError(__error.GenerateErrorReport() + " URL: " + _result.URL); }
+                    );
+                },
+                (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+            );
+
+            while (!done) {
+                yield return null;
+            }
+
+            //update pfp
+            using (UnityWebRequest webReq = UnityWebRequestTexture.GetTexture(defaultAvatarUrl)) {
+                yield return webReq.SendWebRequest();
+                if (webReq.isNetworkError) {
+                    Debug.LogError("Network error: " + webReq.error);
+                } else {
+                    ProfilePicture = DownloadHandlerTexture.GetContent(webReq);
+                }
+            }
+        } else {
+            using (UnityWebRequest webReq = UnityWebRequestTexture.GetTexture(m_accountInfo.TitleInfo.AvatarUrl)) {
+                yield return webReq.SendWebRequest();
+                if (webReq.isNetworkError) {
+                    Debug.LogError("Network error: " + webReq.error);
+                } else {
+                    ProfilePicture = DownloadHandlerTexture.GetContent(webReq);
+                }
+            }
+        }
     }
 
     public static void SetUserState(UserState _newState) {
@@ -159,42 +211,6 @@ public static class PlayfabUserInfo {
         );
 
         return returnThis;
-    }
-
-    public static IEnumerator SetProfilePicture() {
-        while (m_accountInfo == null) yield return null;
-
-        if (m_accountInfo.TitleInfo.AvatarUrl.Equals("")) {
-            bool done = false;
-            PlayFabClientAPI.GetContentDownloadUrl(
-                new GetContentDownloadUrlRequest() {
-                    Key = "ProfilePictures/defaultImg.png",
-                    ThruCDN = true
-                },
-                (_result) => {
-                    PlayFabClientAPI.UpdateAvatarUrl(
-                        new UpdateAvatarUrlRequest() {
-                            ImageUrl = _result.URL
-                        },
-                        (__result) => { done = true; },
-                        (__error) => { Debug.LogError(__error.GenerateErrorReport() + " URL: " + _result.URL); }
-                    );
-                },
-                (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
-            );
-
-            while (!done) {
-                yield return null;
-            }
-        }
-        using (UnityWebRequest webReq = UnityWebRequestTexture.GetTexture(m_accountInfo.TitleInfo.AvatarUrl)) {
-            yield return webReq.SendWebRequest();
-            if (webReq.isNetworkError) {
-                Debug.LogError("Network error: " + webReq.error);
-            } else {
-                ProfilePicture = DownloadHandlerTexture.GetContent(webReq);
-            }
-        }
     }
 
     //INVENTORY STUFF
