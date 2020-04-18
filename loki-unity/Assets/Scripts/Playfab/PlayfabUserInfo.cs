@@ -316,6 +316,7 @@ public static class PlayfabUserInfo {
                         FriendsMenuHandler.Instance.AddToPendingFriendsList(friend);
                     }
 				}
+                FriendsMenuHandler.Instance.Ready = true;
 			},
 			(_error) => { Debug.LogError(_error.GenerateErrorReport()); }
 		);
