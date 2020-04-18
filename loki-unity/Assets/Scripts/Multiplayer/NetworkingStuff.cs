@@ -8,9 +8,11 @@ using System.Linq;
 
 //for photon networking
 public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
-    [Header("Console")]
+    [Header("Room stuff")]
     public InputField inCreateRoom;
     public InputField inJoinRoom;
+    public InputField inCreateRoomPassword;
+    public InputField inJoinRoomPassword;
 
     [Header("Gameplay")]
     public GameObject goToPlayGameScene;
@@ -19,6 +21,10 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     void Start() {
         PrintToConsole("Player connection state: " + PhotonNetwork.connectionState);
         LobbyUIManager.Instance.UpdateRooms();
+
+        if(PhotonNetwork.room != null) {
+            OnJoinedRoom();
+        }
     }
 
     // Update is called once per frame
@@ -144,10 +150,12 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void OnCreatedRoom() {
         PrintToConsole("Creation of room succeeded");
+        PrintToConsole("Password: " + inCreateRoomPassword.text);
         PrintToConsole(string.Format("Currently in room: {0}", PhotonNetwork.room.Name));
         PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
         PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
-            { "ReadyToStart", false }
+            { "ReadyToStart", false },
+            { "Password", inCreateRoomPassword.text }
         });
     }
 
@@ -185,11 +193,16 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void OnJoinedRoom() {
         if (PhotonNetwork.room != null) {
-            PrintToConsole("Player is in room: " + PhotonNetwork.room.Name);
-            PlayfabUserInfo.SetUserState(PhotonNetwork.room.PlayerCount == 1 ? PlayfabUserInfo.UserState.InQueue : PlayfabUserInfo.UserState.ReadyToType);
+            if (PhotonNetwork.room.CustomProperties["Password"].Equals(inJoinRoomPassword.text) || PhotonNetwork.isMasterClient) {
+                PrintToConsole("Player is in room: " + PhotonNetwork.room.Name);
+                PlayfabUserInfo.SetUserState(PhotonNetwork.room.PlayerCount == 1 ? PlayfabUserInfo.UserState.InQueue : PlayfabUserInfo.UserState.ReadyToType);
 
-            PlayfabUserInfo.UpdatePlayerRoom(PhotonNetwork.room.Name);
-            LobbyUIManager.Instance.JoinedRoom();
+                PlayfabUserInfo.UpdatePlayerRoom(PhotonNetwork.room.Name);
+                LobbyUIManager.Instance.JoinedRoom();
+            }else {
+                PrintToConsole("Wrong password!");
+                PhotonNetwork.LeaveRoom();
+            }
         } else {
             PrintToConsole("Failed to create/join room");
             PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);
