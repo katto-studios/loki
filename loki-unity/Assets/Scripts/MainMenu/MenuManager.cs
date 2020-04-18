@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using PlayFab;
+using PlayFab.ClientModels;
 
 public class MenuManager : MonoBehaviour {
+    [Header("User data")]
     public TextMeshProUGUI userName;
     public RawImage profilePic;
+
+    [Header("Currency")]
+    public TextMeshProUGUI scrap;
+    public TextMeshProUGUI gold;
 
     // Start is called before the first frame update
     void Start() {
         UpdateName();
         UpdateProfilePic();
+        UpdateCurrency();
 		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMainMenu);
     }
 
@@ -37,4 +45,14 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
+    private void UpdateCurrency() {
+        PlayFabClientAPI.GetUserInventory(
+            new GetUserInventoryRequest(),
+            (_result) => {
+                scrap.SetText(string.Format("Scrap: {0}", _result.VirtualCurrency["SM"]));
+                gold.SetText(string.Format("Gold: {0}", _result.VirtualCurrency["GC"]));
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
 }
