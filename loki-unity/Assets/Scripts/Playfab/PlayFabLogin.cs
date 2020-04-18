@@ -32,6 +32,8 @@ public class PlayFabLogin : MonoBehaviour {
     }
 
     private void OnLoginSuccess(LoginResult result) {
+        PersistantCanvas.Instance.HideScreen();
+
         GameplayConsole.Log("User logged in to playfab");
         if (rememberMe.isOn) {
             PlayerPrefs.SetString("userEmail", m_userEmail);
@@ -55,10 +57,8 @@ public class PlayFabLogin : MonoBehaviour {
             },
             OnLoginFailure
         );
-
         PlayfabUserInfo.Initalise();
         GetProse.Instance.CheckForUpdate();
-        FindObjectOfType<SceneChanger>().ChangeScene(1);
     }
 
     private void OnLoginFailure(PlayFabError error) {

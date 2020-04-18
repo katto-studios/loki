@@ -89,12 +89,12 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
         if (inCreateRoom.text.Equals("")) {
             //keep polling to make sure it creates a room
             while (!PhotonNetwork.CreateRoom(Helper.GenerateRandomWord(), new RoomOptions() { MaxPlayers = 8, IsVisible = true, IsOpen = true }, TypedLobby.Default));
-            PopupManager.Instance.ShowPopUp(string.Format("Room {0} successfully created!", PhotonNetwork.room.Name), 3);
+            //PopupManager.Instance.ShowPopUp(string.Format("Room {0} successfully created!", PhotonNetwork.room.Name), 3);
         } else {
             if (!PhotonNetwork.CreateRoom(inCreateRoom.text, new RoomOptions() { MaxPlayers = 8, IsVisible = true, IsOpen = true }, TypedLobby.Default)) {
-                PopupManager.Instance.ShowPopUp("Room already exists, join it instead?", 5);
+                //PopupManager.Instance.ShowPopUp("Room already exists, join it instead?", 5);
             }else {
-                PopupManager.Instance.ShowPopUp(string.Format("Room {0} successfully created!", PhotonNetwork.room.Name), 3);
+                //PopupManager.Instance.ShowPopUp(string.Format("Room {0} successfully created!", PhotonNetwork.room.Name), 3);
             }
         }
     }

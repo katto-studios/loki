@@ -30,8 +30,8 @@ public class MultiplayerClient {
             NetworkStream stream = m_client.GetStream();
 
             stream.Write(data, 0, data.Length);
-            Debug.Log(PlayfabUserInfo.GetUsername() + ": Client connection request");
-            m_consoleTxt += "\n" + PlayfabUserInfo.GetUsername() + ": Client connection request";
+            Debug.Log(PlayfabUserInfo.Username + ": Client connection request");
+            m_consoleTxt += "\n" + PlayfabUserInfo.Username + ": Client connection request";
 
             data = new byte[256];
 
@@ -50,8 +50,8 @@ public class MultiplayerClient {
             NetworkStream stream = m_client.GetStream();
 
             byte[] sendToServer = Encoding.ASCII.GetBytes(_message);
-            Debug.Log(PlayfabUserInfo.GetUsername() + _message);
-            m_consoleTxt += "\n" + PlayfabUserInfo.GetUsername() + _message;
+            Debug.Log(PlayfabUserInfo.Username + _message);
+            m_consoleTxt += "\n" + PlayfabUserInfo.Username + _message;
             stream.Write(sendToServer, 0, sendToServer.Length);
         } catch (Exception e) {
             Debug.Log(e.Message);

@@ -171,17 +171,6 @@ public class GetProse : Singleton<GetProse> {
             if (webReq.isNetworkError) {
                 Debug.LogError("Network error: " + webReq.error);
             } else {
-                #region KEEP THIS
-                //Debug.Log("Data gotten: " + webReq.downloadHandler.text);
-                //string[] data = webReq.downloadHandler.text.Split('"');
-                //string paraProse = data[3];
-                //string paraAuthor = data[7];
-                //string paraSrc = data[11];
-                //m_prosesAvaliable.Add(new Paragraph(paraProse, paraAuthor, paraSrc));
-                //string toStr = Encoding.UTF8.GetString(webReq.downloadHandler.data, 2, webReq.downloadHandler.data.Length - 2);
-                //Debug.Log(webReq.downloadHandler.text);
-                #endregion
-
                 // Sometimes the json files have a 3 byte BOM infront of it
                 // Thus, I cannot parse the .text into a json file
                 // Hence, I use a try catch

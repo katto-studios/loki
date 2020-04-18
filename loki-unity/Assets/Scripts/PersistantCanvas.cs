@@ -56,6 +56,10 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
         }
     }
 
+    public void HideScreen() {
+        transitionPanel.transform.DOMoveY(400, 0.5f);
+    }
+
     IEnumerator LoadScene(int sceneIndex)
     {
         transitionPanel.transform.DOMoveY(400, 0.5f);

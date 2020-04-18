@@ -16,11 +16,15 @@ public class FriendsMenuHandler : Singleton<FriendsMenuHandler> {
     public GameObject pendingFriends;
     public GameObject pendingFriendPfb;
 
+    public bool Ready { get; set; }
+
     private List<cm::FriendInfo> m_friends = new List<cm::FriendInfo>();
     private List<cm::FriendInfo> m_pending = new List<cm::FriendInfo>();
 
     private void Awake() {
+        Ready = false;
 		PlayfabUserInfo.GetFriendsList();
+
 	}
 
 	public void AddToFriendsList(cm::FriendInfo _newFriend) {
