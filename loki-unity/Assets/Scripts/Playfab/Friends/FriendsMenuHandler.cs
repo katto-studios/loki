@@ -44,9 +44,10 @@ public class FriendsMenuHandler : Singleton<FriendsMenuHandler> {
     }
 
 	public void AddFriend() {
-		PlayfabUserInfo.AddFriend(inSearch.text);
+        PersistantCanvas.Instance.ViewProfileScene(inSearch.text);
+		//PlayfabUserInfo.AddFriend(inSearch.text);
 		//refresh list
-		PlayfabUserInfo.GetFriendsList();
+		//PlayfabUserInfo.GetFriendsList();
 	}
 
     //listener for button
