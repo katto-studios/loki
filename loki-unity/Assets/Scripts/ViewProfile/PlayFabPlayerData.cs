@@ -13,7 +13,7 @@ using UnityEngine.Networking;
 
 public delegate void PlayerDataCallBack(UserAccountInfo u);
 public delegate void PlayerNotFoundCallBack();
-public delegate void PlayerStatsCallBack(List<PlayerLeaderboardEntry> statisticValues);
+public delegate void PlayerStatsCallBack(List<Statistic> statisticValues);
 public delegate void PlayerInventoryCallBack(List<ItemInstance> itemInstances);
 
 public static class PlayFabPlayerData
@@ -39,35 +39,33 @@ public static class PlayFabPlayerData
         );
     }
 
-    public static void GetLeaderboardAroundPlayer(UserAccountInfo u, PlayerStatsCallBack playerStatsCallBack)
+    public static void GetPlayerStats(UserAccountInfo u, PlayerStatsCallBack playerStatsCallBack)
     {
 
-        PlayFabClientAPI.GetLeaderboardAroundPlayer(
-            new GetLeaderboardAroundPlayerRequest()
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest()
             {
-                PlayFabId = u.PlayFabId,
-                StatisticName = "Points high score",
-                MaxResultsCount = 1
+                FunctionName = "GetPlayerStats",
+                FunctionParameter = new { UserId = u.PlayFabId }
             },
             (_result) => {
-                playerStatsCallBack(_result.Leaderboard);
+                playerStatsCallBack(PlayFab.Json.PlayFabSimpleJson.DeserializeObject<List<Statistic>>(_result.FunctionResult.ToString()));
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
-       
+
     }
 
-    public static void GetUserInventory(PlayerInventoryCallBack playerInventoryCallBack)
+    public static void GetUserInventory(UserAccountInfo u, PlayerInventoryCallBack playerInventoryCallBack)
     {
-        List<ArtisanKeycap> newInventory = new List<ArtisanKeycap>();
-        PlayFabClientAPI.GetUserInventory(
-            new GetUserInventoryRequest()
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest()
             {
-                
+                FunctionName = "GetPlayerInventory",
+                FunctionParameter = new { UserId = u.PlayFabId }
             },
-            (GetUserInventoryResult result) =>
-            {
-                playerInventoryCallBack(result.Inventory);
+            (_result) => {
+                playerInventoryCallBack(PlayFab.Json.PlayFabSimpleJson.DeserializeObject<List<ItemInstance>>(_result.FunctionResult.ToString()));
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );

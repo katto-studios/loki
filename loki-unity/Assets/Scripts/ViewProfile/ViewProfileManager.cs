@@ -29,7 +29,9 @@ public class ViewProfileManager : Singleton<ViewProfileManager>
         string url = u.TitleInfo.AvatarUrl;
         StartCoroutine(FetchImage(url));
         PlayerStatsCallBack pscb = GetStats;
-        PlayFabPlayerData.GetLeaderboardAroundPlayer(u, pscb);
+        PlayFabPlayerData.GetPlayerStats(u, pscb);
+        PlayerInventoryCallBack picb = GetInventoryData;
+        PlayFabPlayerData.GetUserInventory(u, picb);
     }
 
     private IEnumerator FetchImage(string _url)
@@ -49,12 +51,17 @@ public class ViewProfileManager : Singleton<ViewProfileManager>
         }
     }
 
-    public void GetStats(List<PlayerLeaderboardEntry> statisticValues)
+    public void GetInventoryData(List<ItemInstance> items)
+    {
+
+    }
+
+    public void GetStats(List<Statistic> statisticValues)
     {
         string stats = "";
-        foreach(PlayerLeaderboardEntry entry in statisticValues)
+        foreach(Statistic entry in statisticValues)
         {
-            stats += entry.DisplayName + " " + entry.StatValue + "<br>";
+            stats += entry.StatisticName + " " + entry.Value + "<br>";
         }
         tstats.text = stats;
     }
