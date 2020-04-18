@@ -5,6 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class Statistic {
     public string StatisticName { get; set; }
-    public string Value { get; set; }
+    public object Value { get; set; }
     public string Version { get; set; }
 }
