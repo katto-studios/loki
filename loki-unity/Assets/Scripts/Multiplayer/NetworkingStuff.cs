@@ -13,6 +13,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     public InputField inJoinRoom;
     public InputField inCreateRoomPassword;
     public InputField inJoinRoomPassword;
+    public Image masterPlayerIcon;
 
     [Header("Gameplay")]
     public GameObject goToPlayGameScene;
@@ -22,7 +23,7 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
         PrintToConsole("Player connection state: " + PhotonNetwork.connectionState);
         LobbyUIManager.Instance.UpdateRooms();
 
-        if(PhotonNetwork.room != null) {
+        if (PhotonNetwork.room != null) {
             OnJoinedRoom();
         }
     }
@@ -41,12 +42,12 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     private void StartGame() {
         //if ((PlayfabUserInfo.UserState)m_opponent.CustomProperties["PlayerState"] == PlayfabUserInfo.UserState.WaitingForOpponent) {
-        if (PhotonNetwork.otherPlayers.All(x => { return (PlayfabUserInfo.UserState)x.CustomProperties["PlayerState"] == PlayfabUserInfo.UserState.WaitingForOpponent; })) { 
+        if (PhotonNetwork.otherPlayers.All(x => { return (PlayfabUserInfo.UserState)x.CustomProperties["PlayerState"] == PlayfabUserInfo.UserState.WaitingForOpponent; })) {
             if (PhotonNetwork.isMasterClient) {
                 Paragraph para = GetProse.Instance.GetRandomProse();
 
                 //set opponents
-                foreach(PhotonPlayer player in PhotonNetwork.otherPlayers) {
+                foreach (PhotonPlayer player in PhotonNetwork.otherPlayers) {
                     player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
                     { "Score", 0 },
                     {"PlayerState", PlayfabUserInfo.UserState.InMatch },
@@ -94,13 +95,26 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
         //check inCreate for text
         if (inCreateRoom.text.Equals("")) {
             //keep polling to make sure it creates a room
-            while (!PhotonNetwork.CreateRoom(Helper.GenerateRandomWord(), new RoomOptions() { MaxPlayers = 8, IsVisible = true, IsOpen = true }, TypedLobby.Default));
-            //PopupManager.Instance.ShowPopUp(string.Format("Room {0} successfully created!", PhotonNetwork.room.Name), 3);
+            while (!PhotonNetwork.CreateRoom(Helper.GenerateRandomWord(), new RoomOptions() {
+                MaxPlayers = 8, IsVisible = true, IsOpen = true,
+                CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
+                    { "ReadyToStart", false },
+                    { "Password", inCreateRoomPassword.text }
+                },
+                CustomRoomPropertiesForLobby = new string[] { "Password" }
+            }, TypedLobby.Default)) ;
         } else {
-            if (!PhotonNetwork.CreateRoom(inCreateRoom.text, new RoomOptions() { MaxPlayers = 8, IsVisible = true, IsOpen = true }, TypedLobby.Default)) {
-                //PopupManager.Instance.ShowPopUp("Room already exists, join it instead?", 5);
-            }else {
-                //PopupManager.Instance.ShowPopUp(string.Format("Room {0} successfully created!", PhotonNetwork.room.Name), 3);
+            if (!PhotonNetwork.CreateRoom(inCreateRoom.text, new RoomOptions() {
+                MaxPlayers = 8, IsVisible = true, IsOpen = true,
+                CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
+                    { "ReadyToStart", false },
+                    { "Password", inCreateRoomPassword.text }
+                },
+                CustomRoomPropertiesForLobby = new string[] { "Password" }
+            }, TypedLobby.Default)) {
+                PopupManager.Instance.ShowPopUp("Room already exists, join it instead?", 5.0f);
+            } else {
+                PopupManager.Instance.ShowPopUp(string.Format("Room {0} successfully created!", PhotonNetwork.room.Name), 3.0f);
             }
         }
     }
@@ -149,14 +163,11 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     }
 
     public void OnCreatedRoom() {
+        PopupManager.Instance.ShowPopUp(string.Format("Room {0} successfully created!", PhotonNetwork.room.Name), 3.0f);
         PrintToConsole("Creation of room succeeded");
         PrintToConsole("Password: " + inCreateRoomPassword.text);
         PrintToConsole(string.Format("Currently in room: {0}", PhotonNetwork.room.Name));
         PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InQueue);
-        PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
-            { "ReadyToStart", false },
-            { "Password", inCreateRoomPassword.text }
-        });
     }
 
     public void OnJoinedLobby() {
@@ -193,16 +204,11 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
 
     public void OnJoinedRoom() {
         if (PhotonNetwork.room != null) {
-            if (PhotonNetwork.room.CustomProperties["Password"].Equals(inJoinRoomPassword.text) || PhotonNetwork.isMasterClient) {
-                PrintToConsole("Player is in room: " + PhotonNetwork.room.Name);
-                PlayfabUserInfo.SetUserState(PhotonNetwork.room.PlayerCount == 1 ? PlayfabUserInfo.UserState.InQueue : PlayfabUserInfo.UserState.ReadyToType);
+            PrintToConsole("Player is in room: " + PhotonNetwork.room.Name);
+            PlayfabUserInfo.SetUserState(PhotonNetwork.room.PlayerCount == 1 ? PlayfabUserInfo.UserState.InQueue : PlayfabUserInfo.UserState.ReadyToType);
 
-                PlayfabUserInfo.UpdatePlayerRoom(PhotonNetwork.room.Name);
-                LobbyUIManager.Instance.JoinedRoom();
-            }else {
-                PrintToConsole("Wrong password!");
-                PhotonNetwork.LeaveRoom();
-            }
+            PlayfabUserInfo.UpdatePlayerRoom(PhotonNetwork.room.Name);
+            LobbyUIManager.Instance.JoinedRoom();
         } else {
             PrintToConsole("Failed to create/join room");
             PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InLobby);

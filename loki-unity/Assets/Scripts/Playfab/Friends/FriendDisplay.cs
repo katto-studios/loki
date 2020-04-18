@@ -8,6 +8,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine.Networking;
 using cm = PlayFab.ClientModels;
+using System.Linq;
 
 public class FriendDisplay : MonoBehaviour {
 	[Header("Displays")]
@@ -84,8 +85,20 @@ public class FriendDisplay : MonoBehaviour {
                 PlayFabId = m_friendInfo.FriendPlayFabId
             },
             (_result) => {
-                PhotonNetwork.JoinRoom(_result.Data["RoomName"].Value);
-                FindObjectOfType<SceneChanger>().ChangeScene(3);
+                //PhotonNetwork.JoinRoom(_result.Data["RoomName"].Value);
+                RoomInfo targetRoom = PhotonNetwork.GetRoomList().First(ri => { return ri.Name.Equals(_result.Data["RoomName"].Value); });
+
+                if (targetRoom.CustomProperties["Password"] == null) {
+                    PhotonNetwork.JoinRoom(targetRoom.Name);
+                    FindObjectOfType<SceneChanger>().ChangeScene(3);
+                }else {
+                    if (string.IsNullOrEmpty(targetRoom.CustomProperties["Password"].ToString())) {
+                        PhotonNetwork.JoinRoom(targetRoom.Name);
+                        FindObjectOfType<SceneChanger>().ChangeScene(3);
+                    }
+                    //show password prompt
+                    FriendsMenuHandler.Instance.PromptPassword(targetRoom);
+                }
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
