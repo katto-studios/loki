@@ -64,6 +64,30 @@ public class EditorManager : Singleton<EditorManager>
             }
         } else if (state == EditorManagerState.IDLE)
         {
+            if (Input.GetMouseButtonDown(1))
+            {
+                RaycastHit hit;
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider.GetComponent<EditorKey>())
+                    {
+                        KeySlot ks = hit.collider.GetComponent<EditorKey>().keySlot;
+                        if (ks.equipedKeycap)
+                        {
+                            foreach (InventorySlot eachIS in InventoryManager.Instance.inventorySlots)
+                            {
+                                if (eachIS.GetCurrentKeySlot() == ks)
+                                {
+                                    eachIS.SetInventoryState();
+                                    ks.EmptySlot();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
                 RaycastHit hit;
