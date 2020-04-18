@@ -11,6 +11,8 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
     bool settingsMenuOpen;
     public GameObject settingsMenu;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {

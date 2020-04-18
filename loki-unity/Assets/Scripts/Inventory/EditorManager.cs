@@ -113,7 +113,7 @@ public class EditorManager : Singleton<EditorManager>
     void PlayFabKeycapEquipInfo(InventorySlot inv, int data, KeySlot ks)
     {
         ArtisanData ad = new ArtisanData(-1, "");
-        try { PlayfabUserInfo.artisanData.TryGetValue(inv.GetKeyCap(), out ad); }
+        try { PlayFabKeyboard.artisanData.TryGetValue(inv.GetKeyCap(), out ad); }
         catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };
         string keycapInstanceId = ad.itemInstanceID;
         PlayfabUserInfo.UpdateKeycapCustomData(keycapInstanceId, data, ks, inv);

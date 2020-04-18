@@ -10,7 +10,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void InitInventory()
     {
-        List<ArtisanKeycap> playerKeycaps = PlayfabUserInfo.playerKeycaps;
+        List<ArtisanKeycap> playerKeycaps = PlayFabKeyboard.playerKeycaps;
         
         foreach(ArtisanKeycap keycap in playerKeycaps)
         {
@@ -18,7 +18,7 @@ public class InventoryManager : Singleton<InventoryManager>
             ArtisanData ad = new ArtisanData(-1, "");
             try
             {
-                PlayfabUserInfo.artisanData.TryGetValue(keycap, out ad);
+                PlayFabKeyboard.artisanData.TryGetValue(keycap, out ad);
             } catch {
                 PopupManager.Instance.ShowPopUp("Error getting keycap data");
             };

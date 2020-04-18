@@ -104,13 +104,13 @@ public class Keyboard : Singleton<Keyboard>
             ind++;
         }
 
-        if(PlayfabUserInfo.playerKeycaps != null)
+        if(PlayFabKeyboard.playerKeycaps != null)
         {
-            foreach (ArtisanKeycap keycap in PlayfabUserInfo.playerKeycaps)
+            foreach (ArtisanKeycap keycap in PlayFabKeyboard.playerKeycaps)
             {
                 Debug.Log("YES");
                 ArtisanData ad = new ArtisanData(-1, "");
-                try { PlayfabUserInfo.artisanData.TryGetValue(keycap, out ad); }
+                try { PlayFabKeyboard.artisanData.TryGetValue(keycap, out ad); }
                 catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };
                 int keySlot = ad.equipInfo;
                 if (keySlot >= 0)
