@@ -58,7 +58,6 @@ public class PlayFabLogin : MonoBehaviour {
 
         PlayfabUserInfo.Initalise();
         GetProse.Instance.CheckForUpdate();
-        FindObjectOfType<SceneChanger>().ChangeScene(1);
     }
 
     private void OnLoginFailure(PlayFabError error) {

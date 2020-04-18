@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using PlayFab;
+using PlayFab.ClientModels;
+using UnityEngine.Networking;
 using cm = PlayFab.ClientModels;
 
 public class FriendDisplay : MonoBehaviour {
@@ -13,24 +16,54 @@ public class FriendDisplay : MonoBehaviour {
     public TextMeshProUGUI highscoreDisplay;
     public TextMeshProUGUI statusDisplay;
     public Button btnJoinGame;
+    public RawImage profilePicture;
+
     [Header("Networking")]
     [Tooltip("Number of times per second status is refreshed")]
     public float refreshRate = 1;
-    private bool m_shuttingDown = false;
-    private float m_refRate;
 
+    private volatile bool m_shuttingDown = false;
+    private float m_refRate;
     private cm::FriendInfo m_friendInfo;
+
     public void SetFriendInfo(cm::FriendInfo _fr) {
         m_friendInfo = _fr;
 		nameDisplay.SetText(_fr.TitleDisplayName);
         m_refRate = 1 / refreshRate;
         btnJoinGame.interactable = false;
+        //set profile picture
+        SetImage();
         StartCoroutine(RefreshStatus());
+    }
+
+    private void SetImage() {
+        PlayFabClientAPI.GetAccountInfo(
+            new GetAccountInfoRequest() {
+                Username = m_friendInfo.Username
+            },
+            (_result) => {
+                string url = _result.AccountInfo.TitleInfo.AvatarUrl;
+                if(!string.IsNullOrEmpty(url)) StartCoroutine(FetchImage(url));
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
+
+    private IEnumerator FetchImage(string _url) {
+        using (UnityWebRequest webReq = UnityWebRequestTexture.GetTexture(_url)) {
+            yield return webReq.SendWebRequest();
+            if (webReq.isNetworkError) {
+                Debug.LogError("Network error: " + webReq.error);
+            } else {
+                profilePicture.texture = DownloadHandlerTexture.GetContent(webReq);
+                profilePicture.color = Color.white;
+            }
+        }
     }
 
     private IEnumerator RefreshStatus() {
         while (!m_shuttingDown) {
-            PlayFab.PlayFabClientAPI.GetUserData(
+            PlayFabClientAPI.GetUserData(
                 new cm::GetUserDataRequest() {
                     PlayFabId = m_friendInfo.FriendPlayFabId
                 },
@@ -46,7 +79,7 @@ public class FriendDisplay : MonoBehaviour {
     }
 
     public void OnJoinFriend() {
-        PlayFab.PlayFabClientAPI.GetUserData(
+        PlayFabClientAPI.GetUserData(
             new cm::GetUserDataRequest() {
                 PlayFabId = m_friendInfo.FriendPlayFabId
             },

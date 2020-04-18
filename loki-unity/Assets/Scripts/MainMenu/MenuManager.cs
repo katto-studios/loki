@@ -10,30 +10,30 @@ public class MenuManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        StartCoroutine(UpdateName());
-        StartCoroutine(UpdateProfilePic());
+        UpdateName();
+        UpdateProfilePic();
 		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMainMenu);
     }
 
-    private IEnumerator UpdateName() {
-        while (true) {
+    private void UpdateName() {
+        int count = 0;
+        while (true && count ++ < 10000) {
             userName.text = PlayfabUserInfo.Username;
             if (!userName.text.Equals("")) {
                 break;
             }
-            yield return null;
         }
     }
 
-    private IEnumerator UpdateProfilePic() {
-        while (true) {
+    private void UpdateProfilePic() {
+        int count = 0;
+        while (true && count++ < 10000) {
             Texture txt = PlayfabUserInfo.ProfilePicture;
             if (txt) {
                 profilePic.texture = txt;
                 profilePic.color = Color.white;
                 break;
             }
-            yield return null;
         }
     }
 

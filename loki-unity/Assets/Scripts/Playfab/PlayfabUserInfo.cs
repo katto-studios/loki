@@ -6,6 +6,8 @@ using PlayFab.ClientModels;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using cm = PlayFab.ClientModels;
 using System;
+using System.Security.Cryptography;
+using System.Text;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
@@ -55,62 +57,55 @@ public static class PlayfabUserInfo {
             (_result) => {
                 m_accountInfo = _result.AccountInfo;
                 PhotonNetwork.player.NickName = _result.AccountInfo.Username;
+                SetProfilePicture();
+                SetDisplayName();
+
+                GameObject.FindObjectOfType<SceneChanger>().ChangeScene(1);
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
-
-        PersistantCanvas.Instance.StartCoroutine(SetDisplayName());
-        PersistantCanvas.Instance.StartCoroutine(SetProfilePicture());
     }
 
-    public static IEnumerator SetProfilePicture() {
-        while (m_accountInfo == null) yield return null;
-
+    public static void SetProfilePicture() {
         if (string.IsNullOrEmpty(m_accountInfo.TitleInfo.AvatarUrl)) {
-            bool done = false;
-            string defaultAvatarUrl = null;
-            //get default pfp url
-            PlayFabClientAPI.GetContentDownloadUrl(
-                new GetContentDownloadUrlRequest() {
-                    Key = "ProfilePictures/defaultImg.png",
-                    ThruCDN = true
+            string url = GetGravatarUrl(m_accountInfo.PrivateInfo.Email);
+            //set as current pfp
+            PlayFabClientAPI.UpdateAvatarUrl(
+                new UpdateAvatarUrlRequest() {
+                    ImageUrl = url
                 },
-                (_result) => {
-                    defaultAvatarUrl = _result.URL;
-                    //set as current pfp
-                    PlayFabClientAPI.UpdateAvatarUrl(
-                        new UpdateAvatarUrlRequest() {
-                            ImageUrl = _result.URL
-                        },
-                        (__result) => { done = true; },
-                        (__error) => { Debug.LogError(__error.GenerateErrorReport() + " URL: " + _result.URL); }
-                    );
-                },
-                (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+                (_result) => {  },
+                (_error) => { Debug.LogError(_error.GenerateErrorReport() + " URL: " + url); }
             );
-
-            while (!done) {
-                yield return null;
-            }
-
-            //update pfp
-            using (UnityWebRequest webReq = UnityWebRequestTexture.GetTexture(defaultAvatarUrl)) {
-                yield return webReq.SendWebRequest();
-                if (webReq.isNetworkError) {
-                    Debug.LogError("Network error: " + webReq.error);
-                } else {
-                    ProfilePicture = DownloadHandlerTexture.GetContent(webReq);
-                }
-            }
+            PersistantCanvas.Instance.StartCoroutine(DownloadProfilePicture(url));
         } else {
-            using (UnityWebRequest webReq = UnityWebRequestTexture.GetTexture(m_accountInfo.TitleInfo.AvatarUrl)) {
-                yield return webReq.SendWebRequest();
-                if (webReq.isNetworkError) {
-                    Debug.LogError("Network error: " + webReq.error);
-                } else {
-                    ProfilePicture = DownloadHandlerTexture.GetContent(webReq);
-                }
+            PersistantCanvas.Instance.StartCoroutine(DownloadProfilePicture(GetGravatarUrl(m_accountInfo.PrivateInfo.Email)));
+        }
+    }
+
+    private static IEnumerator DownloadProfilePicture(string _url) {
+        using (UnityWebRequest webReq = UnityWebRequestTexture.GetTexture(_url)) {
+            yield return webReq.SendWebRequest();
+            if (webReq.isNetworkError) {
+                Debug.LogError("Network error: " + webReq.error);
+            } else {
+                ProfilePicture = DownloadHandlerTexture.GetContent(webReq);
             }
+        }
+    }
+
+    private static string GetGravatarUrl(string _email) {
+        using (MD5 md5 = MD5.Create()) {
+            byte[] inputBytes =Encoding.ASCII.GetBytes(_email.ToLower());
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(@"https://www.gravatar.com/avatar/");
+            for (int i = 0; i < hashBytes.Length; i++) {
+                sb.Append(hashBytes[i].ToString("X2"));
+            }
+
+            return sb.ToString().ToLower();
         }
     }
 
@@ -150,11 +145,7 @@ public static class PlayfabUserInfo {
         );
     }
 
-    private static IEnumerator SetDisplayName() {
-        while (Username.Equals("")) {
-            yield return null;
-        }
-
+    private static void SetDisplayName() {
         PlayFabClientAPI.UpdateUserTitleDisplayName(
             new UpdateUserTitleDisplayNameRequest() { DisplayName = Username },
             (_result) => { },
