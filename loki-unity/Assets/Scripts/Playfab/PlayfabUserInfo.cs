@@ -37,9 +37,8 @@ public static class PlayfabUserInfo {
     public static UserState CurrentUserState { get { return m_userState; } }
 
     public static void Initalise() {
-        GetAccountInfoRequest req = new GetAccountInfoRequest();
         PlayFabClientAPI.GetAccountInfo(
-            req,
+            new GetAccountInfoRequest(),
             (_result) => {
                 m_accountInfo = _result.AccountInfo;
                 PhotonNetwork.player.NickName = _result.AccountInfo.Username;
