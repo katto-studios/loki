@@ -24,7 +24,6 @@ public class FriendsMenuHandler : Singleton<FriendsMenuHandler> {
     private void Awake() {
         Ready = false;
 		PlayfabUserInfo.GetFriendsList();
-
 	}
 
 	public void AddToFriendsList(cm::FriendInfo _newFriend) {
