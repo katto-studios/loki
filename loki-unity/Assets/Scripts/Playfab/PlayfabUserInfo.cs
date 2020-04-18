@@ -46,6 +46,8 @@ public static class PlayfabUserInfo {
                 SetDisplayName();
 
                 GameObject.FindObjectOfType<SceneChanger>().ChangeScene(1);
+
+                ShowStats();
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
@@ -211,6 +213,19 @@ public static class PlayfabUserInfo {
             },
             (_result) => {
                 EditorManager.Instance.ChangeKey(ks, invSlot);
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
+
+    public static void ShowStats() {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest() {
+                FunctionName = "GetPlayerStats",
+                FunctionParameter = new { UserId = m_accountInfo.PlayFabId }
+            },
+            (_result) => {
+                List<Statistic> stats = PlayFab.Json.PlayFabSimpleJson.DeserializeObject<List<Statistic>>(_result.FunctionResult.ToString());
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
