@@ -11,23 +11,9 @@ using System.Text;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public struct ArtisanData
-{
-    public int equipInfo;
-    public string itemInstanceID;
-
-    public ArtisanData(int e, string instanceId)
-    {
-        equipInfo = e;
-        itemInstanceID = instanceId;
-    }
-}
-
 public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
-    public static List<ArtisanKeycap> playerKeycaps = new List<ArtisanKeycap>();
-    public static Dictionary<ArtisanKeycap, ArtisanData> artisanData = new Dictionary<ArtisanKeycap, ArtisanData>();
     private static List<cm::FriendInfo> m_friends;
     public static List<cm::FriendInfo> Friends { get { return m_friends; } }
     public static string Username {
@@ -202,75 +188,6 @@ public static class PlayfabUserInfo {
         );
 
         return returnThis;
-    }
-
-    //INVENTORY STUFF
-
-    static bool recievedKeycaps;
-    public static void UpdatePlayerKeycaps()
-    {
-        playerKeycaps.Clear();
-        artisanData.Clear();
-        recievedKeycaps = false;
-        PersistantCanvas.Instance.StartCoroutine(GetUserInventoryRequest());
-    }
-
-    static IEnumerator GetUserInventoryRequest()
-    {
-        List<ArtisanKeycap> newInventory = GetUserInventory();
-
-        while (!recievedKeycaps)
-        {
-            yield return null;
-        }
-
-        playerKeycaps = newInventory;
-
-        string dText = "Inventory Items: ";
-        foreach (ArtisanKeycap keycap in playerKeycaps)
-        {
-            dText += keycap.name + ", ";
-        }
-
-        if (Keyboard.Instance)
-        {
-            Debug.Log("Initing");
-            Keyboard.Instance.InitKeyboard();
-        }
-
-        Debug.Log(dText);
-    }
-
-    public static List<ArtisanKeycap> GetUserInventory()
-    {
-        List<ArtisanKeycap> newInventory = new List<ArtisanKeycap>();
-        PlayFabClientAPI.GetUserInventory(
-            new GetUserInventoryRequest(), 
-            (GetUserInventoryResult result) =>
-            {
-                foreach (var eachItem in result.Inventory)
-                {
-                    if (eachItem.ItemClass.Equals("KEYCAP"))
-                    {
-                        Debug.Log(eachItem.ItemId);
-                        string id = eachItem.ItemId;
-                        ArtisanKeycap newKey = KeycapDatabase.Instance.getKeyCapFromID(id);
-                        newInventory.Add(newKey);
-
-                        string equipIndex = "-2";
-                        try { eachItem.CustomData.TryGetValue("EQUIP_SLOT", out equipIndex); }
-                        catch { };
-                        int ei = int.Parse(equipIndex);
-                        Debug.Log(ei);
-                        artisanData.Add(newKey, new ArtisanData(ei, eachItem.ItemInstanceId));
-                    }
-                }
-
-                recievedKeycaps = true;
-            },
-            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
-        );
-        return newInventory;
     }
 
 	public static void UpdatePlayerMmr(int _mmr) {
