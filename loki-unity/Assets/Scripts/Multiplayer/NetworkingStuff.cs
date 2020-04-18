@@ -21,6 +21,10 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     void Start() {
         PrintToConsole("Player connection state: " + PhotonNetwork.connectionState);
         LobbyUIManager.Instance.UpdateRooms();
+
+        if(PhotonNetwork.room != null) {
+            OnJoinedRoom();
+        }
     }
 
     // Update is called once per frame
