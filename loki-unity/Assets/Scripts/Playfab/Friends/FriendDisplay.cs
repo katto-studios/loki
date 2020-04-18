@@ -87,12 +87,15 @@ public class FriendDisplay : MonoBehaviour {
             (_result) => {
                 //PhotonNetwork.JoinRoom(_result.Data["RoomName"].Value);
                 RoomInfo targetRoom = PhotonNetwork.GetRoomList().First(ri => { return ri.Name.Equals(_result.Data["RoomName"].Value); });
-                Debug.Log(targetRoom.CustomProperties["Password"]);
 
                 if (targetRoom.CustomProperties["Password"] == null) {
                     PhotonNetwork.JoinRoom(targetRoom.Name);
                     FindObjectOfType<SceneChanger>().ChangeScene(3);
                 }else {
+                    if (string.IsNullOrEmpty(targetRoom.CustomProperties["Password"].ToString())) {
+                        PhotonNetwork.JoinRoom(targetRoom.Name);
+                        FindObjectOfType<SceneChanger>().ChangeScene(3);
+                    }
                     //show password prompt
                     FriendsMenuHandler.Instance.PromptPassword(targetRoom);
                 }

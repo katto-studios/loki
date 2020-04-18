@@ -11,11 +11,14 @@ public class LobbyUIManager : Singleton<LobbyUIManager> {
     public RectTransform roomSelectionScreen;
     public GameObject roomDisplayPfb;
     public Transform roomSelection;
+
     [Header("Room information")]
     public RectTransform roomInfoScreen;
     public TextMeshProUGUI roomNameDisplay;
     public GameObject playerInRoomInfo;
     public Transform detailedRoomInfoContent;
+    public GameObject passwordPrompt;
+    private RoomInfo m_targetRoom = null;
 
     public void UpdateRooms() {
         //delete and instanitate
@@ -52,5 +55,21 @@ public class LobbyUIManager : Singleton<LobbyUIManager> {
         foreach(PhotonPlayer player in PhotonNetwork.otherPlayers) {
             Instantiate(playerInRoomInfo, detailedRoomInfoContent).GetComponent<PlayerInRoomDisplay>().SetDisplays(player);
         }
+    }
+
+    public void OnPasswordEnter() {
+        if (m_targetRoom.CustomProperties["Password"].ToString().Equals(passwordPrompt.GetComponentInChildren<InputField>().text)) {
+            PhotonNetwork.JoinRoom(m_targetRoom.Name);
+        }else {
+            PopupManager.Instance.ShowPopUp("Wrong password!", 3);
+        }
+
+        m_targetRoom = null;
+        passwordPrompt.SetActive(false);
+    }
+
+    public void PasswordPrompt(RoomInfo _ri) {
+        passwordPrompt.SetActive(true);
+        m_targetRoom = _ri;
     }
 }

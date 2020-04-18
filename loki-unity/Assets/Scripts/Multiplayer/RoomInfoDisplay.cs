@@ -33,7 +33,11 @@ public class RoomInfoDisplay : MonoBehaviour {
 
     public void WhenJoinRoom() {
         joinRoom.enabled = false;
-        PhotonNetwork.JoinRoom(m_roomInfo.Name);
+        if (string.IsNullOrEmpty(m_roomInfo.CustomProperties["Password"].ToString())) {
+            PhotonNetwork.JoinRoom(m_roomInfo.Name);
+        }else {
+            LobbyUIManager.Instance.PasswordPrompt(m_roomInfo);
+        }
     }
 
     private void OnDestroy() {
