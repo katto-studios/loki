@@ -246,7 +246,8 @@ public static class PlayfabUserInfo {
                     }else if (friend.Tags.Contains("Requestee")) {
                         FriendsMenuHandler.Instance.AddToPendingFriendsList(friend);
                     }
-				}
+                    m_friends.Add(friend);
+                }
                 FriendsMenuHandler.Instance.Ready = true;
 			},
 			(_error) => { Debug.LogError(_error.GenerateErrorReport()); }
