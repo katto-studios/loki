@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PlayFab.ClientModels;
+using cm = PlayFab.ClientModels;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class ViewProfileManager : Singleton<ViewProfileManager>
 {
+    public UserAccountInfo AccountInfo;
+
     public TextMeshProUGUI tname;
     public TextMeshProUGUI tstats;
     public TextMeshProUGUI tlevel;
@@ -18,13 +21,9 @@ public class ViewProfileManager : Singleton<ViewProfileManager>
 
     public NetworkKeyboard keyboard;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     public void Init(UserAccountInfo u)
     {
+        AccountInfo = u;
         tname.text = u.Username;
         string url = u.TitleInfo.AvatarUrl;
         StartCoroutine(FetchImage(url));
@@ -32,6 +31,33 @@ public class ViewProfileManager : Singleton<ViewProfileManager>
         PlayFabPlayerData.GetPlayerStats(u, pscb);
         PlayerInventoryCallBack picb = GetInventoryData;
         PlayFabPlayerData.GetUserInventory(u, picb);
+        if (u.PlayFabId != PlayfabUserInfo.AccountInfo.PlayFabId)
+        {
+            bool isStranger = true;
+            List<cm::FriendInfo> friends = PlayfabUserInfo.Friends;
+
+            foreach (cm::FriendInfo friend in friends)
+            {
+                if (friend.FriendPlayFabId == u.PlayFabId)
+                {
+                    if (friend.Tags.Contains("Friends"))
+                    {
+                        isStranger = false;
+                        RemoveFriendButton.SetActive(true);
+                    }
+                    else if (friend.Tags.Contains("Requestee"))
+                    {
+                        isStranger = false;
+                    }
+                }
+            }
+
+            if (isStranger)
+            {
+                Debug.Log("Stranger!");
+                AddFriendButton.SetActive(true);
+            }
+        }
     }
 
     private IEnumerator FetchImage(string _url)
@@ -64,6 +90,18 @@ public class ViewProfileManager : Singleton<ViewProfileManager>
             stats += entry.StatisticName + " " + entry.Value + "<br>";
         }
         tstats.text = stats;
+    }
+
+    public void AddFriend()
+    {
+        PlayerFriendRequestCallback pfrc = AddFriendCallBack;
+        PlayFabPlayerData.AddFriend(AccountInfo, pfrc);
+        AddFriendButton.SetActive(false);
+    }
+
+    public void AddFriendCallBack()
+    {
+        PopupManager.Instance.ShowPopUp("Friend Request Sent");
     }
 
     // Update is called once per frame

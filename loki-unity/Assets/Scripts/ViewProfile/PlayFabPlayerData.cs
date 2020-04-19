@@ -15,6 +15,7 @@ public delegate void PlayerDataCallBack(UserAccountInfo u);
 public delegate void PlayerNotFoundCallBack();
 public delegate void PlayerStatsCallBack(List<Statistic> statisticValues);
 public delegate void PlayerInventoryCallBack(List<ItemInstance> itemInstances);
+public delegate void PlayerFriendRequestCallback();
 
 public static class PlayFabPlayerData
 {
@@ -54,6 +55,21 @@ public static class PlayFabPlayerData
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
 
+    }
+
+    public static void AddFriend(UserAccountInfo u, PlayerFriendRequestCallback playerFriendRequestCallback)
+    {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest()
+            {
+                FunctionName = "AddFriend",
+                FunctionParameter = new { ReceiverId = u.PlayFabId },
+            },
+            (__result) => {
+                playerFriendRequestCallback();
+            },
+            (__error) => { Debug.LogError(__error.GenerateErrorReport()); }
+        );
     }
 
     public static void GetUserInventory(UserAccountInfo u, PlayerInventoryCallBack playerInventoryCallBack)

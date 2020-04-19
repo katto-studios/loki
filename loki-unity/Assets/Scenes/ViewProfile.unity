@@ -163,12 +163,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f360cbe0cb8acf4da40745b1c6b3eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AccountInfo:
+    AndroidDeviceInfo:
+      AndroidDeviceId: 
+    CustomIdInfo:
+      CustomId: 
+    FacebookInfo:
+      FacebookId: 
+      FullName: 
+    FacebookInstantGamesIdInfo:
+      FacebookInstantGamesId: 
+    GameCenterInfo:
+      GameCenterId: 
+    GoogleInfo:
+      GoogleEmail: 
+      GoogleGender: 
+      GoogleId: 
+      GoogleLocale: 
+      GoogleName: 
+    IosDeviceInfo:
+      IosDeviceId: 
+    KongregateInfo:
+      KongregateId: 
+      KongregateName: 
+    NintendoSwitchDeviceIdInfo:
+      NintendoSwitchDeviceId: 
+    OpenIdInfo: []
+    PlayFabId: 
+    PrivateInfo:
+      Email: 
+    PsnInfo:
+      PsnAccountId: 
+      PsnOnlineId: 
+    SteamInfo:
+      SteamCountry: 
+      SteamId: 
+      SteamName: 
+    TitleInfo:
+      AvatarUrl: 
+      DisplayName: 
+      TitlePlayerAccount:
+        Id: 
+        Type: 
+    TwitchInfo:
+      TwitchId: 
+      TwitchUserName: 
+    Username: 
+    WindowsHelloInfo:
+      WindowsHelloDeviceName: 
+      WindowsHelloPublicKeyHash: 
+    XboxInfo:
+      XboxUserId: 
   tname: {fileID: 524360496}
   tstats: {fileID: 1363514438}
   tlevel: {fileID: 1993871978}
   profilePicture: {fileID: 1207070197}
-  AddFriendButton: {fileID: 315817761}
-  RemoveFriendButton: {fileID: 223859611}
+  AddFriendButton: {fileID: 223859611}
+  RemoveFriendButton: {fileID: 315817761}
   keyboard: {fileID: 313151583}
 --- !u!1 &43608836
 GameObject:
@@ -425,7 +476,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 223859614}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1729724}
+        m_MethodName: AddFriend
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &223859614
 MonoBehaviour:
   m_ObjectHideFlags: 0

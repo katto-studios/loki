@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class BackButton : MonoBehaviour
 {
+    public bool BackToMainMenu;
     public void GoBackToMainMenu()
     {
-        GoToScene(1);
+        if (BackToMainMenu)
+        {
+            GoToScene(1);
+        }
+        else
+        {
+            GoToScene(PersistantCanvas.Instance.previousScene);
+        }
     }
 
     public void GoToScene(int i)

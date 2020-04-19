@@ -14,7 +14,7 @@ using UnityEngine.Networking;
 public static class PlayfabUserInfo {
     private static UserAccountInfo m_accountInfo;
     public static UserAccountInfo AccountInfo { get { return m_accountInfo; } }
-    private static List<cm::FriendInfo> m_friends;
+    private static List<cm::FriendInfo> m_friends = new List<cm::FriendInfo>();
     public static List<cm::FriendInfo> Friends { get { return m_friends; } }
     public static string Username {
         get {
@@ -239,6 +239,7 @@ public static class PlayfabUserInfo {
 				IncludeSteamFriends = false
 			},
 			(_result) => {
+                m_friends.Clear();
                 FriendsMenuHandler.Instance.ClearFriendsList();
 				foreach (cm::FriendInfo friend in _result.Friends) {
                     if (friend.Tags.Contains("Friends")) {
