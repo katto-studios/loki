@@ -12,6 +12,8 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
     bool settingsMenuOpen;
     public GameObject settingsMenu;
 
+    public int previousScene;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -88,6 +90,7 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
 
     IEnumerator LoadScene(int sceneIndex)
     {
+        previousScene = SceneManager.GetActiveScene().buildIndex;
         transitionPanel.transform.DOMoveY(400, 0.5f);
         yield return new WaitForSeconds(0.5f);
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneIndex);

@@ -142,4 +142,9 @@ public class FriendDisplay : MonoBehaviour {
 
         return null;
     }
+
+    public void ViewProfile()
+    {
+        PersistantCanvas.Instance.ViewProfileScene(m_friendInfo.Username);
+    }
 }
