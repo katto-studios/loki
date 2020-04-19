@@ -35,7 +35,7 @@ public class InventorySlot : MonoBehaviour
             SetInventoryState();
         } else
         {
-            SetEquipedState(FindObjectOfType<NetworkKeyboard>().EquipInfoToKeySlot(newEquipInfo));
+            SetEquipedState(Keyboard.Instance.EquipInfoToKeySlot(newEquipInfo));
         }
     }
 
