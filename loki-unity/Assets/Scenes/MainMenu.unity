@@ -6773,6 +6773,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 426277809727479147, guid: 41b4b8795b9403d4cbab905b758d1dec,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8560107584247919703, guid: 41b4b8795b9403d4cbab905b758d1dec,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6838,5 +6843,49 @@ PrefabInstance:
       propertyPath: camera
       value: 
       objectReference: {fileID: 860200940}
+    - target: {fileID: 8560107585381460225, guid: 41b4b8795b9403d4cbab905b758d1dec,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41b4b8795b9403d4cbab905b758d1dec, type: 3}
+--- !u!1 &8560107584296985791 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5840426737211390612, guid: 41b4b8795b9403d4cbab905b758d1dec,
+    type: 3}
+  m_PrefabInstance: {fileID: 8560107584296985790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8560107584296985792 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2462536859665126455, guid: 41b4b8795b9403d4cbab905b758d1dec,
+    type: 3}
+  m_PrefabInstance: {fileID: 8560107584296985790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8560107584296985793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8560107584296985792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0394d15eb2f7f6845a8f5c0a5e110d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8560107584296985794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8560107584296985792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd29e949b2d6a441a89b69c9dc44e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keysGO: {fileID: 8560107584296985791}
+  keys: []
+  keySlots: []

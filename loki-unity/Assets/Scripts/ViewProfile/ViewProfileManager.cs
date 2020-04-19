@@ -16,7 +16,7 @@ public class ViewProfileManager : Singleton<ViewProfileManager>
     public GameObject AddFriendButton;
     public GameObject RemoveFriendButton;
 
-    public GameObject keyboard;
+    public NetworkKeyboard keyboard;
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +53,7 @@ public class ViewProfileManager : Singleton<ViewProfileManager>
 
     public void GetInventoryData(List<ItemInstance> items)
     {
-
+        keyboard.Init(items);
     }
 
     public void GetStats(List<Statistic> statisticValues)
