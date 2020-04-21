@@ -101,7 +101,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
         PersistantCanvas.Instance.ChangeScene(2);
     }
 
-    public void QuitGame()
+    public virtual void QuitGame()
     {
         ButtonChime.Instance.PlayChime(1);
         PersistantCanvas.Instance.ChangeScene(1);
