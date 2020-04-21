@@ -46,8 +46,6 @@ public static class PlayfabUserInfo {
                 SetDisplayName();
 
                 GameObject.FindObjectOfType<SceneChanger>().ChangeScene(1);
-
-                ShowStats();
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
@@ -218,15 +216,14 @@ public static class PlayfabUserInfo {
         );
     }
 
-    public static void ShowStats() {
+    public static void UpdatePlayerExp(int _score) {
         PlayFabClientAPI.ExecuteCloudScript(
             new ExecuteCloudScriptRequest() {
-                FunctionName = "GetPlayerStats",
-                FunctionParameter = new { UserId = m_accountInfo.PlayFabId }
+                FunctionName = "UpdatePlayerXp",
+                FunctionParameter = new { Score = _score },
+                GeneratePlayStreamEvent = true
             },
-            (_result) => {
-                List<Statistic> stats = PlayFab.Json.PlayFabSimpleJson.DeserializeObject<List<Statistic>>(_result.FunctionResult.ToString());
-            },
+            (_result) => { },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
     }

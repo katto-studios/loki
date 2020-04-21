@@ -62,5 +62,6 @@ public class TRAnalytics : MonoBehaviour
 
         PlayfabUserInfo.UpdateHighscore(typeGameManager.score);
         PlayfabUserInfo.UpdateWpm(typeGameManager.words.Count, timeSinceStart);
+        PlayfabUserInfo.UpdatePlayerExp(typeGameManager.score);
     }
 }
