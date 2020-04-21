@@ -15,9 +15,9 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
     [Header("Networking")]
     public int maxRounds = 3;
     private HashSet<PhotonPlayer> m_opponents = new HashSet<PhotonPlayer>();
-    private List<UserAccountInfo> m_accountInfo = new List<UserAccountInfo>();
-    private List<NetworkKeyboard> m_networkKeyboards = new List<NetworkKeyboard>();
+    private List<MultiplayerKeyboard> m_networkKeyboards = new List<MultiplayerKeyboard>();
     public GameObject NetworkKeyboardPrefab;
+    public GameObject NetworkKeyboardPosition;
     private int m_currentRound;
     private bool changed = false;
 
@@ -61,14 +61,16 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
 
     public void GetAccountInfoCallBack(UserAccountInfo u)
     {
-        m_accountInfo.Add(u);
         PlayerInventoryCallBack picb = GetInventoryCallback;
         PlayFabPlayerData.GetUserInventory(u, picb);
     }
 
-    public void GetInventoryCallback(List<ItemInstance> items)
+    public void GetInventoryCallback(List<ItemInstance> items, UserAccountInfo u)
     {
-        
+        GameObject newKeyboard = Instantiate(NetworkKeyboardPrefab, NetworkKeyboardPosition.transform);
+        MultiplayerKeyboard mpk = newKeyboard.GetComponent<MultiplayerKeyboard>();
+        mpk.Init(items, u);
+        m_networkKeyboards.Add(mpk);
     }
 
     public void gPlayerNotFoundCallBack()
