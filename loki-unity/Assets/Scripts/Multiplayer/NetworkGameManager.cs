@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.Linq;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using ExitGames.Client.Photon;
+using PlayFab.ClientModels;
 using System;
 
 public class NetworkGameManager : TypeGameManager, IPunCallbacks {
@@ -14,11 +15,18 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
     [Header("Networking")]
     public int maxRounds = 3;
     private HashSet<PhotonPlayer> m_opponents = new HashSet<PhotonPlayer>();
+    private List<UserAccountInfo> m_accountInfo = new List<UserAccountInfo>();
+    private List<NetworkKeyboard> m_networkKeyboards = new List<NetworkKeyboard>();
+    public GameObject NetworkKeyboardPrefab;
     private int m_currentRound;
     private bool changed = false;
+
     public override void Start() {
         foreach (PhotonPlayer other in PhotonNetwork.otherPlayers) {
             m_opponents.Add(other);
+            PlayerDataCallBack pdcb = GetAccountInfoCallBack;
+            PlayerNotFoundCallBack pnfcb = gPlayerNotFoundCallBack;
+            PlayFabPlayerData.SetTargetPlayer(other.NickName, pdcb, pnfcb);
         }
         PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
 
@@ -49,6 +57,23 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
         }
 
         gameState = GameState.Ready;
+    }
+
+    public void GetAccountInfoCallBack(UserAccountInfo u)
+    {
+        m_accountInfo.Add(u);
+        PlayerInventoryCallBack picb = GetInventoryCallback;
+        PlayFabPlayerData.GetUserInventory(u, picb);
+    }
+
+    public void GetInventoryCallback(List<ItemInstance> items)
+    {
+        
+    }
+
+    public void gPlayerNotFoundCallBack()
+    {
+
     }
 
     public override void Update() {
