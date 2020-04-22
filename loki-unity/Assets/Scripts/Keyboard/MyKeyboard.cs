@@ -13,7 +13,7 @@ public class MyKeyboard : MonoBehaviour
         PlayFabPlayerData.GetUserInventory(PlayfabUserInfo.AccountInfo, picb);
     }
 
-    public void GetInventoryData(List<ItemInstance> items)
+    public void GetInventoryData(List<ItemInstance> items, UserAccountInfo u)
     {
         GetComponent<NetworkKeyboard>().Init(items);
     }
