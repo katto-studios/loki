@@ -23,6 +23,7 @@ public class KeySlot : MonoBehaviour
 
     public void ChangeKey(ArtisanKeycap keycap)
     {
+        defaultKeycapGO = transform.GetChild(0).gameObject;
         equipedKeycap = keycap;
         defaultKeycapGO.SetActive(false);
         Destroy(currentKeycapGO);
