@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using PlayFab.ClientModels;
 using DG.Tweening;
 
 public class PersistantCanvas : Singleton<PersistantCanvas>
@@ -11,6 +12,8 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
     bool settingsMenuOpen;
     public GameObject settingsMenu;
 
+    public int previousScene;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +22,8 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
         } else {
             DontDestroyOnLoad(gameObject);
         }
+
+        transform.position = new Vector3(0, 0, -1);
     }
 
     private void Update()
@@ -54,8 +59,38 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
         }
     }
 
+    public void ViewProfileScene(string name) {
+        PlayerDataCallBack pd = GetPlayerData;
+        PlayerNotFoundCallBack pnf = PlayerNotFound;
+        PlayFabPlayerData.SetTargetPlayer(name, pd, pnf);
+    }
+
+    IEnumerator LoadViewProfileScene(UserAccountInfo u)
+    {
+        yield return StartCoroutine(LoadScene(9));
+        ViewProfileManager.Instance.Init(u);
+    }
+
+    public void PlayerNotFound()
+    {
+        PopupManager.Instance.ShowPopUp("Player not found");
+    }
+
+    public void GetPlayerData(UserAccountInfo u)
+    {
+        Debug.Log("Got " + u.Username);
+        changingScene = true;
+        StartCoroutine(LoadViewProfileScene(u));
+    }
+
+
+    public void HideScreen() {
+        transitionPanel.transform.DOMoveY(400, 0.5f);
+    }
+
     IEnumerator LoadScene(int sceneIndex)
     {
+        previousScene = SceneManager.GetActiveScene().buildIndex;
         transitionPanel.transform.DOMoveY(400, 0.5f);
         yield return new WaitForSeconds(0.5f);
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneIndex);

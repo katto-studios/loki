@@ -33,7 +33,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void SetLevelMaster(float sliderValue)
     {
-        mixer.SetFloat("MasterVolume", Mathf.Log10 (sliderValue) *20);
+        mixer.SetFloat("MasterVolume", Mathf.Log10(sliderValue) * 20);
         PlayerPrefs.SetFloat("MasterVolume", sliderValue);
     }
 

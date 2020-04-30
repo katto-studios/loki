@@ -8,7 +8,7 @@ public class TRAnalytics : MonoBehaviour
 
     public float timeSinceStart;
     public bool hasStarted;
-    TypeGameManager typeGameManager;
+    protected TypeGameManager typeGameManager;
 
     public GameObject analyticsPanel;
     public TextMeshProUGUI WPMText;
@@ -18,7 +18,7 @@ public class TRAnalytics : MonoBehaviour
     public TextMeshProUGUI COMBOText;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         typeGameManager = TypeGameManager.Instance;
     }
@@ -32,7 +32,7 @@ public class TRAnalytics : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (hasStarted)
         {
@@ -59,5 +59,8 @@ public class TRAnalytics : MonoBehaviour
         SCOREText.text = typeGameManager.score.ToString();
 
         COMBOText.text = typeGameManager.maxCombo.ToString();
+
+        PlayfabUserInfo.UpdateHighscore(typeGameManager.score);
+        PlayfabUserInfo.UpdateWpm(typeGameManager.words.Count, timeSinceStart);
     }
 }

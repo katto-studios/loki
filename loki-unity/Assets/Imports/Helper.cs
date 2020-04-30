@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public static class Helper {
     /// <summary>
@@ -83,6 +84,9 @@ public static class Helper {
         MonoBehaviour.Destroy(_gameObject);   
     }
 
+    /// <summary>
+    /// Checks if array contains an item
+    /// </summary>
     public static bool ArrContains<T>(this T[] _arr, T _item) {
         foreach(T item in _arr) {
             if (item.Equals(_item)) {
@@ -92,6 +96,9 @@ public static class Helper {
         return false;
     }
 
+    /// <summary>
+    /// Finds component in scene using specified tag
+    /// </summary>
     public static T FindComponentInScene<T>(string tag) {
         GameObject go = GameObject.FindWithTag(tag);
         if (go) return go.GetComponent<T>();
@@ -108,6 +115,55 @@ public static class Helper {
             StopParticleSystem(child);
         }
     }
+
+	/// <summary>
+	/// Generate a random string
+	/// </summary>
+    private const string m_characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    public static string GenerateRandomString(int _length = 8) {
+        char[] strChars = new char[_length];
+        int charsHave = m_characters.Length;
+        for(int count = 0; count <= _length - 1; count++) {
+            strChars[count] = m_characters[UnityEngine.Random.Range(0, charsHave)];
+        }
+
+        return new string(strChars);
+    }
+
+    /// <summary>
+    /// Generates a random word
+    /// </summary>
+    public static string GenerateRandomWord() {
+        const string fruits = 
+        "Apple Apricots Avocado Banana Blackberries Blackcurrant Blueberries Breadfruit Cantaloupe Carambola Cherimoya  Cherries " +
+        "Clementine Coconut Cranberries CustardApple Date Durian Elderberries Feijoa Figs Gooseberries Grapefruit Grapes Guava " +
+        "HoneydewMelon Jackfruit JavaPlum JujubeFruit Kiwifruit Kumquat Lemon Lime Longan Loquat Lychee Mandarin Mango Mangosteen" +
+        "Mulberries Nectarine Olives Orange Papaya PassionFruit Peaches Pear Persimmon Pitaya Pineapple Pitanga Plantain Plums Pomegranate" +
+        "PricklyPear Prunes Pummelo Quince Raspberries Rhubarb RoseApple Sapodilla SapoteMamey Soursop Strawberries SugarApple Tamarind"+
+        "Tangerine Watermelon";
+
+        string[] fruitsArr = fruits.Split(' ');
+        return fruitsArr[UnityEngine.Random.Range(0, fruitsArr.Length)];
+    }
+
+	/// <summary>
+	/// Set a property of a players HashTable
+	/// </summary>
+	//I actually don't know if this is needed
+	public static void SetCustomProperty<T>(this PhotonPlayer _player, string _propName, T _prop) {
+		Hashtable currentProperties = _player.CustomProperties;
+		currentProperties[_propName] = _prop;
+		_player.SetCustomProperties(currentProperties);
+	}
+
+    /// <summary>
+    /// Set a property of a rooms HashTable
+    /// </summary>
+    public static void SetRoomProperty<T>(this Room _room, string _propName, T _prop) {
+        Hashtable currentProperties = _room.CustomProperties;
+        currentProperties[_propName] = _prop;
+        _room.SetCustomProperties(currentProperties);
+    }
 }
 
 public static class Layers {
@@ -118,12 +174,7 @@ public static class Layers {
         IgnoreRaycast = 2,
         Water = 4,
         UI = 5,
-        PostProcessing = 8,
-        Enemy = 9,
-        Player = 10,
-        Terrain = 11,
-        Obstacles = 1,
-        CreatedObjects = 15;
+        PostProcessing = 8;
 }
 
 //For aStar path finding
@@ -213,5 +264,17 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
     private void OnDestroy() {
         //WHAT THE FUCK
         //m_shuttingDown = true;
+    }
+}
+
+/// <summary>
+/// Used for passing reference into a coroutine
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class Ref<T> {
+    private T backing;
+    public T Value { get { return backing; } }
+    public Ref(T reference) {
+        backing = reference;
     }
 }

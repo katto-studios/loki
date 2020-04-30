@@ -14,4 +14,25 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/LobbyScreen.unity
+    guid: b92140566131ae2499b50f32528df375
+  - enabled: 1
+    path: Assets/Scenes/Leaderboards.unity
+    guid: defb4193bcfd73a4aa91912338547f79
+  - enabled: 1
+    path: Assets/Scenes/MultiplayerGameScene.unity
+    guid: e04c91bbc4ef47845bc8bd374b4747a0
+  - enabled: 1
+    path: Assets/Scenes/Friends.unity
+    guid: cca7476b74f4c3e4886e331d57940a47
+  - enabled: 1
+    path: Assets/Scenes/KeyboardEditor.unity
+    guid: b447951264bc52c45add1a6fc4ceefd9
+  - enabled: 1
+    path: Assets/Scenes/Gacha.unity
+    guid: 3c72b40a513bbb54fa63ae4e55c55617
+  - enabled: 1
+    path: Assets/Scenes/ViewProfile.unity
+    guid: 0721f47451254874085bab92a2124162
   m_configObjects: {}

@@ -5,7 +5,7 @@ using UnityEngine;
 public class ButtonChime : Singleton<ButtonChime>
 {
     AudioSource audioSource;
-        
+
     public List<AudioClip> audioClips;
 
     // Start is called before the first frame update
