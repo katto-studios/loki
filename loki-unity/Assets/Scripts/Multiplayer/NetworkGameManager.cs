@@ -16,10 +16,13 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
     public int maxRounds = 3;
     private HashSet<PhotonPlayer> m_opponents = new HashSet<PhotonPlayer>();
     private List<MultiplayerKeyboard> m_networkKeyboards = new List<MultiplayerKeyboard>();
+    private int currentNetworkKeyboardIndex;
     public GameObject NetworkKeyboardPrefab;
     public GameObject NetworkKeyboardPosition;
     private int m_currentRound;
     private bool changed = false;
+
+    private float m_timer;
 
     public override void Start() {
         foreach (PhotonPlayer other in PhotonNetwork.otherPlayers) {
@@ -71,6 +74,10 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
         MultiplayerKeyboard mpk = newKeyboard.GetComponent<MultiplayerKeyboard>();
         mpk.Init(items, u);
         m_networkKeyboards.Add(mpk);
+        if(m_networkKeyboards.Count > 1)
+        {
+            newKeyboard.SetActive(false);
+        }
     }
 
     public void gPlayerNotFoundCallBack()
@@ -80,6 +87,22 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
 
     public override void Update() {
         base.Update();
+
+        m_timer += Time.deltaTime;
+        if(m_timer > 5.0f)
+        {
+            m_networkKeyboards[currentNetworkKeyboardIndex].gameObject.SetActive(false);
+
+            currentNetworkKeyboardIndex++;
+            if(currentNetworkKeyboardIndex >= m_networkKeyboards.Count)
+            {
+                currentNetworkKeyboardIndex = 0;
+            }
+
+            m_networkKeyboards[currentNetworkKeyboardIndex].gameObject.SetActive(true);
+
+            m_timer = 0;
+        }
 
         //start countdown
         if (gameState == GameState.Ready) {
