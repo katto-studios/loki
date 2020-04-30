@@ -77,7 +77,7 @@ public class ViewProfileManager : Singleton<ViewProfileManager>
         }
     }
 
-    public void GetInventoryData(List<ItemInstance> items)
+    public void GetInventoryData(List<ItemInstance> items, UserAccountInfo u)
     {
         keyboard.Init(items);
     }

@@ -5,18 +5,28 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using ExitGames.Client.Photon;
+using PlayFab.ClientModels;
+using System;
 
-public class NetworkGameManager : TypeGameManager {
+public class NetworkGameManager : TypeGameManager, IPunCallbacks {
     //[Header("Regular stuff")]
     public Button btnStartNext;
     [Header("Networking")]
     public int maxRounds = 3;
     private HashSet<PhotonPlayer> m_opponents = new HashSet<PhotonPlayer>();
+    private List<MultiplayerKeyboard> m_networkKeyboards = new List<MultiplayerKeyboard>();
+    public GameObject NetworkKeyboardPrefab;
+    public GameObject NetworkKeyboardPosition;
     private int m_currentRound;
     private bool changed = false;
+
     public override void Start() {
         foreach (PhotonPlayer other in PhotonNetwork.otherPlayers) {
             m_opponents.Add(other);
+            PlayerDataCallBack pdcb = GetAccountInfoCallBack;
+            PlayerNotFoundCallBack pnfcb = gPlayerNotFoundCallBack;
+            PlayFabPlayerData.SetTargetPlayer(other.NickName, pdcb, pnfcb);
         }
         PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMatch);
 
@@ -47,6 +57,25 @@ public class NetworkGameManager : TypeGameManager {
         }
 
         gameState = GameState.Ready;
+    }
+
+    public void GetAccountInfoCallBack(UserAccountInfo u)
+    {
+        PlayerInventoryCallBack picb = GetInventoryCallback;
+        PlayFabPlayerData.GetUserInventory(u, picb);
+    }
+
+    public void GetInventoryCallback(List<ItemInstance> items, UserAccountInfo u)
+    {
+        GameObject newKeyboard = Instantiate(NetworkKeyboardPrefab, NetworkKeyboardPosition.transform);
+        MultiplayerKeyboard mpk = newKeyboard.GetComponent<MultiplayerKeyboard>();
+        mpk.Init(items, u);
+        m_networkKeyboards.Add(mpk);
+    }
+
+    public void gPlayerNotFoundCallBack()
+    {
+
     }
 
     public override void Update() {
@@ -163,4 +192,131 @@ public class NetworkGameManager : TypeGameManager {
             btnStartNext.onClick.AddListener(LeaveGame);
         }
     }
+
+    public override void QuitGame() {
+        PhotonNetwork.LeaveRoom();
+        base.QuitGame();
+    }
+
+    #region PhotonCallbacks
+    public void OnConnectedToPhoton() {
+
+    }
+
+    public void OnLeftRoom() {
+
+    }
+
+    public void OnMasterClientSwitched(PhotonPlayer newMasterClient) {
+
+    }
+
+    public void OnPhotonCreateRoomFailed(object[] codeAndMsg) {
+
+    }
+
+    public void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
+
+    }
+
+    public void OnCreatedRoom() {
+
+    }
+
+    public void OnJoinedLobby() {
+
+    }
+
+    public void OnLeftLobby() {
+
+    }
+
+    public void OnFailedToConnectToPhoton(DisconnectCause cause) {
+
+    }
+
+    public void OnConnectionFail(DisconnectCause cause) {
+
+    }
+
+    public void OnDisconnectedFromPhoton() {
+
+    }
+
+    public void OnPhotonInstantiate(PhotonMessageInfo info) {
+
+    }
+
+    public void OnReceivedRoomListUpdate() {
+
+    }
+
+    public void OnJoinedRoom() {
+
+    }
+
+    public void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
+
+    }
+
+    public void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) {
+        PopupManager.Instance.ShowPopUp(string.Format("{0} disconnected!", otherPlayer.NickName), 3);
+        if(PhotonNetwork.room.PlayerCount == 1) {
+            m_currentRound = maxRounds;
+            Complete();
+        }
+    }
+
+    public void OnPhotonRandomJoinFailed(object[] codeAndMsg) {
+
+    }
+
+    public void OnConnectedToMaster() {
+
+    }
+
+    public void OnPhotonMaxCccuReached() {
+
+    }
+
+    public void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged) {
+
+    }
+
+    public void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps) {
+
+    }
+
+    public void OnUpdatedFriendList() {
+
+    }
+
+    public void OnCustomAuthenticationFailed(string debugMessage) {
+
+    }
+
+    public void OnCustomAuthenticationResponse(Dictionary<string, object> data) {
+
+    }
+
+    public void OnWebRpcResponse(OperationResponse response) {
+
+    }
+
+    public void OnOwnershipRequest(object[] viewAndPlayer) {
+
+    }
+
+    public void OnLobbyStatisticsUpdate() {
+
+    }
+
+    public void OnPhotonPlayerActivityChanged(PhotonPlayer otherPlayer) {
+
+    }
+
+    public void OnOwnershipTransfered(object[] viewAndPlayers) {
+
+    } 
+    #endregion
 }

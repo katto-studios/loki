@@ -14,7 +14,7 @@ using UnityEngine.Networking;
 public delegate void PlayerDataCallBack(UserAccountInfo u);
 public delegate void PlayerNotFoundCallBack();
 public delegate void PlayerStatsCallBack(List<Statistic> statisticValues);
-public delegate void PlayerInventoryCallBack(List<ItemInstance> itemInstances);
+public delegate void PlayerInventoryCallBack(List<ItemInstance> itemInstances, UserAccountInfo u);
 public delegate void PlayerFriendRequestCallback();
 
 public static class PlayFabPlayerData
@@ -81,7 +81,7 @@ public static class PlayFabPlayerData
                 FunctionParameter = new { UserId = u.PlayFabId }
             },
             (_result) => {
-                playerInventoryCallBack(PlayFab.Json.PlayFabSimpleJson.DeserializeObject<List<ItemInstance>>(_result.FunctionResult.ToString()));
+                playerInventoryCallBack(PlayFab.Json.PlayFabSimpleJson.DeserializeObject<List<ItemInstance>>(_result.FunctionResult.ToString()), u);
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
