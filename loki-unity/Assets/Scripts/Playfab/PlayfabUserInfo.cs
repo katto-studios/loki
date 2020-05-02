@@ -9,6 +9,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine.UI;
+using System.Linq;
 using UnityEngine.Networking;
 
 public static class PlayfabUserInfo {
@@ -117,6 +118,15 @@ public static class PlayfabUserInfo {
 		GameplayConsole.Log(string.Format("New user state: {0}", m_userState));
 	}
 
+    private static Dictionary<string, int> GetXpDetails() {
+        Dictionary<string, int> returnMe = new Dictionary<string, int>();
+        PlayFabPlayerData.GetPlayerStats(m_accountInfo, (_result) => {
+            returnMe.Add("Level", (int)_result.First(x => { return x.StatisticName.Equals("Level"); }).Value);
+            returnMe.Add("Xp", (int)_result.First(x => { return x.StatisticName.Equals("Xp"); }).Value);
+        });
+        return returnMe;
+    }
+
     public static void UpdatePlayerRoom(string _room) {
         PlayFabClientAPI.UpdateUserData(
             new cm::UpdateUserDataRequest() {
@@ -223,7 +233,9 @@ public static class PlayfabUserInfo {
                 FunctionParameter = new { Score = _score },
                 GeneratePlayStreamEvent = true
             },
-            (_result) => { },
+            (_result) => {
+                Debug.Log("Upadated player xp");
+            },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
     }
