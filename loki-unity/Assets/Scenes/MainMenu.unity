@@ -3391,6 +3391,8 @@ MonoBehaviour:
   profilePic: {fileID: 1714973861}
   scrap: {fileID: 1342700982}
   gold: {fileID: 2140899769}
+  levelDisplay: {fileID: 126858001}
+  levelProgress: {fileID: 1247055347}
 --- !u!4 &919935178
 Transform:
   m_ObjectHideFlags: 0
