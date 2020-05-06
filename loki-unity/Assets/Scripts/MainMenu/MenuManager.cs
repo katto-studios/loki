@@ -76,7 +76,7 @@ public class MenuManager : MonoBehaviour {
                 int xp = _result.Statistics.First(x => { return x.StatisticName.Equals("Xp"); }).Value;
                 levelDisplay.SetText(level.ToString());
 
-                levelProgress.value = (float)(xp / GetLevelXp(level));
+                levelProgress.value = (float)xp / GetLevelXp(level);
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
