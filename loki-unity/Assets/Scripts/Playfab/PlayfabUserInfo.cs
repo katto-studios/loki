@@ -9,6 +9,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine.UI;
+using System.Linq;
 using UnityEngine.Networking;
 
 public static class PlayfabUserInfo {
@@ -46,8 +47,6 @@ public static class PlayfabUserInfo {
                 SetDisplayName();
 
                 GameObject.FindObjectOfType<SceneChanger>().ChangeScene(1);
-
-                ShowStats();
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
@@ -118,6 +117,15 @@ public static class PlayfabUserInfo {
         //print to console
 		GameplayConsole.Log(string.Format("New user state: {0}", m_userState));
 	}
+
+    private static Dictionary<string, int> GetXpDetails() {
+        Dictionary<string, int> returnMe = new Dictionary<string, int>();
+        PlayFabPlayerData.GetPlayerStats(m_accountInfo, (_result) => {
+            returnMe.Add("Level", (int)_result.First(x => { return x.StatisticName.Equals("Level"); }).Value);
+            returnMe.Add("Xp", (int)_result.First(x => { return x.StatisticName.Equals("Xp"); }).Value);
+        });
+        return returnMe;
+    }
 
     public static void UpdatePlayerRoom(string _room) {
         PlayFabClientAPI.UpdateUserData(
@@ -218,14 +226,15 @@ public static class PlayfabUserInfo {
         );
     }
 
-    public static void ShowStats() {
+    public static void UpdatePlayerExp(int _score) {
         PlayFabClientAPI.ExecuteCloudScript(
             new ExecuteCloudScriptRequest() {
-                FunctionName = "GetPlayerStats",
-                FunctionParameter = new { UserId = m_accountInfo.PlayFabId }
+                FunctionName = "UpdatePlayerXp",
+                FunctionParameter = new { Score = _score },
+                GeneratePlayStreamEvent = true
             },
             (_result) => {
-                List<Statistic> stats = PlayFab.Json.PlayFabSimpleJson.DeserializeObject<List<Statistic>>(_result.FunctionResult.ToString());
+                Debug.Log("Upadated player xp");
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
