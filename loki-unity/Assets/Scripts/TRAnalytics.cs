@@ -40,7 +40,7 @@ public class TRAnalytics : MonoBehaviour
         }
     }
 
-    public void GameComplete()
+    public virtual void GameComplete()
     {
         hasStarted = false;
         analyticsPanel.SetActive(true);
