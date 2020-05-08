@@ -16,6 +16,7 @@ public class TRAnalytics : MonoBehaviour
     public TextMeshProUGUI MISSText;
     public TextMeshProUGUI SCOREText;
     public TextMeshProUGUI COMBOText;
+    public TextMeshProUGUI SourceText;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -59,6 +60,8 @@ public class TRAnalytics : MonoBehaviour
         SCOREText.text = typeGameManager.score.ToString();
 
         COMBOText.text = typeGameManager.maxCombo.ToString();
+
+        SourceText.text = "from " + typeGameManager.CurrentParagraph.Source + " by " + typeGameManager.CurrentParagraph.Author;
 
         PlayfabUserInfo.UpdateHighscore(typeGameManager.score);
         PlayfabUserInfo.UpdateWpm(typeGameManager.words.Count, timeSinceStart);

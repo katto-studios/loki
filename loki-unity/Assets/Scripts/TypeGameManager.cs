@@ -38,6 +38,9 @@ public class TypeGameManager : Singleton<TypeGameManager>
     public GameObject gameGO;
     public TextMeshProUGUI countDownText;
 
+    private Paragraph m_paragraph;
+    public Paragraph CurrentParagraph { get { return m_paragraph; } }
+
     public enum GameState
     {
         Ready, Countdown, Playing, Analytics
@@ -60,6 +63,7 @@ public class TypeGameManager : Singleton<TypeGameManager>
                 return;
             }
             wordsString = para.Prose;
+            m_paragraph = para;
         }
         ConvertStringToTRWords(wordsString);
     }

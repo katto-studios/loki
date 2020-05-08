@@ -9,9 +9,9 @@ public class Paragraph {
     public string Source;
 
     public Paragraph() { }
-    public Paragraph(string _prose, string _author, string _soruce) {
+    public Paragraph(string _prose, string _author, string _source) {
         Prose = _prose;
         Author = _author;
-        Source = _author;
+        Source = _source;
     }
 }
