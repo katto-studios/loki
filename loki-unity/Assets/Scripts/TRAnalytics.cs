@@ -17,6 +17,7 @@ public class TRAnalytics : MonoBehaviour
     public TextMeshProUGUI SCOREText;
     public TextMeshProUGUI COMBOText;
     public TextMeshProUGUI SourceText;
+    public TextMeshProUGUI AddedEXP;
 
     // Start is called before the first frame update
     protected virtual void Start()
