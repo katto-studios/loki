@@ -127,6 +127,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1090579395, guid: 324b18337523ede4ba4b23fd22aea62f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6117907291677428482, guid: 324b18337523ede4ba4b23fd22aea62f,
         type: 3}
       propertyPath: m_Name
@@ -186,6 +190,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114690825935812881, guid: 324b18337523ede4ba4b23fd22aea62f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114690825935812881, guid: 324b18337523ede4ba4b23fd22aea62f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114690825935812881, guid: 324b18337523ede4ba4b23fd22aea62f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8296172668812640862, guid: 324b18337523ede4ba4b23fd22aea62f,
         type: 3}
@@ -1204,7 +1223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.0796992, g: 0.08322532, b: 0.084905684, a: 0.56078434}
+  m_Color: {r: 0.13725491, g: 0.16078432, b: 0.27450982, a: 0.56078434}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
