@@ -144,9 +144,11 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
         });
 
         //EDITOR ONLY
-        if (Input.GetKeyDown(KeyCode.P) && Application.isEditor) {
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.P)) {
             Complete();
         }
+#endif
     }
 
     public void LeaveGame() {
@@ -210,6 +212,9 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
 
         if (++m_currentRound >= maxRounds) {
             //actually finish
+            //update score
+            PlayfabUserInfo.UpdatePlayerExp((int)(int.Parse(PhotonNetwork.player.CustomProperties["Score"].ToString()) * 1.5f));
+
             btnStartNext.GetComponentInChildren<TextMeshProUGUI>().SetText("Leave game");
             btnStartNext.onClick.RemoveAllListeners();
             btnStartNext.onClick.AddListener(LeaveGame);
@@ -221,7 +226,7 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
         base.QuitGame();
     }
 
-    #region PhotonCallbacks
+#region PhotonCallbacks
     public void OnConnectedToPhoton() {
 
     }
@@ -341,5 +346,5 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
     public void OnOwnershipTransfered(object[] viewAndPlayers) {
 
     } 
-    #endregion
+#endregion
 }

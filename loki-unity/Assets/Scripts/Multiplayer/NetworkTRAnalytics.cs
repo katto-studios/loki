@@ -34,9 +34,5 @@ public class NetworkTRAnalytics : TRAnalytics {
         COMBOText.text = typeGameManager.maxCombo.ToString();
 
         SourceText.text = "from " + typeGameManager.CurrentParagraph.Source + " by " + typeGameManager.CurrentParagraph.Author;
-
-        PlayfabUserInfo.UpdateHighscore(typeGameManager.score);
-        PlayfabUserInfo.UpdateWpm(typeGameManager.words.Count, timeSinceStart);
-        PlayfabUserInfo.UpdatePlayerExp((int)(typeGameManager.score * 1.5f));
     }
 }
