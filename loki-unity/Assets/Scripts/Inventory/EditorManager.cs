@@ -70,6 +70,7 @@ public class EditorManager : Singleton<EditorManager>
                 Ray ray = camera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit))
                 {
+                    Debug.Log(hit.transform.name);
                     if (hit.collider.GetComponent<EditorKey>())
                     {
                         KeySlot ks = hit.collider.GetComponent<EditorKey>().keySlot;
