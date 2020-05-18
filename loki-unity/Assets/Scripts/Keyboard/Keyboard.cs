@@ -108,7 +108,6 @@ public class Keyboard : Singleton<Keyboard>
         {
             foreach (ArtisanKeycap keycap in PlayFabKeyboard.playerKeycaps)
             {
-                Debug.Log("YES");
                 ArtisanData ad = new ArtisanData(-1, "");
                 try { PlayFabKeyboard.artisanData.TryGetValue(keycap, out ad); }
                 catch { PopupManager.Instance.ShowPopUp("Error Getting Keycap"); };

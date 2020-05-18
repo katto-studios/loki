@@ -11,7 +11,7 @@ public enum EditorManagerState
 public class EditorManager : Singleton<EditorManager>
 {
     public GameObject collisionBoundsPrefab;
-    public Keyboard keyboard;
+    public NetworkKeyboard keyboard;
     public List<EditorKey> editorKeys = new List<EditorKey>();
     public EditorManagerState state = EditorManagerState.IDLE;
     public InventorySlot selectedSlot;
@@ -23,7 +23,7 @@ public class EditorManager : Singleton<EditorManager>
         camera = FindObjectsOfType<Camera>()[0];
         Debug.Log("EditorManager Inited");
         state = EditorManagerState.IDLE;
-        if (!keyboard) keyboard = Keyboard.Instance;
+        if (!keyboard) keyboard = FindObjectOfType<NetworkKeyboard>();
 
         foreach(KeySlot ks in keyboard.keySlots)
         {

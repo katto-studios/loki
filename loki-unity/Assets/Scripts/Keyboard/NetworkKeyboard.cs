@@ -109,6 +109,24 @@ public class NetworkKeyboard : MonoBehaviour
                     thisKs.ChangeKey(newKey);
                 }
             }
+            else if (eachItem.ItemClass.Equals("COLOURPACK"))
+            {
+                Debug.Log(eachItem.ItemId);
+                string equipIndex = "0";
+                try { eachItem.CustomData.TryGetValue("EQUIPED", out equipIndex); }
+                catch {};
+                int ei = int.Parse(equipIndex);
+
+                if (ei == 1)
+                {
+                    ColourPack cp = ColourPackDatabase.Instance.GetColourPackFromID(eachItem.ItemId);
+                    //Equip Colourpack
+                    foreach(KeySlot keySlot in keySlots)
+                    {
+                        keySlot.ChangeColour(cp);
+                    }
+                }
+            }
         }
 
         if (FindObjectOfType<EditorManager>()) EditorManager.Instance.Init();

@@ -130,8 +130,9 @@ GameObject:
   m_Component:
   - component: {fileID: 222443008}
   - component: {fileID: 222443007}
+  - component: {fileID: 222443009}
   m_Layer: 0
-  m_Name: KeycapManager
+  m_Name: _DATABASE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,6 +168,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &222443009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222443006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e49736ece146aa49bfaf0ef60ed6958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colourPacks:
+  - {fileID: 11400000, guid: 576c03af938e1114290bc6b787fb6151, type: 2}
 --- !u!1 &559248217
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,16 +497,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2516648551322056522, guid: a8f0dd31d046be944a34455056b5f5bb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2516648551535544931, guid: a8f0dd31d046be944a34455056b5f5bb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2516648552867559510, guid: a8f0dd31d046be944a34455056b5f5bb,
         type: 3}
