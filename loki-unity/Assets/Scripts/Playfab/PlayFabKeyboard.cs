@@ -53,7 +53,7 @@ public static class PlayFabKeyboard
         if (Keyboard.Instance)
         {
             Debug.Log("Initing");
-            Keyboard.Instance.InitKeyboard();
+            //Keyboard.Instance.InitKeyboard();
         }
 
         Debug.Log(dText);

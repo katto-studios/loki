@@ -217,45 +217,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 324b18337523ede4ba4b23fd22aea62f, type: 3}
---- !u!1 &32235421 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6117907291677428482, guid: 324b18337523ede4ba4b23fd22aea62f,
-    type: 3}
-  m_PrefabInstance: {fileID: 32235420}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &32235422 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2866190774955697569, guid: 324b18337523ede4ba4b23fd22aea62f,
-    type: 3}
-  m_PrefabInstance: {fileID: 32235420}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &32235423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32235421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0394d15eb2f7f6845a8f5c0a5e110d3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &32235424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32235421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcd29e949b2d6a441a89b69c9dc44e48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keysGO: {fileID: 32235422}
-  keys: []
-  keySlots: []
 --- !u!1 &242270815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1470,6 +1431,7 @@ MonoBehaviour:
     type: 3}
   inventorySlots: []
   cpInventorySlots: []
+  currentCPSlot: {fileID: 0}
 --- !u!4 &1662902464
 Transform:
   m_ObjectHideFlags: 0

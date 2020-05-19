@@ -6,7 +6,7 @@ using System;
 //Sends Input Data to Keyboard Component
 public class KeyboardInput : MonoBehaviour
 {
-    public Keyboard keyboard;
+    public NetworkKeyboard keyboard;
     // Update is called once per frame
     void Update()
     {
