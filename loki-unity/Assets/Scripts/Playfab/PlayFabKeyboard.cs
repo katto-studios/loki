@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using System;
 
 public struct ArtisanData
 {
@@ -20,6 +21,7 @@ public static class PlayFabKeyboard
 {
     public static List<ArtisanKeycap> playerKeycaps = new List<ArtisanKeycap>();
     public static Dictionary<ArtisanKeycap, ArtisanData> artisanData = new Dictionary<ArtisanKeycap, ArtisanData>();
+    public static event Action<string, int> UpdatedCallback;
     //INVENTORY STUFF
 
     static bool recievedKeycaps;
@@ -51,10 +53,26 @@ public static class PlayFabKeyboard
         if (Keyboard.Instance)
         {
             Debug.Log("Initing");
-            Keyboard.Instance.InitKeyboard();
+            //Keyboard.Instance.InitKeyboard();
         }
 
         Debug.Log(dText);
+    }
+
+    public static void UpdateCustomData(string instanceID, int data)
+    {
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest()
+            {
+                FunctionName = "UpdateKeycapInfo",
+                FunctionParameter = new { ItemId = instanceID, Data_update = data },
+            },
+            (_result) => {
+                Debug.Log(instanceID + " " + data);
+                UpdatedCallback?.Invoke(instanceID, data);
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
     }
 
     public static List<ArtisanKeycap> GetUserInventory()

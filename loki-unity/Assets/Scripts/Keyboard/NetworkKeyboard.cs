@@ -79,6 +79,15 @@ public class NetworkKeyboard : MonoBehaviour
         return keySlots[ei];
     }
 
+    public void SetColourPack(ColourPack cp)
+    {
+        //Equip Colourpack
+        foreach (KeySlot keySlot in keySlots)
+        {
+            keySlot.ChangeColour(cp);
+        }
+    }
+
     public void Init(List<ItemInstance> items)
     {
         int ind = 0;
@@ -113,7 +122,7 @@ public class NetworkKeyboard : MonoBehaviour
             {
                 Debug.Log(eachItem.ItemId);
                 string equipIndex = "0";
-                try { eachItem.CustomData.TryGetValue("EQUIPED", out equipIndex); }
+                try { eachItem.CustomData.TryGetValue("EQUIP_SLOT", out equipIndex); }
                 catch {};
                 int ei = int.Parse(equipIndex);
 

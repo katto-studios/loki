@@ -3249,6 +3249,8 @@ GameObject:
   - component: {fileID: 1582839348}
   - component: {fileID: 1090579395}
   - component: {fileID: 1090579394}
+  - component: {fileID: 5077813518639807229}
+  - component: {fileID: 4401448395484670178}
   m_Layer: 0
   m_Name: keyboard
   m_TagString: Untagged
@@ -3299,7 +3301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d028685f519881c409b75df25b5914e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyboard: {fileID: 8296172668812640862}
+  keyboard: {fileID: 5077813518639807229}
 --- !u!65 &1090579395
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3327,6 +3329,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivity: 0.3
   camera: {fileID: 0}
+--- !u!114 &5077813518639807229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6117907291677428482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd29e949b2d6a441a89b69c9dc44e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keysGO: {fileID: 2866190774955697569}
+  keys: []
+  keySlots: []
+--- !u!114 &4401448395484670178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6117907291677428482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0394d15eb2f7f6845a8f5c0a5e110d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6117907293018785411
 GameObject:
   m_ObjectHideFlags: 0

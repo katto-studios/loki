@@ -23,10 +23,7 @@ public class KeySlot : MonoBehaviour
 
     public void ChangeColour(ColourPack cp)
     {
-        if (defaultKeycapGO.GetActive())
-        {
-            defaultKeycapGO.GetComponentInChildren<MeshRenderer>().material.color = cp.color;
-        }
+        defaultKeycapGO.GetComponentInChildren<MeshRenderer>().material.color = cp.GetKeyColour(keyIndex);
     }
 
     public void ChangeKey(ArtisanKeycap keycap)

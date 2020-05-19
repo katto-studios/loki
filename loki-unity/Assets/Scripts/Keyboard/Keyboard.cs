@@ -76,7 +76,7 @@ public class Keyboard : Singleton<Keyboard>
     // Start is called before the first frame update
     void Start()
     {
-        InitKeyboard();
+        //InitKeyboard();
     }
 
     public KeySlot EquipInfoToKeySlot(int ei)
