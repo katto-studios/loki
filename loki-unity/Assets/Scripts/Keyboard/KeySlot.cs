@@ -19,6 +19,7 @@ public class KeySlot : MonoBehaviour
     {
         keyIndex = index;
         keyCode = code;
+        defaultKeycapGO = transform.GetChild(0).gameObject;
     }
 
     public void ChangeColour(ColourPack cp)
