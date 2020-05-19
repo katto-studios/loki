@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbb3cd44e72e27f409c0c95953c55f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyboard: {fileID: 0}
+  keyboard: {fileID: 4019191801946531247}
   playerNameUI: {fileID: 8196285085091912336}
 --- !u!1001 &8196285084594921298
 PrefabInstance:
@@ -957,6 +957,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7114690825935812881, guid: 324b18337523ede4ba4b23fd22aea62f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114690825935812881, guid: 324b18337523ede4ba4b23fd22aea62f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114690825935812881, guid: 324b18337523ede4ba4b23fd22aea62f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7573088891273639236, guid: 324b18337523ede4ba4b23fd22aea62f,
         type: 3}
       propertyPath: m_Layer
@@ -1276,3 +1291,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8196285084594921298}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4019191801946531247 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5077813518639807229, guid: 324b18337523ede4ba4b23fd22aea62f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8196285084594921298}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd29e949b2d6a441a89b69c9dc44e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

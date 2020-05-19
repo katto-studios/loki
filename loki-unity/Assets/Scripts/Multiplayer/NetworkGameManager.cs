@@ -15,7 +15,7 @@ public class NetworkGameManager : TypeGameManager, IPunCallbacks {
     [Header("Networking")]
     public int maxRounds = 3;
     private HashSet<PhotonPlayer> m_opponents = new HashSet<PhotonPlayer>();
-    private List<MultiplayerKeyboard> m_networkKeyboards = new List<MultiplayerKeyboard>();
+    public List<MultiplayerKeyboard> m_networkKeyboards = new List<MultiplayerKeyboard>();
     private int currentNetworkKeyboardIndex;
     public GameObject NetworkKeyboardPrefab;
     public GameObject NetworkKeyboardPosition;

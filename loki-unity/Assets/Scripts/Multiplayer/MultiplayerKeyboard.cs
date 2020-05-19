@@ -14,12 +14,13 @@ public class MultiplayerKeyboard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //keyboard = GetComponentInChildren<NetworkKeyboard>();
-        //playerNameUI = GetComponentInChildren<TextMeshProUGUI>();
+        keyboard = GetComponentInChildren<NetworkKeyboard>();
+        playerNameUI = GetComponentInChildren<TextMeshPro>();
     }
 
     public void Init(List<ItemInstance> items, UserAccountInfo u)
     {
+        keyboard = GetComponentInChildren<NetworkKeyboard>();
         m_accountInfo = u;
         playerNameUI.text = u.Username;
         keyboard.Init(items);
