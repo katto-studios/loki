@@ -183,6 +183,7 @@ MonoBehaviour:
   colourPacks:
   - {fileID: 11400000, guid: ba2c8ef9bc6e11d409ab9b5d25e0d81b, type: 2}
   - {fileID: 11400000, guid: 576c03af938e1114290bc6b787fb6151, type: 2}
+  - {fileID: 11400000, guid: 25f72afb37cf5794083cd7fbf8e3bd24, type: 2}
 --- !u!1 &559248217
 GameObject:
   m_ObjectHideFlags: 0
