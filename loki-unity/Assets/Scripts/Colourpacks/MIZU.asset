@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Mizu
   id: MIZU
   color: {r: 0.8349056, g: 1, b: 0.99403274, a: 0}
-  colourPackRarity: 2
+  colourPackRarity: 3
   additionalColours:
   - color: {r: 0.41117835, g: 0.8301887, b: 0.8097492, a: 0}
     keys: 

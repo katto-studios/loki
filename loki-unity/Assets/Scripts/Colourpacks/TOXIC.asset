@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88f7914a505a5aa4c912f15961963d0d, type: 3}
-  m_Name: BLACK_MATTER
+  m_Name: TOXIC
   m_EditorClassIdentifier: 
-  name: Black Matter
-  id: BLACK_MATTER
-  color: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 0}
-  colourPackRarity: 4
+  name: Toxic
+  id: TOXIC
+  color: {r: 0.034784317, g: 1, b: 0, a: 0}
+  colourPackRarity: 1
   additionalColours:
-  - color: {r: 0.5341188, g: 0.3615611, b: 0.6132076, a: 0}
+  - color: {r: 1, g: 0.56329775, b: 0, a: 0}
     keys: 
     keyGroup: 4
-  - color: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 0}
+  - color: {r: 1, g: 0, b: 0.55344296, a: 0}
     keys: 
     keyGroup: 2

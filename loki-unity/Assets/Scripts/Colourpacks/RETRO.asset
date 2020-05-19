@@ -10,16 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88f7914a505a5aa4c912f15961963d0d, type: 3}
-  m_Name: BLACK_MATTER
+  m_Name: RETRO
   m_EditorClassIdentifier: 
-  name: Black Matter
-  id: BLACK_MATTER
-  color: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 0}
-  colourPackRarity: 4
+  name: Retro
+  id: RETRO
+  color: {r: 1, g: 0.94210935, b: 0.8632076, a: 0}
+  colourPackRarity: 0
   additionalColours:
-  - color: {r: 0.5341188, g: 0.3615611, b: 0.6132076, a: 0}
+  - color: {r: 0.6509434, g: 0.60158277, b: 0.51891243, a: 0}
     keys: 
-    keyGroup: 4
-  - color: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 0}
-    keys: 
-    keyGroup: 2
+    keyGroup: 0

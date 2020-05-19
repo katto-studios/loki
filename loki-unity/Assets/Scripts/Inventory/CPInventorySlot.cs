@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using PlayFab.ClientModels;
+using UnityEngine.UI;
 
 public class CPInventorySlot : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class CPInventorySlot : MonoBehaviour
     private int equipInfo;
     public ItemInstance ItemInstance;
 
+    private Image background;
+    private Image itemImage;
+
     public GameObject equipedPanel;
     public GameObject selectedPanel;
 
@@ -21,6 +25,31 @@ public class CPInventorySlot : MonoBehaviour
         itemName = GetComponentInChildren<TextMeshProUGUI>();
         colourPack = newcp;
         itemName.text = newcp.name;
+        background = GetComponent<Image>();
+        itemImage = transform.GetChild(1).GetComponent<Image>();
+
+        Color nc = newcp.color;
+        nc.a = 1f;
+        itemImage.color = nc;
+
+        switch (newcp.colourPackRarity)
+        {
+            case ColourPackRarity.COMMON:
+                background.color = new Color(0.8f, 0.8f, 0.8f);
+                break;
+            case ColourPackRarity.RARE:
+                background.color = new Color(0.6f, 0.8f, 0.6f);
+                break;
+            case ColourPackRarity.EPIC:
+                background.color = new Color(0.7f, 0.5f, 0.7f);
+                break;
+            case ColourPackRarity.LEGENDARY:
+                background.color = new Color(0.8f, 0.6f, 0.4f);
+                break;
+            case ColourPackRarity.UNIQUE:
+                background.color = new Color(0.8f, 0.3f, 0.3f);
+                break;
+        }
 
         equipInfo = newEquipInfo;
         if (equipInfo == 0)
