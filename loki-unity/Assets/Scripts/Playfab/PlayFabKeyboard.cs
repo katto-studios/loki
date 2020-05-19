@@ -68,6 +68,7 @@ public static class PlayFabKeyboard
                 FunctionParameter = new { ItemId = instanceID, Data_update = data },
             },
             (_result) => {
+                Debug.Log(instanceID + " " + data);
                 UpdatedCallback?.Invoke(instanceID, data);
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }

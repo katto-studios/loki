@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using PlayFab.ClientModels;
 
 public class CPInventorySlot : MonoBehaviour
 {
@@ -10,11 +11,12 @@ public class CPInventorySlot : MonoBehaviour
     [SerializeField]
     private InventorySlotState inventorySlotState;
     private int equipInfo;
+    public ItemInstance ItemInstance;
 
     public GameObject equipedPanel;
     public GameObject selectedPanel;
 
-    public void SetColourPack(ColourPack newcp, int newEquipInfo)
+    public void SetColourPack(ColourPack newcp, int newEquipInfo, ItemInstance ie)
     {
         itemName = GetComponentInChildren<TextMeshProUGUI>();
         colourPack = newcp;
@@ -29,6 +31,8 @@ public class CPInventorySlot : MonoBehaviour
         {
             SetEquipedState();
         }
+
+        ItemInstance = ie;
     }
 
     public ColourPack GetColourPack()

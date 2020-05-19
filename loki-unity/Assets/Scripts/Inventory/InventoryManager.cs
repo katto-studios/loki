@@ -58,7 +58,7 @@ public class InventoryManager : Singleton<InventoryManager>
                     currentCPSlot = newInventorySlot.GetComponent<CPInventorySlot>();
                 }
 
-                newInventorySlot.GetComponent<CPInventorySlot>().SetColourPack(cp, ei);
+                newInventorySlot.GetComponent<CPInventorySlot>().SetColourPack(cp, ei, eachItem);
                 cpInventorySlots.Add(newInventorySlot.GetComponent<CPInventorySlot>());
             }
         }
@@ -92,8 +92,8 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         if(currentCPSlot != slot)
         {
-            PlayFabKeyboard.UpdateCustomData(slot.GetColourPack().id, 1);
-            PlayFabKeyboard.UpdateCustomData(currentCPSlot.GetColourPack().id, 0);
+            PlayFabKeyboard.UpdateCustomData(slot.ItemInstance.ItemInstanceId, 1);
+            if(currentCPSlot) PlayFabKeyboard.UpdateCustomData(currentCPSlot.ItemInstance.ItemInstanceId, 0);
         }
     }
 
@@ -101,12 +101,13 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         foreach(CPInventorySlot slot in cpInventorySlots)
         {
-            if(slot.GetColourPack().id == instanceID)
+            if(slot.ItemInstance.ItemInstanceId == instanceID)
             {
                 if(data == 0)
                 {
                     slot.SetInventoryState();
-                } else if (data == 1)
+                }
+                else if (data == 1)
                 {
                     slot.SetEquipedState();
                     currentCPSlot = slot;
