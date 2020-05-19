@@ -33,6 +33,21 @@ public class CPInventorySlot : MonoBehaviour
         }
 
         ItemInstance = ie;
+
+        DamageCheck();
+    }
+
+    public void DamageCheck()
+    {
+        if (!equipedPanel)
+        {
+            equipedPanel = transform.GetChild(2).gameObject;
+        }
+
+        if (!selectedPanel)
+        {
+            equipedPanel = transform.GetChild(3).gameObject;
+        }
     }
 
     public ColourPack GetColourPack()
@@ -48,6 +63,7 @@ public class CPInventorySlot : MonoBehaviour
 
     public void SetEquipedState()
     {
+        DamageCheck();
         selectedPanel.SetActive(false);
         equipedPanel.SetActive(true);
         inventorySlotState = InventorySlotState.EQUIPED;
@@ -55,6 +71,8 @@ public class CPInventorySlot : MonoBehaviour
 
     public void SetSelectedState()
     {
+
+        DamageCheck();
         selectedPanel.SetActive(true);
         equipedPanel.SetActive(false);
         inventorySlotState = InventorySlotState.SELECTED;
@@ -62,6 +80,8 @@ public class CPInventorySlot : MonoBehaviour
 
     public void SetInventoryState()
     {
+
+        DamageCheck();
         selectedPanel.SetActive(false);
         equipedPanel.SetActive(false);
         inventorySlotState = InventorySlotState.INVENTORY;

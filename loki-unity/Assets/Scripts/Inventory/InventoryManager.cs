@@ -21,6 +21,11 @@ public class InventoryManager : Singleton<InventoryManager>
         PlayFabKeyboard.UpdatedCallback += UpdateCustomData;
     }
 
+    public void OnDestroy()
+    {
+        cpInventorySlots.Clear();
+    }
+
     public void GetInventoryData(List<ItemInstance> items, UserAccountInfo u)
     {
         foreach (ItemInstance eachItem in items)
