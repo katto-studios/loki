@@ -38,7 +38,7 @@ public class CPInventorySlot : MonoBehaviour
                 background.color = new Color(0.8f, 0.8f, 0.8f);
                 break;
             case ColourPackRarity.RARE:
-                background.color = new Color(0.6f, 0.8f, 0.6f);
+                background.color = new Color(0.6f, 0.6f, 0.8f);
                 break;
             case ColourPackRarity.EPIC:
                 background.color = new Color(0.7f, 0.5f, 0.7f);
@@ -52,13 +52,13 @@ public class CPInventorySlot : MonoBehaviour
         }
 
         equipInfo = newEquipInfo;
-        if (equipInfo == 0)
+        if (equipInfo != 0)
         {
-            SetInventoryState();
+            SetEquipedState();
         }
         else
         {
-            SetEquipedState();
+            SetInventoryState();
         }
 
         ItemInstance = ie;

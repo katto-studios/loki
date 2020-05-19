@@ -1876,7 +1876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 1217827052}
+  m_Content: {fileID: 1692504335}
   m_Horizontal: 1
   m_Vertical: 0
   m_MovementType: 1
@@ -2180,7 +2180,7 @@ PrefabInstance:
     - target: {fileID: 6895885781158642646, guid: db7e8387d90cf654fbc3de3e33c33584,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6895885781158642646, guid: db7e8387d90cf654fbc3de3e33c33584,
         type: 3}

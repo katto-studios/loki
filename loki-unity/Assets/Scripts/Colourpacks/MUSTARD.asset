@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Mustard
   id: MUSTARD
-  color: {r: 0.764151, g: 0.6641536, b: 0.33521715, a: 0}
+  color: {r: 1, g: 0.78259003, b: 0.08018869, a: 0}
   colourPackRarity: 0
   additionalColours: []
