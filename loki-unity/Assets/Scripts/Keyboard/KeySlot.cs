@@ -25,7 +25,7 @@ public class KeySlot : MonoBehaviour
     {
         if (defaultKeycapGO.GetActive())
         {
-            defaultKeycapGO.GetComponentInChildren<MeshRenderer>().material.color = cp.color;
+            defaultKeycapGO.GetComponentInChildren<MeshRenderer>().material.color = cp.GetKeyColour(keyIndex);
         }
     }
 

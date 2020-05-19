@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayFab.ClientModels;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
@@ -10,22 +11,34 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void InitInventory()
     {
-        List<ArtisanKeycap> playerKeycaps = PlayFabKeyboard.playerKeycaps;
-        
-        foreach(ArtisanKeycap keycap in playerKeycaps)
-        {
-            GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventoryContent.transform);
-            ArtisanData ad = new ArtisanData(-1, "");
-            try
-            {
-                PlayFabKeyboard.artisanData.TryGetValue(keycap, out ad);
-            } catch {
-                PopupManager.Instance.ShowPopUp("Error getting keycap data");
-            };
+        PlayerInventoryCallBack pcib = GetInventoryData;
+        PlayFabPlayerData.GetUserInventory(PlayfabUserInfo.AccountInfo, pcib);
+    }
 
-            int ei = ad.equipInfo;
-            newInventorySlot.GetComponent<InventorySlot>().SetArtisanKeycap(keycap, ei);
-            inventorySlots.Add(newInventorySlot.GetComponent<InventorySlot>());
+    public void GetInventoryData(List<ItemInstance> items, UserAccountInfo u)
+    {
+        foreach (ItemInstance eachItem in items)
+        {
+            if (eachItem.ItemClass.Equals("KEYCAP"))
+            {
+                GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventoryContent.transform);
+
+                string id = eachItem.ItemId;
+                ArtisanKeycap keycap = KeycapDatabase.Instance.getKeyCapFromID(id);
+
+                string equipIndex = "-2";
+                try { eachItem.CustomData.TryGetValue("EQUIP_SLOT", out equipIndex); }
+                catch { };
+                int ei = int.Parse(equipIndex);
+
+                newInventorySlot.GetComponent<InventorySlot>().SetArtisanKeycap(keycap, ei);
+                inventorySlots.Add(newInventorySlot.GetComponent<InventorySlot>());
+            }
+
+            if (eachItem.ItemClass.Equals("ColourPack"))
+            {
+
+            }
         }
     }
 

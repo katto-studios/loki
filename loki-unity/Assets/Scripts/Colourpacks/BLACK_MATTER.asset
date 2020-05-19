@@ -16,3 +16,6 @@ MonoBehaviour:
   id: BLACK_MATTER
   color: {r: 0, g: 0, b: 0, a: 0}
   colourPackRarity: 2
+  additionalColours:
+  - color: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 0}
+    keys: 0100000002000000030000000400000005000000060000000700000008000000090000000a000000
