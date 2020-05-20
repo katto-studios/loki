@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Olive
   id: OLIVE
-  color: {r: 0.1955322, g: 0.24528301, b: 0.20267248, a: 0}
+  color: {r: 0.2507565, g: 0.3301887, b: 0.26297686, a: 0}
   colourPackRarity: 1
   additionalColours:
   - color: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 0}

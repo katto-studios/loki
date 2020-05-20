@@ -82,6 +82,7 @@ public class EditorManager : Singleton<EditorManager>
                                 {
                                     eachIS.SetInventoryState();
                                     ks.EmptySlot();
+                                    PlayFabKeycapEquipInfo(eachIS, -1, null);
                                 }
                             }
                         }
