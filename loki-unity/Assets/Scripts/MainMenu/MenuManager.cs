@@ -21,11 +21,14 @@ public class MenuManager : MonoBehaviour {
     public TextMeshProUGUI levelDisplay;
     public Slider levelProgress;
 
+    [Header("lmao SOLIDS amirite")]
+    public bool showCurrency = true;
+
     // Start is called before the first frame update
     void Start() {
         UpdateName();
         UpdateProfilePic();
-        UpdateCurrency();
+        if(showCurrency) UpdateCurrency();
         UpdateLevel();
 		PlayfabUserInfo.SetUserState(PlayfabUserInfo.UserState.InMainMenu);
     }
