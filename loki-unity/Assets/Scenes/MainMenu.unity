@@ -1443,11 +1443,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2516648551721428224, guid: a8f0dd31d046be944a34455056b5f5bb,
-        type: 3}
-      propertyPath: keyboard
-      value: 
-      objectReference: {fileID: 2516648552784242880}
     - target: {fileID: 2516648552867559510, guid: a8f0dd31d046be944a34455056b5f5bb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1508,23 +1503,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_Rusty
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2304149179700673494, guid: a8f0dd31d046be944a34455056b5f5bb, type: 3}
-    - {fileID: 7247676066749278665, guid: a8f0dd31d046be944a34455056b5f5bb, type: 3}
-    - {fileID: 5894371405052678506, guid: a8f0dd31d046be944a34455056b5f5bb, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8f0dd31d046be944a34455056b5f5bb, type: 3}
---- !u!114 &2516648552784242880 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 321680519, guid: a8f0dd31d046be944a34455056b5f5bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 2516648552784242879}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcd29e949b2d6a441a89b69c9dc44e48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4442741194945957348 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2254938998378800475, guid: a8f0dd31d046be944a34455056b5f5bb,
