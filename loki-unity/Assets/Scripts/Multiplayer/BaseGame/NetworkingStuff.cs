@@ -5,6 +5,10 @@ using ExitGames.Client.Photon;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using Random = UnityEngine.Random;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
+// ReSharper disable Unity.PerformanceCriticalCodeInvocation
 
 //for photon networking
 public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
@@ -14,6 +18,9 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
     public InputField inCreateRoomPassword;
     public InputField inJoinRoomPassword;
     public Image masterPlayerIcon;
+    public enum GameMode { Default, TimeTrial }
+
+    public GameMode gameMode;
 
     [Header("Gameplay")]
     public GameObject goToPlayGameScene;
@@ -40,43 +47,83 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
         }
     }
 
-    private void StartGame() {
+    private void StartGame(){
         //if ((PlayfabUserInfo.UserState)m_opponent.CustomProperties["PlayerState"] == PlayfabUserInfo.UserState.WaitingForOpponent) {
-        if (PhotonNetwork.otherPlayers.All(x => { return (PlayfabUserInfo.UserState)x.CustomProperties["PlayerState"] == PlayfabUserInfo.UserState.WaitingForOpponent; })) {
-            if (PhotonNetwork.isMasterClient) {
-                Paragraph para = GetProse.Instance.GetRandomProse();
+        if (!PhotonNetwork.otherPlayers.All(x =>
+            (PlayfabUserInfo.UserState) x.CustomProperties["PlayerState"] ==
+            PlayfabUserInfo.UserState.WaitingForOpponent)) return;
 
-                //set opponents
-                foreach (PhotonPlayer player in PhotonNetwork.otherPlayers) {
-                    player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+        switch (gameMode){
+            case GameMode.Default:
+                InitaliseDefaultGame();
+                break;
+            case GameMode.TimeTrial:
+                InitaliseTimeTrail();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void InitaliseDefaultGame(){
+        if (PhotonNetwork.isMasterClient) {
+            Paragraph para = GetProse.Instance.GetRandomProse();
+
+            //set opponents
+            foreach (PhotonPlayer player in PhotonNetwork.otherPlayers) {
+                player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
                     { "Score", 0 },
                     {"PlayerState", PlayfabUserInfo.UserState.InMatch },
                 });
-                }
+            }
 
-                //setself
-                PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
-                    { "Score", 0 },
-                    {"PlayerState", PlayfabUserInfo.UserState.InMatch },
-                    { "ProseToWrite", para.Prose }
-                });
+            //setself
+            PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+                { "Score", 0 },
+                {"PlayerState", PlayfabUserInfo.UserState.InMatch },
+                { "ProseToWrite", para.Prose }
+            });
 
-                //set room
-                PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
-                        { "Paragraph", para.Prose },
-                        { "Round number", 0 },
-                        { "ReadyToStart", true },
-                        { "ProsesUsed", para.Prose }
-                });
+            //set room
+            PhotonNetwork.room.SetCustomProperties(new Hashtable() {
+                { "Paragraph", para.Prose },
+                { "Round number", 0 },
+                { "ReadyToStart", true },
+                { "ProsesUsed", para.Prose }
+            });
 
+            //change scene
+            GetComponent<SceneChanger>().ChangeScene(5);
+        } else {
+            //wait for readytostart
+            if ((bool)PhotonNetwork.room.CustomProperties["ReadyToStart"]) {
                 //change scene
                 GetComponent<SceneChanger>().ChangeScene(5);
-            } else {
-                //wait for readytostart
-                if ((bool)PhotonNetwork.room.CustomProperties["ReadyToStart"]) {
-                    //change scene
-                    GetComponent<SceneChanger>().ChangeScene(5);
-                }
+            }
+        }
+    }
+
+    private void InitaliseTimeTrail(){
+        if (PhotonNetwork.isMasterClient){
+            int roomSeed = Random.Range(0, 999999);
+            
+            //set room
+            PhotonNetwork.room.SetCustomProperties(new Hashtable(){
+                { "RandomSeed", roomSeed }
+            });
+
+            foreach (PhotonPlayer player in PhotonNetwork.playerList) {
+                player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+                    { "Score", 0 },
+                    {"PlayerState", PlayfabUserInfo.UserState.InMatch },
+                });
+            }
+        }
+        else{
+            //wait for readytostart
+            if ((bool)PhotonNetwork.room.CustomProperties["ReadyToStart"]) {
+                //change scene
+                GetComponent<SceneChanger>().ChangeScene(5);
             }
         }
     }
