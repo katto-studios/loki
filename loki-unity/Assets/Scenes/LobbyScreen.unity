@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -568,7 +569,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4288261923
+    rgba: 4288327716
   m_fontColor: {r: 0.13968495, g: 0.6886792, b: 0.6031499, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3184,7 +3185,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284088161
+    rgba: 4284153698
   m_fontColor: {r: 0.38259616, g: 1, b: 0.35294116, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3991,6 +3992,7 @@ GameObject:
   - component: {fileID: 2128938660}
   - component: {fileID: 2128938662}
   - component: {fileID: 2128938664}
+  - component: {fileID: 2128938663}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -4040,6 +4042,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b33be3d7ce8e214da0f9add464107fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2128938663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128938659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15fabe0f8cbccf34d9fdce83dd9c9bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2128938664
