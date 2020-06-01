@@ -294,7 +294,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &155782941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,12 +308,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9777438, g: 0.5801887, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.38984632, b: 0.25943398, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 0b90466e9401a95448d574244c5a646c, type: 3}
+  m_Texture: {fileID: 2800000, guid: eafced3f5958f364791b19199472d206, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -451,12 +451,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9777438, g: 0.5801887, b: 1, a: 1}
+  m_Color: {r: 0.33490568, g: 1, b: 0.60427314, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 0b90466e9401a95448d574244c5a646c, type: 3}
+  m_Texture: {fileID: 2800000, guid: dd16375ad49aec94c96c9036cf38ddef, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -957,7 +957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1686739652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -971,12 +971,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9777438, g: 0.5801887, b: 1, a: 1}
+  m_Color: {r: 0.6606889, g: 0.84047407, b: 0.9528302, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 0b90466e9401a95448d574244c5a646c, type: 3}
+  m_Texture: {fileID: 2800000, guid: 7919e615e9fb14c428ad737aa52b8ff8, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1009,7 +1009,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -46}
-  m_SizeDelta: {x: 250, y: 250}
+  m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1808966982
 GameObject:
@@ -1094,7 +1094,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1972882658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1108,12 +1108,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9777438, g: 0.5801887, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9098744, b: 0.3066038, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 0b90466e9401a95448d574244c5a646c, type: 3}
+  m_Texture: {fileID: 2800000, guid: fb432855f14061041a8ca3a1af84ad98, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
