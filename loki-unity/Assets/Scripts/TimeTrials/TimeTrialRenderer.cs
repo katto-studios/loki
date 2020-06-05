@@ -22,9 +22,15 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
     [SerializeField] private Slider m_comboSlider;
     private string m_displayInputTotal;
     private string m_currentWord;
+    private int m_score = 0;
     
     [Header("Analytics")]
     [SerializeField] private GameObject m_analytics;
+    [SerializeField] private TextMeshProUGUI m_finalScore;
+    [SerializeField] private TextMeshProUGUI m_combo;
+    [SerializeField] private TextMeshProUGUI m_wpm;
+    [SerializeField] private TextMeshProUGUI m_mistakes;
+    [SerializeField] private TextMeshProUGUI m_acc;
 
     private void Start(){
         TimeTrialGameStateManager.Instance.eOnStartGameTick += WhenStartGameTick;
@@ -34,8 +40,9 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         TimeTrialsGameManager.Instance.eOnScoreUpdate += OnScoreUpdate;
     }
 
-    private void OnScoreUpdate(float _newScore){
-        m_scoreDisplay.SetText(_newScore.ToString());
+    private void OnScoreUpdate(int _newScore){
+        m_score += _newScore;
+        m_scoreDisplay.SetText(m_score.ToString());
     }
 
     private void GotNewWord(string _newWord){
@@ -56,9 +63,17 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
             case TimeTrialGameStateManager.GameStates.Analytics:{
                 m_game.SetActive(false);
                 m_analytics.SetActive(true);
+                StartAnalysis();
                 break;
             }
         }
+    }
+
+    private void StartAnalysis(){
+        m_finalScore.SetText(TimeTrialAnalytics.Instance.Score.ToString());
+        m_mistakes.SetText(TimeTrialAnalytics.Instance.Misses.ToString());
+        m_wpm.SetText(TimeTrialAnalytics.Instance.Wpm.ToString());
+        m_acc.SetText(((float)TimeTrialAnalytics.Instance.Misses / TimeTrialAnalytics.Instance.Wpm * 100).ToString("D"));
     }
 
     private void WhenStartGameTick(int _howMuch){

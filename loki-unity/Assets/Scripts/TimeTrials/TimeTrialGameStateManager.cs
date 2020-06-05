@@ -23,14 +23,6 @@ public class TimeTrialGameStateManager : Singleton<TimeTrialGameStateManager>{
                 }
                 break;
             }
-            case GameStates.Game:{
-                break;
-            }
-            case GameStates.Analytics:{
-                break;
-            }
-            case GameStates.No:
-                break;
         }
     }
 
@@ -46,6 +38,10 @@ public class TimeTrialGameStateManager : Singleton<TimeTrialGameStateManager>{
         }
 
         m_currentState = GameStates.Game;
+        eOnChangedState?.Invoke(m_currentState);
+        
+        yield return new WaitForSeconds(10);
+        m_currentState = GameStates.Analytics;
         eOnChangedState?.Invoke(m_currentState);
     }
     

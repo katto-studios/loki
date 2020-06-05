@@ -6,12 +6,12 @@ using UnityEngine;
 //handles the game
 public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     private TimeTrialWordFactory m_fac;
-    [SerializeField] private string m_typeMe;
-    [SerializeField] private string m_currentInput;
-    private float m_score = 0;
+    private string m_typeMe;
+    private string m_currentInput;
 
     public event Action<string> eOnGetNewWord;
-    public event Action<float> eOnScoreUpdate;
+    public event Action<int> eOnScoreUpdate;
+    public event Action eOnMiss;
 
     private void Start(){
         m_fac = GetComponent<TimeTrialWordFactory>();
@@ -25,7 +25,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
             if (_state is TimeTrialGameStateManager.GameStates.Game){
                 m_typeMe = m_fac.GetWord();
                 eOnGetNewWord?.Invoke(m_typeMe);
-                eOnScoreUpdate?.Invoke(m_score);
+                eOnScoreUpdate?.Invoke(0);
             }
         };
     }
@@ -33,20 +33,22 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     private void HandleKeyPress(char _ch){
         if (_ch.Equals('\r') && m_currentInput.Equals(m_typeMe)){
             //only award score after word is submitted, rather than every char
-            m_score += m_typeMe.Length; //change me to exponential
 
             m_typeMe = m_fac.GetWord();
             m_currentInput = string.Empty;
             eOnGetNewWord?.Invoke(m_typeMe);
-            eOnScoreUpdate?.Invoke(m_score);
+            eOnScoreUpdate?.Invoke(m_typeMe.Length);
         }
         else if (_ch.Equals('\b')){
             if (string.IsNullOrEmpty(m_currentInput)) return;
-                
+
             m_currentInput = m_currentInput.Remove(m_currentInput.Length - 1);
         }
         else{
             m_currentInput += _ch;
+            if (!m_typeMe.StartsWith(m_currentInput)){
+                eOnMiss?.Invoke();
+            }
         }
     }
 }
