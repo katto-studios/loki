@@ -32,8 +32,6 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
 
     private void HandleKeyPress(char _ch){
         if (_ch.Equals('\r') && m_currentInput.Equals(m_typeMe)){
-            //only award score after word is submitted, rather than every char
-
             m_typeMe = m_fac.GetWord();
             m_currentInput = string.Empty;
             eOnGetNewWord?.Invoke(m_typeMe);

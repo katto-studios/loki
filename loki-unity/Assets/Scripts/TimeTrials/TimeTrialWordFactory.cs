@@ -11,7 +11,7 @@ public class TimeTrialWordFactory : MonoBehaviour{
     }
 
     public string GetWord(){
-        //return GetWords.Strings[m_index++];
-        return "XD";
+        return GetWords.Strings[m_index++].TrimStart().TrimEnd();
+        //return "XD";
     }
 }

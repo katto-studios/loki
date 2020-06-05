@@ -73,7 +73,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         m_finalScore.SetText(TimeTrialAnalytics.Instance.Score.ToString());
         m_mistakes.SetText(TimeTrialAnalytics.Instance.Misses.ToString());
         m_wpm.SetText(TimeTrialAnalytics.Instance.Wpm.ToString());
-        m_acc.SetText(((float)TimeTrialAnalytics.Instance.Misses / TimeTrialAnalytics.Instance.Wpm * 100).ToString("D"));
+        m_acc.SetText(((float)TimeTrialAnalytics.Instance.Misses / TimeTrialAnalytics.Instance.Wpm * 100).ToString());
     }
 
     private void WhenStartGameTick(int _howMuch){
