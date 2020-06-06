@@ -4594,7 +4594,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2516648552076532852}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.513, y: 0.5287392, z: -0.126}
+  m_LocalPosition: {x: -0.517, y: 0.5287392, z: -0.132}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2516648552867559510}
@@ -6495,13 +6495,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2516648552961888505}
-  m_LocalRotation: {x: 0.01560217, y: -0.95050186, z: 0.13201468, w: -0.28084671}
+  m_LocalRotation: {x: -0.025309678, y: -0.92129135, z: 0.2685216, w: -0.28013885}
   m_LocalPosition: {x: 0.00243663, y: -0.0029775763, z: -0.0037605183}
   m_LocalScale: {x: 0.03921146, y: 0.039211445, z: 0.039211445}
   m_Children: []
   m_Father: {fileID: 2516648552860628250}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 126.15799, y: 65.76399, z: 63.882996}
+  m_LocalEulerAnglesHint: {x: 149.406, y: -35.722992, z: 173.073}
 --- !u!108 &2516648552961888504
 Light:
   m_ObjectHideFlags: 0
@@ -6514,8 +6514,8 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 238.7324
-  m_Range: 14.013074
+  m_Intensity: 159.15494
+  m_Range: 29.615316
   m_SpotAngle: 133.3
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -6583,7 +6583,7 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 3000
+  m_Intensity: 2000
   m_EnableSpotReflector: 0
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -6695,7 +6695,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2516648552989901027}
   m_LocalRotation: {x: -0.6719296, y: 0.22025137, z: 0.22025137, w: 0.6719296}
-  m_LocalPosition: {x: -0.4483, y: 0.4324, z: -0.2323}
+  m_LocalPosition: {x: -0.456, y: 0.4324, z: -0.227}
   m_LocalScale: {x: 1.920226, y: 1.920226, z: 1.920226}
   m_Children: []
   m_Father: {fileID: 2516648552867559510}
@@ -7108,7 +7108,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.3
+  m_Intensity: 0.5
   m_Range: 11.578188
   m_SpotAngle: 151.8882
   m_InnerSpotAngle: 21.80208
@@ -7177,7 +7177,7 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 0.3
+  m_Intensity: 0.5
   m_EnableSpotReflector: 0
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
