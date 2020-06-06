@@ -4017,6 +4017,7 @@ MonoBehaviour:
   inCreateRoomPassword: {fileID: 588055989}
   inJoinRoomPassword: {fileID: 1000751477}
   masterPlayerIcon: {fileID: 0}
+  gameMode: 1
   goToPlayGameScene: {fileID: 406949528}
 --- !u!4 &2128938661
 Transform:

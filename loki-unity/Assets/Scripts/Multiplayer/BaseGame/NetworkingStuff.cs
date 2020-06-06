@@ -107,23 +107,26 @@ public class NetworkingStuff : MonoBehaviour, IPunCallbacks {
         if (PhotonNetwork.isMasterClient){
             int roomSeed = Random.Range(0, 999999);
             
-            //set room
-            PhotonNetwork.room.SetCustomProperties(new Hashtable(){
-                { "RandomSeed", roomSeed }
-            });
-
             foreach (PhotonPlayer player in PhotonNetwork.playerList) {
                 player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
                     { "Score", 0 },
                     {"PlayerState", PlayfabUserInfo.UserState.InMatch },
                 });
             }
+            
+            //set room
+            PhotonNetwork.room.SetCustomProperties(new Hashtable(){
+                { "RandomSeed", roomSeed },
+                { "ReadyToStart", true}
+            });
+            
+            GetComponent<SceneChanger>().ChangeScene(10);
         }
         else{
             //wait for readytostart
             if ((bool)PhotonNetwork.room.CustomProperties["ReadyToStart"]) {
                 //change scene
-                GetComponent<SceneChanger>().ChangeScene(5);
+                GetComponent<SceneChanger>().ChangeScene(10);
             }
         }
     }
