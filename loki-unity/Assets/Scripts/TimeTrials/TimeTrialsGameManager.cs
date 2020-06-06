@@ -2,11 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 //handles the game
 public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
+    public int backLogCount = 1;
+    
     private TimeTrialWordFactory m_fac;
     private string m_typeMe;
+    public readonly Queue<string> Backlog = new Queue<string>();
     private string m_currentInput;
 
     public event Action<string> eOnGetNewWord;
@@ -23,7 +27,8 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
         };
         TimeTrialGameStateManager.Instance.eOnChangedState += (_state) => {
             if (_state is TimeTrialGameStateManager.GameStates.Game){
-                m_typeMe = m_fac.GetWord();
+                m_typeMe = m_fac.GetLine();
+                for(int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetLine());
                 eOnGetNewWord?.Invoke(m_typeMe);
                 eOnScoreUpdate?.Invoke(0);
             }
@@ -31,21 +36,27 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     }
 
     private void HandleKeyPress(char _ch){
-        if (_ch.Equals('\r') && m_currentInput.Equals(m_typeMe)){
-            m_typeMe = m_fac.GetWord();
-            m_currentInput = string.Empty;
-            eOnGetNewWord?.Invoke(m_typeMe);
-            eOnScoreUpdate?.Invoke(m_typeMe.Length);
-        }
-        else if (_ch.Equals('\b')){
-            if (string.IsNullOrEmpty(m_currentInput)) return;
-
-            m_currentInput = m_currentInput.Remove(m_currentInput.Length - 1);
-        }
-        else{
-            m_currentInput += _ch;
-            if (!m_typeMe.StartsWith(m_currentInput)){
-                eOnMiss?.Invoke();
+        switch (_ch){
+            case '\r' when m_currentInput.Equals(m_typeMe):{
+                m_typeMe = Backlog.Dequeue();
+                Backlog.Enqueue(m_fac.GetLine());
+                m_currentInput = string.Empty;
+                eOnGetNewWord?.Invoke(m_typeMe);
+                eOnScoreUpdate?.Invoke(m_typeMe.Length);
+                break;
+            }
+            case '\b' when string.IsNullOrEmpty(m_currentInput):
+                return;
+            case '\b':{
+                m_currentInput = m_currentInput.Remove(m_currentInput.Length - 1);
+                break;
+            }
+            default:{
+                m_currentInput += _ch;
+                if (!m_typeMe.StartsWith(m_currentInput)){
+                    eOnMiss?.Invoke();
+                }
+                break;
             }
         }
     }

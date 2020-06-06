@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using PlayFab.Public;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
     [SerializeField] private TextMeshProUGUI m_textDisplay;
     [SerializeField] private TextMeshProUGUI m_scoreDisplay;
     [SerializeField] private TextMeshProUGUI m_comboDisplay;
+    [SerializeField] private TextMeshProUGUI m_backlogDisplay;
     [SerializeField] private Slider m_comboSlider;
     private string m_displayInputTotal;
     private string m_currentWord;
@@ -50,6 +52,13 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         m_displayInputTotal = string.Empty;
         m_currentWord = _newWord;
         m_inputDisplay.SetText("<color=red></color>");
+        
+        //render backlog
+        StringBuilder sb = new StringBuilder();
+        foreach (string s in TimeTrialsGameManager.Instance.Backlog){
+            sb.AppendLine(s);
+        }
+        m_backlogDisplay.SetText(sb.ToString());
     }
 
     private void OnNewState(TimeTrialGameStateManager.GameStates _newState){
