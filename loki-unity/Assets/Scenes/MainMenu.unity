@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -677,6 +678,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1453,6 +1455,96 @@ PrefabInstance:
       propertyPath: shadowNearPlane
       value: 0.0001
       objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242890, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_Version
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242890, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_ObsoleteCustomShadowResolution
+      value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242890, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_ShadowNearPlane
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242890, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_MinFilterSize
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242890, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_ShadowResolution.m_Override
+      value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242890, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_ShadowResolution.m_Level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242893, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_Version
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242893, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_RenderingPathCustomFrameSettings.bitDatas.data1
+      value: 70005819440989
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242895, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_Version
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242895, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_MinFilterSize
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242895, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_ShadowResolution.m_Level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242897, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_Version
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242897, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_ObsoleteCustomShadowResolution
+      value: 4096
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242897, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_MinFilterSize
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242897, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_ShadowResolution.m_Override
+      value: 4096
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242897, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_ShadowResolution.m_Level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242898, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_Version
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516648552784242898, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: m_RenderingPathCustomFrameSettings.bitDatas.data1
+      value: 70005819440989
+      objectReference: {fileID: 0}
     - target: {fileID: 2516648552867559510, guid: a8f0dd31d046be944a34455056b5f5bb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1513,7 +1605,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_Rusty
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2516648552784242889, guid: a8f0dd31d046be944a34455056b5f5bb, type: 3}
+    - {fileID: 2516648552784242896, guid: a8f0dd31d046be944a34455056b5f5bb, type: 3}
+    - {fileID: 2516648552784242894, guid: a8f0dd31d046be944a34455056b5f5bb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a8f0dd31d046be944a34455056b5f5bb, type: 3}
 --- !u!114 &4442741194945957348 stripped
 MonoBehaviour:
@@ -1573,7 +1668,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284043846
+    rgba: 4284044103
   m_fontColor: {r: 0.27825737, g: 0.32521075, b: 0.3490566, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2136,7 +2231,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284043846
+    rgba: 4284044103
   m_fontColor: {r: 0.27825737, g: 0.32521075, b: 0.3490566, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2925,7 +3020,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284043846
+    rgba: 4284044103
   m_fontColor: {r: 0.27825737, g: 0.32521075, b: 0.3490566, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -5129,7 +5224,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284043846
+    rgba: 4284044103
   m_fontColor: {r: 0.27825737, g: 0.32521075, b: 0.3490566, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3

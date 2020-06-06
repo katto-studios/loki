@@ -54,11 +54,16 @@ public class GetWords{
                 eOnFailure?.Invoke(req.error);
             }
             else{
-                Strings = RandomizeText(req.downloadHandler.text.Split(new string[]{"\n"}, StringSplitOptions.None), _seed);
+                //Strings = RandomizeText(req.downloadHandler.text.Split(new string[]{"\n"}, StringSplitOptions.None), _seed);
+                Strings = req.downloadHandler.text.Split(new string[]{"\n"}, StringSplitOptions.None);
                 
                 eOnInitalised?.Invoke();
             }
         }
+    }
+
+    public static string GetWord(){
+        return Strings[Random.Range(0, Strings.Length - 1)];
     }
 
     private static string[] RandomizeText(string[] _randomizeMe, int _seed){

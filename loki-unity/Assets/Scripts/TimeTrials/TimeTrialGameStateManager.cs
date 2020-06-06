@@ -26,6 +26,13 @@ public class TimeTrialGameStateManager : Singleton<TimeTrialGameStateManager>{
         }
     }
 
+    public void StartMultiplayer(){
+        TimeTrialInputHandler.Instance.eOnKeyDown -= HandleKeyPress;
+        if (m_switchState == null){
+            StartCoroutine(StartGame(5));
+        }
+    }
+
     private IEnumerator StartGame(float _delay){
         float howMuchAlr = _delay;
         float bumpWithMe = 1;    //change this if delay too long
@@ -40,7 +47,7 @@ public class TimeTrialGameStateManager : Singleton<TimeTrialGameStateManager>{
         m_currentState = GameStates.Game;
         eOnChangedState?.Invoke(m_currentState);
         
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(60);
         m_currentState = GameStates.Analytics;
         eOnChangedState?.Invoke(m_currentState);
     }

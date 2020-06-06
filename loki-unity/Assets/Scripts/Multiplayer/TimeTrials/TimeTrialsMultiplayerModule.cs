@@ -5,12 +5,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Random = UnityEngine.Random;
 
 public class TimeTrialsMultiplayerModule : Singleton<TimeTrialsMultiplayerModule>{
     private int m_score = 0;
     
     private void Start(){
         TimeTrialsGameManager.Instance.eOnScoreUpdate += OnScoreUpdate;
+        
+        TimeTrialGameStateManager.Instance.StartMultiplayer();
+        
+        Random.InitState((int)PhotonNetwork.room.CustomProperties["RandomSeed"]);
     }
 
     private void OnScoreUpdate(int _newScore){
