@@ -25,14 +25,6 @@ public class TimeTrialsMultiplayerModule : Singleton<TimeTrialsMultiplayerModule
         });
     }
 
-    private void Update(){
-        NetworkUpdate();
-    }
-
-    private void NetworkUpdate(){
-        
-    }
-
     public PhotonPlayer[] PlayersSorted(){
         PhotonPlayer[] sortMe = PhotonNetwork.playerList;
         MergeSort(sortMe, 0, sortMe.Length - 1);
