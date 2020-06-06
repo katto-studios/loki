@@ -90,7 +90,6 @@ GameObject:
   m_Component:
   - component: {fileID: 97182609}
   - component: {fileID: 97182610}
-  - component: {fileID: 2516648552784242891}
   - component: {fileID: 2516648552784242892}
   m_Layer: 0
   m_Name: Dlight
@@ -174,38 +173,6 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &2516648552784242891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97182608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6c2871f720b2af4e9210febdac74517, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  customResolution: 512
-  shadowDimmer: 1
-  volumetricShadowDimmer: 1
-  shadowFadeDistance: 10000
-  contactShadows: 0
-  shadowTint: {r: 0, g: 0, b: 0, a: 1}
-  normalBias: 0.75
-  shadowUpdateMode: 0
-  shadowCascadeRatios:
-  - 0.05
-  - 0.2
-  - 0.3
-  shadowCascadeBorders:
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  shadowAlgorithm: 0
-  shadowVariant: 0
-  shadowPrecision: 0
 --- !u!114 &2516648552784242892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 5
+  m_Version: 9
   m_ObsoleteShadowResolutionTier: 1
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
@@ -273,14 +240,14 @@ MonoBehaviour:
   m_ShadowNearPlane: 0.1
   m_BlockerSampleCount: 24
   m_FilterSampleCount: 16
-  m_MinFilterSize: 0.00001
+  m_MinFilterSize: 0.01
   m_KernelSize: 5
   m_LightAngle: 1
   m_MaxDepthBias: 0.001
   m_ShadowResolution:
     m_Override: 512
     m_UseOverride: 1
-    m_Level: 0
+    m_Level: 1
   m_ShadowDimmer: 1
   m_VolumetricShadowDimmer: 1
   m_ShadowFadeDistance: 10000
@@ -4119,7 +4086,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2516648551688838247}
   m_LocalRotation: {x: -0.7069669, y: -0.0140665155, z: -0.0140665155, w: 0.7069669}
-  m_LocalPosition: {x: -0.339, y: 0.3935263, z: -0.079}
+  m_LocalPosition: {x: -0.339, y: 0.392, z: -0.079}
   m_LocalScale: {x: 1.4740751, y: 1.4740751, z: 1.4740751}
   m_Children: []
   m_Father: {fileID: 2516648552867559510}
@@ -4276,15 +4243,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2516648551787412895}
-  m_LocalRotation: {x: -0.7676428, y: -0.008013857, z: -0.0055732285, w: 0.6408036}
-  m_LocalPosition: {x: -0.134, y: 0.547, z: -0.227}
-  m_LocalScale: {x: 1.9344915, y: 1, z: 1.5}
+  m_LocalRotation: {x: -0.7676173, y: -0.010369073, z: -0.008394656, w: 0.6407696}
+  m_LocalPosition: {x: -0.134, y: 0.547, z: -0.2398}
+  m_LocalScale: {x: 1.9344915, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 2516648552692114511}
   - {fileID: 2516648551638123217}
   m_Father: {fileID: 2516648552867559510}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: -100.293, y: 0.5499878, z: -1.6549988}
+  m_LocalEulerAnglesHint: {x: -100.293, y: 0.12799072, z: -1.6549988}
 --- !u!33 &2516648551787412892
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -7276,7 +7243,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
