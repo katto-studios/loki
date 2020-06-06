@@ -94,9 +94,21 @@ public class ViewProfileManager : Singleton<ViewProfileManager>
 
     public void AddFriend()
     {
+        ConfirmationPanel.CPCallback cpc = ConfirmAddFriend;
+        ConfirmationPanel.CPCallback cpc2 = CancelAddFriend;
+        PersistantCanvas.Instance.ConfirmationPanel("Confirm add " + AccountInfo.Username + " as friend?", cpc, cpc2);
+    }
+
+    public void ConfirmAddFriend()
+    {
         PlayerFriendRequestCallback pfrc = AddFriendCallBack;
         PlayFabPlayerData.AddFriend(AccountInfo, pfrc);
         AddFriendButton.SetActive(false);
+    }
+
+    public void CancelAddFriend()
+    {
+        PopupManager.Instance.ShowPopUp("Friend Request Cancelled");
     }
 
     public void AddFriendCallBack()

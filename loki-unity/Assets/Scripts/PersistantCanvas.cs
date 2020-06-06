@@ -11,6 +11,7 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
     bool changingScene;
     bool settingsMenuOpen;
     public GameObject settingsMenu;
+    public ConfirmationPanel confirmationPanel;
 
     public int previousScene;
 
@@ -105,5 +106,17 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
         transitionPanel.transform.DOMoveY(1200, 0.5f);
 
         changingScene = false;
+    }
+
+    public void ConfirmationPanel(string t, ConfirmationPanel.CPCallback confirm, ConfirmationPanel.CPCallback cancel)
+    {
+        confirmationPanel.gameObject.SetActive(true);
+        confirmationPanel.Init(t, confirm, cancel);
+    }
+
+    public void ConfirmationPanel(string t, ConfirmationPanel.CPCallback confirm)
+    {
+        confirmationPanel.gameObject.SetActive(true);
+        confirmationPanel.Init(t, confirm);
     }
 }
