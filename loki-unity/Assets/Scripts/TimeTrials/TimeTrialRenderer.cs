@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using DG.Tweening.Core.Easing;
 using PlayFab.Public;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,9 +23,11 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
     [SerializeField] private TextMeshProUGUI m_comboDisplay;
     [SerializeField] private TextMeshProUGUI m_backlogDisplay;
     [SerializeField] private Slider m_comboSlider;
+    [SerializeField] private Slider m_timerSlider;
     private string m_displayInputTotal;
     private string m_currentWord;
     private int m_score = 0;
+    private float m_internalTimer = -1;
     
     [Header("Analytics")]
     [SerializeField] private GameObject m_analytics;
@@ -40,6 +43,13 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         
         TimeTrialsGameManager.Instance.eOnGetNewWord += GotNewWord;
         TimeTrialsGameManager.Instance.eOnScoreUpdate += OnScoreUpdate;
+    }
+
+    private void Update(){
+        if (m_internalTimer >= 0){
+            m_internalTimer -= Time.deltaTime;
+            m_timerSlider.value = m_internalTimer / 60;
+        }
     }
 
     private void OnScoreUpdate(int _newScore){
@@ -65,6 +75,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         switch (_newState){
             case TimeTrialGameStateManager.GameStates.Game:{
                 TimeTrialInputHandler.Instance.eOnKeyDown += HandleKeyPressForGame;
+                m_internalTimer = 60;
                 m_pre.SetActive(false);
                 m_game.SetActive(true);
                 break;

@@ -16,7 +16,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     public event Action<string> eOnGetNewWord;
     public event Action<int> eOnScoreUpdate;
     public event Action eOnMiss;
-
+    
     private void Start(){
         m_fac = GetComponent<TimeTrialWordFactory>();
 
