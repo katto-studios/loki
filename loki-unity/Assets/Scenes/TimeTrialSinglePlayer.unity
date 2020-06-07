@@ -887,7 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c85cd020da94a4c8c28b0c86471bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backLogCount: 1
+  backLogCount: 10
 --- !u!114 &1116020884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1145,12 +1145,20 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 152729739, guid: 06fe3e5ef27b01b4fa1bd0640a14a954, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00024414062
+      objectReference: {fileID: 0}
     - target: {fileID: 161159409, guid: 06fe3e5ef27b01b4fa1bd0640a14a954, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 161159409, guid: 06fe3e5ef27b01b4fa1bd0640a14a954, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 161159409, guid: 06fe3e5ef27b01b4fa1bd0640a14a954, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 281284198, guid: 06fe3e5ef27b01b4fa1bd0640a14a954, type: 3}

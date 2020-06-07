@@ -24,8 +24,8 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
         TimeTrialGameStateManager.Instance.eOnChangedState += (_newState) => {
             if (_newState is TimeTrialGameStateManager.GameStates.Game){
                 TimeTrialInputHandler.Instance.eOnKeyDown += HandleKeyPress;
-                m_typeMe = m_fac.GetLine();
-                for(int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetLine());
+                m_typeMe = m_fac.GetWord();
+                for(int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetWord());
                 eOnGetNewWord?.Invoke(m_typeMe);
                 eOnScoreUpdate?.Invoke(0);
             }
@@ -38,9 +38,9 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
 
     private void HandleKeyPress(char _ch){
         switch (_ch){
-            case '\r' when m_currentInput.Equals(m_typeMe):{
+            case ' ' when m_currentInput.Equals(m_typeMe):{
                 m_typeMe = Backlog.Dequeue();
-                Backlog.Enqueue(m_fac.GetLine());
+                Backlog.Enqueue(m_fac.GetWord());
                 m_currentInput = string.Empty;
                 eOnGetNewWord?.Invoke(m_typeMe);
                 eOnScoreUpdate?.Invoke((int)(m_typeMe.Length * 200 * CurrentCombo));
