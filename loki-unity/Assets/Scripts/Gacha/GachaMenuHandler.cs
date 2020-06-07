@@ -28,4 +28,17 @@ public class GachaMenuHandler : MonoBehaviour {
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
     }
+
+    public void GachaCp(string _catalogVer){
+        PlayFabClientAPI.ExecuteCloudScript(
+            new ExecuteCloudScriptRequest() {
+                FunctionName = "GachaScrap",
+                FunctionParameter = new { CatalogVer = _catalogVer }
+            },
+            (_result) => {
+                Debug.Log(_result.FunctionResult.ToString());
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
+    }
 }
