@@ -7,6 +7,7 @@ using System.Linq;
 //handles the game
 public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     public int backLogCount = 1;
+    public float CurrentCombo{ get; private set; }
     
     private TimeTrialWordFactory m_fac;
     private string m_typeMe;
@@ -21,18 +22,18 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
         m_fac = GetComponent<TimeTrialWordFactory>();
 
         TimeTrialGameStateManager.Instance.eOnChangedState += (_newState) => {
-            if (_newState == TimeTrialGameStateManager.GameStates.Game){
+            if (_newState is TimeTrialGameStateManager.GameStates.Game){
                 TimeTrialInputHandler.Instance.eOnKeyDown += HandleKeyPress;
-            }
-        };
-        TimeTrialGameStateManager.Instance.eOnChangedState += (_state) => {
-            if (_state is TimeTrialGameStateManager.GameStates.Game){
                 m_typeMe = m_fac.GetLine();
                 for(int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetLine());
                 eOnGetNewWord?.Invoke(m_typeMe);
                 eOnScoreUpdate?.Invoke(0);
             }
         };
+    }
+
+    private void Update(){
+        if (CurrentCombo >= 0) CurrentCombo -= Time.deltaTime;
     }
 
     private void HandleKeyPress(char _ch){
@@ -42,7 +43,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
                 Backlog.Enqueue(m_fac.GetLine());
                 m_currentInput = string.Empty;
                 eOnGetNewWord?.Invoke(m_typeMe);
-                eOnScoreUpdate?.Invoke(m_typeMe.Length);
+                eOnScoreUpdate?.Invoke((int)(m_typeMe.Length * 200 * CurrentCombo));
                 break;
             }
             case '\b' when string.IsNullOrEmpty(m_currentInput):
@@ -55,6 +56,9 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
                 m_currentInput += _ch;
                 if (!m_typeMe.StartsWith(m_currentInput)){
                     eOnMiss?.Invoke();
+                }
+                else{
+                    CurrentCombo = 1;
                 }
                 break;
             }

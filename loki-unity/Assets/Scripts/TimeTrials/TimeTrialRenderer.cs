@@ -49,6 +49,9 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         if (m_internalTimer >= 0){
             m_internalTimer -= Time.deltaTime;
             m_timerSlider.value = m_internalTimer / 60;
+            
+            //update combo
+            m_comboSlider.value = TimeTrialsGameManager.Instance.CurrentCombo;
         }
     }
 
