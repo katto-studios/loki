@@ -20,7 +20,7 @@ public class WordLine{
         if (m_current != 0){
             sb.Append("<color=green>");
         }
-        
+
         for (int count = 0; count <= Line.Count - 1; count++){
             sb.AppendFormat("{0} ", Line[count]);
             if (m_current - 1 == count){
@@ -30,13 +30,52 @@ public class WordLine{
 
         return sb.ToString().TrimEnd();
     }
+
+    public string GetFancy(string _whatIHave){
+        StringBuilder sb = new StringBuilder();
+        sb.Append("<color=green>");
+
+        for (int count = 0; count <= Line.Count - 1; count++){
+            if (m_current == count){
+                int stopAt = _whatIHave.Length;
+                //append each char as green
+                for (int charCount = 0; charCount < _whatIHave.Length; charCount++){
+                    if (_whatIHave[charCount].Equals(CurrentWord[charCount])){
+                        sb.Append(_whatIHave[charCount]);
+                    }
+                    else{
+                        stopAt = charCount;
+                        break;
+                    }
+                }
+
+                if (stopAt < CurrentWord.Length){
+                    sb.Append($"</color><u>{CurrentWord[stopAt]}</u>");
+                }
+                else{
+                    sb.Append("</color>");
+                }
+
+                for (int charCount = stopAt + 1; charCount < CurrentWord.Length; charCount++){
+                    sb.Append(CurrentWord[charCount]);
+                }
+
+                sb.Append(" ");
+            }
+            else{
+                sb.AppendFormat("{0} ", Line[count]);
+            }
+        }
+
+        return sb.ToString();
+    }
 }
 
 public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     public int backLogCount = 1;
     public float CurrentCombo{ get; private set; }
     public int CurrentChain{ get; private set; } = 0;
-    
+
     private TimeTrialWordFactory m_fac;
     public string TypeMe{ get; private set; }
     public WordLine CurrentLine{ get; private set; } = null;
@@ -47,7 +86,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     public event Action<int> eOnScoreUpdate;
     public event Action eOnMiss;
     public event Action eOnHit;
-    
+
     private void Start(){
         m_fac = GetComponent<TimeTrialWordFactory>();
 
@@ -56,7 +95,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
                 TimeTrialInputHandler.Instance.eOnKeyDown += HandleKeyPress;
                 CurrentLine = m_fac.GetLine();
                 TypeMe = CurrentLine.CurrentWord;
-                for(int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetLine());
+                for (int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetLine());
                 eOnGetNewWord?.Invoke(TypeMe);
                 eOnScoreUpdate?.Invoke(0);
             }
@@ -81,8 +120,9 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
                     Backlog.Enqueue(m_fac.GetLine());
                     TypeMe = CurrentLine.CurrentWord;
                 }
+
                 eOnGetNewWord?.Invoke(TypeMe);
-                eOnScoreUpdate?.Invoke((int)(TypeMe.Length * 200 * (CurrentCombo + 1)));
+                eOnScoreUpdate?.Invoke((int) (TypeMe.Length * 200 * (CurrentCombo + 1)));
                 break;
             }
             case '\b' when string.IsNullOrEmpty(m_currentInput):
@@ -100,6 +140,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
                     eOnHit?.Invoke();
                     CurrentCombo = 1;
                 }
+
                 break;
             }
         }

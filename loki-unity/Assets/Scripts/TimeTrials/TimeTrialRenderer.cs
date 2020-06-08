@@ -125,5 +125,8 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         }
 
         m_inputDisplay.SetText($"<color={(m_currentWord.StartsWith(m_displayInputTotal) ? "green" : "red")}>{m_displayInputTotal}</color>");
+        m_textDisplay.SetText(
+            TimeTrialsGameManager.Instance.CurrentLine.GetFancy(m_displayInputTotal)    
+        );
     }
 }
