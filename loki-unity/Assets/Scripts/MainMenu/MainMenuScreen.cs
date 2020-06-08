@@ -71,7 +71,7 @@ public class MainMenuScreen : MonoBehaviour
         {
             ChangeUp();
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        else if (Input.GetKeyDown(KeyCode.Return))
         {
             ChangeScene();
         }

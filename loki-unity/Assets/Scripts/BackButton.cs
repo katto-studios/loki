@@ -20,7 +20,7 @@ public class BackButton : MonoBehaviour
     public void GoToScene(int i)
     {
         PersistantCanvas.Instance.ChangeScene(PersistantCanvas.Instance.previousScene);
-    }
+    } 
 
     public void Update()
     {
