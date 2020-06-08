@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TimeTrialAnalytics : Singleton<TimeTrialAnalytics>{
-    public float Score{ get; private set; } = 0;
+    public int Score{ get; private set; } = 0;
     public int Misses{ get; private set; } = 0;
     public int Wpm{ get; private set; } = -1;
 
@@ -12,6 +12,12 @@ public class TimeTrialAnalytics : Singleton<TimeTrialAnalytics>{
         TimeTrialsGameManager.Instance.eOnScoreUpdate += ScoreUpdate;
         TimeTrialsGameManager.Instance.eOnMiss += OnMiss;
         TimeTrialsGameManager.Instance.eOnGetNewWord += OnNewWord;
+
+        TimeTrialGameStateManager.Instance.eOnChangedState += (_state) => {
+            if (_state is TimeTrialGameStateManager.GameStates.Analytics){
+                PlayfabUserInfo.UpdatePlayerExp(Score);
+            }
+        };
     }
 
     private void OnNewWord(string _obj){
