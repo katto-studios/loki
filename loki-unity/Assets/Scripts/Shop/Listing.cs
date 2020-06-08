@@ -33,13 +33,22 @@ public class Listing : MonoBehaviour
         PlayFabClientAPI.ExecuteCloudScript(
             new ExecuteCloudScriptRequest()
             {
-                FunctionName = "GachaGold"
+                FunctionName = "GachaScrap",
+                FunctionParameter = new { CatalogVer = CatalogName }
             },
             (_result) => {
                 Debug.Log(_result.FunctionResult.ToString());
+                ConfirmationPanel.CPCallback confirm = ConfirmGetItem;
+                string itemName = _result.FunctionResult.ToString();
+                PersistantCanvas.Instance.ConfirmationPanel("Congradulations, you won " + itemName + "." , confirm);
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
+    }
+
+    public void ConfirmGetItem()
+    {
+
     }
 
     public void CancelPurchase()
