@@ -49,7 +49,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     }
 
     private void Update(){
-        if (CurrentCombo >= 0) CurrentCombo -= Time.deltaTime;
+        if (CurrentCombo >= 0) CurrentCombo = Mathf.Max(CurrentCombo - Time.deltaTime, 0);
     }
 
     private void HandleKeyPress(char _ch){
@@ -66,7 +66,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
                     Backlog.Enqueue(m_fac.GetLine());
                 }
                 eOnGetNewWord?.Invoke(TypeMe);
-                eOnScoreUpdate?.Invoke((int)(TypeMe.Length * 200 * CurrentCombo));
+                eOnScoreUpdate?.Invoke((int)(TypeMe.Length * 200 * (CurrentCombo + 1)));
                 break;
             }
             case '\b' when string.IsNullOrEmpty(m_currentInput):
