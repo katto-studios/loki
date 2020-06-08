@@ -60,7 +60,9 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
     }
 
     private void GotNewWord(string _newWord){
-        m_textDisplay.SetText($"{_newWord} {TimeTrialsGameManager.Instance.CurrentLine}");
+        string playWithMe = $"{TimeTrialsGameManager.Instance.CurrentLine}";
+        
+        m_textDisplay.SetText(playWithMe);
         m_displayInputTotal = string.Empty;
         m_currentWord = _newWord;
         m_inputDisplay.SetText("<color=red></color>");

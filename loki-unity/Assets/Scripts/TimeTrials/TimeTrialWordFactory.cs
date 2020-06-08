@@ -20,7 +20,7 @@ public class TimeTrialWordFactory : MonoBehaviour{
     public WordLine GetLine(){
         WordLine returnMe = new WordLine();
         for (int count = 0; count < 5; count++){
-            returnMe.Line.Enqueue(GetWord());
+            returnMe.Line.Add(GetWord());
         }
 
         return returnMe;

@@ -7,15 +7,28 @@ using System.Text;
 
 //handles the game
 public class WordLine{
-    public Queue<string> Line{ get; } = new Queue<string>();
+    public List<string> Line{ get; } = new List<string>();
+    private int m_current = 0;
+    public int CurrentlyOn => m_current;
+    public string CurrentWord => Line[m_current];
+    public bool AmOut => m_current + 1 >= Line.Count;
+
+    public void BumpCurrent() => m_current++;
 
     public override string ToString(){
         StringBuilder sb = new StringBuilder();
-        foreach (string s in Line){
-            sb.Append($"{s} ");
+        if (m_current != 0){
+            sb.Append("<color=green>");
+        }
+        
+        for (int count = 0; count <= Line.Count - 1; count++){
+            sb.AppendFormat("{0} ", Line[count]);
+            if (m_current - 1 == count){
+                sb.Append("</color>");
+            }
         }
 
-        return sb.ToString();
+        return sb.ToString().TrimEnd();
     }
 }
 
@@ -42,7 +55,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
             if (_newState is TimeTrialGameStateManager.GameStates.Game){
                 TimeTrialInputHandler.Instance.eOnKeyDown += HandleKeyPress;
                 CurrentLine = m_fac.GetLine();
-                TypeMe = CurrentLine.Line.Dequeue();
+                TypeMe = CurrentLine.CurrentWord;
                 for(int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetLine());
                 eOnGetNewWord?.Invoke(TypeMe);
                 eOnScoreUpdate?.Invoke(0);
@@ -58,14 +71,15 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
         switch (_ch){
             case ' ' when m_currentInput.Equals(TypeMe):{
                 m_currentInput = string.Empty;
-                if (CurrentLine.Line.Count > 0){
-                    TypeMe = CurrentLine.Line.Dequeue();
+                if (!CurrentLine.AmOut){
+                    CurrentLine.BumpCurrent();
+                    TypeMe = CurrentLine.CurrentWord;
                 }
                 else{
                     //move on
                     CurrentLine = Backlog.Dequeue();
-                    TypeMe = CurrentLine.Line.Dequeue();
                     Backlog.Enqueue(m_fac.GetLine());
+                    TypeMe = CurrentLine.CurrentWord;
                 }
                 eOnGetNewWord?.Invoke(TypeMe);
                 eOnScoreUpdate?.Invoke((int)(TypeMe.Length * 200 * (CurrentCombo + 1)));
