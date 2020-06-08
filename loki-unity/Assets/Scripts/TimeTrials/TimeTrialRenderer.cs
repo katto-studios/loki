@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using DG.Tweening.Core.Easing;
-using PlayFab.Public;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -61,15 +59,15 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
     }
 
     private void GotNewWord(string _newWord){
-        m_textDisplay.SetText(_newWord);
+        m_textDisplay.SetText($"{_newWord} {TimeTrialsGameManager.Instance.CurrentLine}");
         m_displayInputTotal = string.Empty;
         m_currentWord = _newWord;
         m_inputDisplay.SetText("<color=red></color>");
         
         //render backlog
         StringBuilder sb = new StringBuilder();
-        foreach (string s in TimeTrialsGameManager.Instance.Backlog){
-            sb.AppendLine(s);
+        foreach (WordLine line in TimeTrialsGameManager.Instance.Backlog){
+            sb.AppendLine($"{line}");
         }
         m_backlogDisplay.SetText(sb.ToString());
     }
@@ -111,7 +109,9 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
                 m_displayInputTotal = m_displayInputTotal.Remove(m_displayInputTotal.Length - 1);
                 break;
             }
-            case '\r':{
+            case ' ' when TimeTrialsGameManager.Instance.TypeMe.Equals(m_displayInputTotal) :{
+                m_displayInputTotal = string.Empty;
+                
                 break;
             }
             default:{

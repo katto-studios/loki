@@ -887,7 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c85cd020da94a4c8c28b0c86471bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backLogCount: 10
+  backLogCount: 1
 --- !u!114 &1116020884
 MonoBehaviour:
   m_ObjectHideFlags: 0

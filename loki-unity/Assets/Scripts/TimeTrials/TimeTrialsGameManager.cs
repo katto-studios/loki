@@ -3,15 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Text;
 
 //handles the game
+public class WordLine{
+    public Queue<string> Line{ get; } = new Queue<string>();
+
+    public override string ToString(){
+        StringBuilder sb = new StringBuilder();
+        foreach (string s in Line){
+            sb.Append($"{s} ");
+        }
+
+        return sb.ToString();
+    }
+}
+
 public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     public int backLogCount = 1;
     public float CurrentCombo{ get; private set; }
     
     private TimeTrialWordFactory m_fac;
-    private string m_typeMe;
-    public readonly Queue<string> Backlog = new Queue<string>();
+    public string TypeMe{ get; private set; }
+    public WordLine CurrentLine{ get; private set; } = null;
+    public readonly Queue<WordLine> Backlog = new Queue<WordLine>();
     private string m_currentInput;
 
     public event Action<string> eOnGetNewWord;
@@ -24,9 +39,10 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
         TimeTrialGameStateManager.Instance.eOnChangedState += (_newState) => {
             if (_newState is TimeTrialGameStateManager.GameStates.Game){
                 TimeTrialInputHandler.Instance.eOnKeyDown += HandleKeyPress;
-                m_typeMe = m_fac.GetWord();
-                for(int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetWord());
-                eOnGetNewWord?.Invoke(m_typeMe);
+                CurrentLine = m_fac.GetLine();
+                TypeMe = CurrentLine.Line.Dequeue();
+                for(int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetLine());
+                eOnGetNewWord?.Invoke(TypeMe);
                 eOnScoreUpdate?.Invoke(0);
             }
         };
@@ -38,12 +54,19 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
 
     private void HandleKeyPress(char _ch){
         switch (_ch){
-            case ' ' when m_currentInput.Equals(m_typeMe):{
-                m_typeMe = Backlog.Dequeue();
-                Backlog.Enqueue(m_fac.GetWord());
+            case ' ' when m_currentInput.Equals(TypeMe):{
                 m_currentInput = string.Empty;
-                eOnGetNewWord?.Invoke(m_typeMe);
-                eOnScoreUpdate?.Invoke((int)(m_typeMe.Length * 200 * CurrentCombo));
+                if (CurrentLine.Line.Count > 0){
+                    TypeMe = CurrentLine.Line.Dequeue();
+                }
+                else{
+                    //move on
+                    CurrentLine = Backlog.Dequeue();
+                    TypeMe = CurrentLine.Line.Dequeue();
+                    Backlog.Enqueue(m_fac.GetLine());
+                }
+                eOnGetNewWord?.Invoke(TypeMe);
+                eOnScoreUpdate?.Invoke((int)(TypeMe.Length * 200 * CurrentCombo));
                 break;
             }
             case '\b' when string.IsNullOrEmpty(m_currentInput):
@@ -54,7 +77,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
             }
             default:{
                 m_currentInput += _ch;
-                if (!m_typeMe.StartsWith(m_currentInput)){
+                if (!TypeMe.StartsWith(m_currentInput)){
                     eOnMiss?.Invoke();
                 }
                 else{

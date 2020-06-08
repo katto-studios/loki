@@ -17,11 +17,12 @@ public class TimeTrialWordFactory : MonoBehaviour{
         //return "XD";
     }
 
-    public string GetLine(){
-        StringBuilder returnMe = new StringBuilder();
+    public WordLine GetLine(){
+        WordLine returnMe = new WordLine();
         for (int count = 0; count < 5; count++){
-            returnMe.Append($"{GetWord()} ");
+            returnMe.Line.Enqueue(GetWord());
         }
-        return returnMe.ToString().TrimEnd();
+
+        return returnMe;
     }
 }
