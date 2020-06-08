@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Graphs_Galaxy
+  m_Shader: {fileID: -6465566751694194690, guid: f2eb54179fa8de1489d2b25e18b3cd3c,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    MotionVector: User
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Cubemap_9D97A313:
+        m_Texture: {fileID: 8900000, guid: f11c0fb6e4f496c4284c2ed4468c5af3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Cubemap_F2CA2228:
+        m_Texture: {fileID: 8900000, guid: b9fde50bf8d2b824f87eaa1fd0346e71, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_3A8F89C8: 1.5
+    - Vector1_788E060E: 20
+    - Vector1_88049D8: 3
+    m_Colors:
+    - Color_37EDA38B: {r: 1, g: 0.50600004, b: 0.22000003, a: 1}
+    - Color_7491F34B: {r: 0.30628395, g: 0.17977929, b: 0.3773585, a: 1}
+    - Color_F1FA59CF: {r: 1, g: 0.5613208, b: 0.5613208, a: 1}
+    - Vector2_A01F219C: {r: 0.1, g: 0.2, b: 0, a: 0}
+    - Vector2_EDB86BF1: {r: 0, g: 0.1, b: 0, a: 0}
+    - Vector3_4747297A: {r: 0.1, g: 0, b: 0, a: 0}
+    - Vector3_4ACED367: {r: 0.1, g: 0.2, b: 0, a: 0}
+    - Vector3_62986D52: {r: 0, g: 1, b: 0, a: 0}
+    - Vector3_FD7EA7D1: {r: 0, g: 0.05, b: 0, a: 0}
