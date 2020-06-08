@@ -22,6 +22,7 @@ public class WordLine{
 public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     public int backLogCount = 1;
     public float CurrentCombo{ get; private set; }
+    public int CurrentChain{ get; private set; } = 0;
     
     private TimeTrialWordFactory m_fac;
     public string TypeMe{ get; private set; }
@@ -32,6 +33,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     public event Action<string> eOnGetNewWord;
     public event Action<int> eOnScoreUpdate;
     public event Action eOnMiss;
+    public event Action eOnHit;
     
     private void Start(){
         m_fac = GetComponent<TimeTrialWordFactory>();
@@ -81,6 +83,7 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
                     eOnMiss?.Invoke();
                 }
                 else{
+                    eOnHit?.Invoke();
                     CurrentCombo = 1;
                 }
                 break;

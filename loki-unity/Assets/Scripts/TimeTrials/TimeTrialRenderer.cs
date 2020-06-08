@@ -50,6 +50,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
             
             //update combo
             m_comboSlider.value = TimeTrialsGameManager.Instance.CurrentCombo;
+            m_comboDisplay.SetText(TimeTrialAnalytics.Instance.CurrentChain.ToString());
         }
     }
 
@@ -95,6 +96,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         m_mistakes.SetText(TimeTrialAnalytics.Instance.Misses.ToString());
         m_wpm.SetText(TimeTrialAnalytics.Instance.Wpm.ToString());
         m_acc.SetText(((float)TimeTrialAnalytics.Instance.Misses / TimeTrialAnalytics.Instance.Wpm * 100).ToString());
+        m_combo.SetText($"x{TimeTrialAnalytics.Instance.MaxChain.ToString()}");
     }
 
     private void WhenStartGameTick(int _howMuch){
