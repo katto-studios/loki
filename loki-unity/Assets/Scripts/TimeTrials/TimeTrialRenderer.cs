@@ -92,7 +92,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         switch (_newState){
             case TimeTrialGameStateManager.GameStates.Game:{
                 TimeTrialInputHandler.Instance.eOnKeyDown += HandleKeyPressForGame;
-                if(showFlickering) StartCoroutine(StartFlicker());
+                if(showFlickering) m_flicker = StartCoroutine(StartFlicker());
                 m_internalTimer = 60;
                 m_pre.SetActive(false);
                 m_game.SetActive(true);
@@ -101,7 +101,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
             case TimeTrialGameStateManager.GameStates.Analytics:{
                 m_game.SetActive(false);
                 m_analytics.SetActive(true);
-                StopCoroutine(m_flicker);
+                if(m_flicker != null) StopCoroutine(m_flicker);
                 StartAnalysis();
                 break;
             }
