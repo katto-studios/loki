@@ -1657,7 +1657,7 @@ MonoBehaviour:
   - gameObject: {fileID: 1972882657}
     sceneIndex: 7
   - gameObject: {fileID: 104367862}
-    sceneIndex: 10
+    sceneIndex: 11
 --- !u!1001 &2516648552784242879
 PrefabInstance:
   m_ObjectHideFlags: 0

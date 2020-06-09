@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayFab;
+using PlayFab.ClientModels;
+using TMPro;
 
 public class Shop : MonoBehaviour
 {
     public List<Listing> listings;
     private int currentIndex;
+    public TextMeshProUGUI scrap;
+    public TextMeshProUGUI gold;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +26,20 @@ public class Shop : MonoBehaviour
         }
 
         listings[0].gameObject.SetActive(true);
+
+        UpdateCurrency();
+    }
+
+    private void UpdateCurrency()
+    {
+        PlayFabClientAPI.GetUserInventory(
+            new GetUserInventoryRequest(),
+            (_result) => {
+                scrap.SetText($"{_result.VirtualCurrency["SM"]}");
+                gold.SetText($"{_result.VirtualCurrency["GC"]}");
+            },
+            (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
+        );
     }
 
     public void ChangeItem(int index)

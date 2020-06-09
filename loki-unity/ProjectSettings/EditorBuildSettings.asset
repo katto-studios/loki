@@ -39,6 +39,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ViewProfile.unity
     guid: 0721f47451254874085bab92a2124162
   - enabled: 1
+    path: Assets/Scenes/TimeTrialMultiplayer.unity
+    guid: 4ff5cb93a1ff01f479e7e98e4a19cabe
+  - enabled: 1
     path: Assets/Scenes/Shop.unity
     guid: a1a6b2548408adf46b47247501b5e13b
   - enabled: 0
