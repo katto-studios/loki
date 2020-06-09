@@ -5742,6 +5742,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PERSISTANTCANVAS
       objectReference: {fileID: 0}
+    - target: {fileID: 4447900444181736854, guid: 06fe3e5ef27b01b4fa1bd0640a14a954,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4447900444181736858, guid: 06fe3e5ef27b01b4fa1bd0640a14a954,
         type: 3}
       propertyPath: m_LocalPosition.x
