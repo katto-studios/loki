@@ -19,6 +19,14 @@ public class BackButton : MonoBehaviour
 
     public void GoToScene(int i)
     {
-        PersistantCanvas.Instance.ChangeScene(1);
+        PersistantCanvas.Instance.ChangeScene(PersistantCanvas.Instance.previousScene);
+    } 
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            PersistantCanvas.Instance.ChangeScene(PersistantCanvas.Instance.previousScene);
+        }
     }
 }
