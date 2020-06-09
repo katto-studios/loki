@@ -6,23 +6,11 @@ using System.Linq;
 using System.Text;
 
 //handles the game
-public class WordLine{
-    public Queue<string> Line{ get; } = new Queue<string>();
-
-    public override string ToString(){
-        StringBuilder sb = new StringBuilder();
-        foreach (string s in Line){
-            sb.Append($"{s} ");
-        }
-
-        return sb.ToString();
-    }
-}
-
 public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     public int backLogCount = 1;
     public float CurrentCombo{ get; private set; }
-    
+    public int CurrentChain{ get; private set; } = 0;
+
     private TimeTrialWordFactory m_fac;
     public string TypeMe{ get; private set; }
     public WordLine CurrentLine{ get; private set; } = null;
@@ -32,7 +20,8 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
     public event Action<string> eOnGetNewWord;
     public event Action<int> eOnScoreUpdate;
     public event Action eOnMiss;
-    
+    public event Action eOnHit;
+
     private void Start(){
         m_fac = GetComponent<TimeTrialWordFactory>();
 
@@ -40,8 +29,8 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
             if (_newState is TimeTrialGameStateManager.GameStates.Game){
                 TimeTrialInputHandler.Instance.eOnKeyDown += HandleKeyPress;
                 CurrentLine = m_fac.GetLine();
-                TypeMe = CurrentLine.Line.Dequeue();
-                for(int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetLine());
+                TypeMe = CurrentLine.CurrentWord;
+                for (int count = 0; count < backLogCount; count++) Backlog.Enqueue(m_fac.GetLine());
                 eOnGetNewWord?.Invoke(TypeMe);
                 eOnScoreUpdate?.Invoke(0);
             }
@@ -56,17 +45,19 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
         switch (_ch){
             case ' ' when m_currentInput.Equals(TypeMe):{
                 m_currentInput = string.Empty;
-                if (CurrentLine.Line.Count > 0){
-                    TypeMe = CurrentLine.Line.Dequeue();
+                if (!CurrentLine.AmOut){
+                    CurrentLine.BumpCurrent();
+                    TypeMe = CurrentLine.CurrentWord;
                 }
                 else{
                     //move on
                     CurrentLine = Backlog.Dequeue();
-                    TypeMe = CurrentLine.Line.Dequeue();
                     Backlog.Enqueue(m_fac.GetLine());
+                    TypeMe = CurrentLine.CurrentWord;
                 }
+
                 eOnGetNewWord?.Invoke(TypeMe);
-                eOnScoreUpdate?.Invoke((int)(TypeMe.Length * 200 * (CurrentCombo + 1)));
+                eOnScoreUpdate?.Invoke((int) (TypeMe.Length * 200 * (CurrentCombo + 1)));
                 break;
             }
             case '\b' when string.IsNullOrEmpty(m_currentInput):
@@ -81,8 +72,10 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
                     eOnMiss?.Invoke();
                 }
                 else{
+                    eOnHit?.Invoke();
                     CurrentCombo = 1;
                 }
+
                 break;
             }
         }

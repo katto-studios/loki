@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,10 +23,13 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
     [SerializeField] private TextMeshProUGUI m_backlogDisplay;
     [SerializeField] private Slider m_comboSlider;
     [SerializeField] private Slider m_timerSlider;
+    public bool showFlickering = false;
     private string m_displayInputTotal;
     private string m_currentWord;
     private int m_score = 0;
     private float m_internalTimer = -1;
+    private bool m_showSlash = false;
+    private Coroutine m_flicker;
     
     [Header("Analytics")]
     [SerializeField] private GameObject m_analytics;
@@ -50,6 +54,16 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
             
             //update combo
             m_comboSlider.value = TimeTrialsGameManager.Instance.CurrentCombo;
+            m_comboDisplay.SetText(TimeTrialAnalytics.Instance.CurrentChain.ToString());
+        }
+    }
+
+    private IEnumerator StartFlicker(){
+        while (true){
+            yield return new WaitForSeconds(0.7f);
+            m_showSlash = !m_showSlash;
+
+            m_inputDisplay.SetText($"<color={(m_currentWord.StartsWith(m_displayInputTotal) ? "green" : "red")}>{m_displayInputTotal}{(m_showSlash ? "|" : "")}</color>");
         }
     }
 
@@ -59,7 +73,9 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
     }
 
     private void GotNewWord(string _newWord){
-        m_textDisplay.SetText($"{_newWord} {TimeTrialsGameManager.Instance.CurrentLine}");
+        string playWithMe = $"{TimeTrialsGameManager.Instance.CurrentLine}";
+        
+        m_textDisplay.SetText(playWithMe);
         m_displayInputTotal = string.Empty;
         m_currentWord = _newWord;
         m_inputDisplay.SetText("<color=red></color>");
@@ -76,6 +92,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         switch (_newState){
             case TimeTrialGameStateManager.GameStates.Game:{
                 TimeTrialInputHandler.Instance.eOnKeyDown += HandleKeyPressForGame;
+                if(showFlickering) m_flicker = StartCoroutine(StartFlicker());
                 m_internalTimer = 60;
                 m_pre.SetActive(false);
                 m_game.SetActive(true);
@@ -84,6 +101,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
             case TimeTrialGameStateManager.GameStates.Analytics:{
                 m_game.SetActive(false);
                 m_analytics.SetActive(true);
+                if(m_flicker != null) StopCoroutine(m_flicker);
                 StartAnalysis();
                 break;
             }
@@ -95,6 +113,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         m_mistakes.SetText(TimeTrialAnalytics.Instance.Misses.ToString());
         m_wpm.SetText(TimeTrialAnalytics.Instance.Wpm.ToString());
         m_acc.SetText(((float)TimeTrialAnalytics.Instance.Misses / TimeTrialAnalytics.Instance.Wpm * 100).ToString());
+        m_combo.SetText($"x{TimeTrialAnalytics.Instance.MaxChain.ToString()}");
     }
 
     private void WhenStartGameTick(int _howMuch){
@@ -120,6 +139,9 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
             }
         }
 
-        m_inputDisplay.SetText($"<color={(m_currentWord.StartsWith(m_displayInputTotal) ? "green" : "red")}>{m_displayInputTotal}</color>");
+        m_inputDisplay.SetText($"<color={(m_currentWord.StartsWith(m_displayInputTotal) ? "green" : "red")}>{m_displayInputTotal}{(m_showSlash ? "|" : "")}</color>");
+        m_textDisplay.SetText(
+            TimeTrialsGameManager.Instance.CurrentLine.GetFancy(m_displayInputTotal)    
+        );
     }
 }
