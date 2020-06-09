@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -58,27 +59,32 @@ public class WordLine{
 
         for (int count = 0; count <= Line.Count - 1; count++){
             if (m_current == count){
-                int stopAt = _whatIHave.Length;
-                //append each char as green
-                for (int charCount = 0; charCount < _whatIHave.Length; charCount++){
-                    if (_whatIHave[charCount].Equals(CurrentWord[charCount])){
-                        sb.Append(_whatIHave[charCount]);
+                try{
+                    int stopAt = _whatIHave.Length;
+                    //append each char as green
+                    for (int charCount = 0; charCount < _whatIHave.Length; charCount++){
+                        if (_whatIHave[charCount].Equals(CurrentWord[charCount])){
+                            sb.Append(_whatIHave[charCount]);
+                        }
+                        else{
+                            stopAt = charCount;
+                            break;
+                        }
+                    }
+
+                    if (stopAt < CurrentWord.Length){
+                        sb.Append($"</color><u>{CurrentWord[stopAt]}</u>");
                     }
                     else{
-                        stopAt = charCount;
-                        break;
+                        sb.Append("</color>");
+                    }
+
+                    for (int charCount = stopAt + 1; charCount < CurrentWord.Length; charCount++){
+                        sb.Append(CurrentWord[charCount]);
                     }
                 }
-
-                if (stopAt < CurrentWord.Length){
-                    sb.Append($"</color><u>{CurrentWord[stopAt]}</u>");
-                }
-                else{
-                    sb.Append("</color>");
-                }
-
-                for (int charCount = stopAt + 1; charCount < CurrentWord.Length; charCount++){
-                    sb.Append(CurrentWord[charCount]);
+                catch (Exception){
+                    // ignored
                 }
 
                 sb.Append(" ");

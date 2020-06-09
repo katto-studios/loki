@@ -3031,6 +3031,7 @@ MonoBehaviour:
   m_backlogDisplay: {fileID: 1349541102}
   m_comboSlider: {fileID: 1927788258}
   m_timerSlider: {fileID: 97995289}
+  showFlickering: 0
   m_analytics: {fileID: 588717454}
   m_finalScore: {fileID: 904711376}
   m_combo: {fileID: 1644578751}
@@ -3049,7 +3050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c85cd020da94a4c8c28b0c86471bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backLogCount: 10
+  backLogCount: 1
 --- !u!114 &1116020884
 MonoBehaviour:
   m_ObjectHideFlags: 0
