@@ -84,7 +84,7 @@ public class WordLine{
                     }
                 }
                 catch (Exception){
-                    // ignored
+                    sb.Append("</color>");
                 }
 
                 sb.Append(" ");

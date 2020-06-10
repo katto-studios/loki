@@ -6,9 +6,10 @@ using UnityEngine;
 public class TimeTrialAnalytics : Singleton<TimeTrialAnalytics>{
     public int Score{ get; private set; } = 0;
     public int Misses{ get; private set; } = 0;
-    public int Wpm{ get; private set; } = -1;
+    public int Wpm => CharactersTyped / 5;
     public int CurrentChain{ get; private set; } = 0;
     public int MaxChain{ get; private set; } = 0;
+    public int CharactersTyped{ get; private set; } = 0;
 
     private void Start(){
         TimeTrialsGameManager.Instance.eOnScoreUpdate += ScoreUpdate;
@@ -27,14 +28,17 @@ public class TimeTrialAnalytics : Singleton<TimeTrialAnalytics>{
         if (++CurrentChain > MaxChain){
             MaxChain = CurrentChain;
         }
+
+        CharactersTyped++;
     }
 
     private void OnNewWord(string _obj){
-        Wpm++;
+        //Wpm++;
     }
 
     private void OnMiss(){
         Misses++;
+        CharactersTyped--;
         CurrentChain = 0;
     }
 
