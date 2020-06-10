@@ -22,8 +22,13 @@ public class MultiplayerKeyboard : MonoBehaviour
     {
         keyboard = GetComponentInChildren<NetworkKeyboard>();
         m_accountInfo = u;
-        playerNameUI.text = u.Username;
+        playerNameUI.text = u.Username + " 0";
         keyboard.Init(items);
+    }
+
+    public void UpdateScore(int score)
+    {
+        playerNameUI.text = m_accountInfo.Username + " " + score;
     }
 
     // Update is called once per frame

@@ -32,6 +32,14 @@ public class TimeTrialsMultiplayerRenderer : Singleton<TimeTrialsMultiplayerRend
 
             m_networkKeyboards[currentNetworkKeyboardIndex].gameObject.SetActive(true);
 
+            foreach(PhotonPlayer p in PhotonNetwork.otherPlayers)
+            {
+                if (p.NickName == m_networkKeyboards[currentNetworkKeyboardIndex].Username)
+                {
+                    m_networkKeyboards[currentNetworkKeyboardIndex].UpdateScore((int)p.CustomProperties["Score"]);
+                }
+            }
+
             m_timer = 0;
         }
     }
@@ -49,8 +57,11 @@ public class TimeTrialsMultiplayerRenderer : Singleton<TimeTrialsMultiplayerRend
 
     public void GetAccountInfoCallBack(UserAccountInfo u)
     {
-        PlayerInventoryCallBack picb = GetInventoryCallback;
-        PlayFabPlayerData.GetUserInventory(u, picb);
+        if (u.Username != PlayfabUserInfo.AccountInfo.Username)//Check if not the player
+        {
+            PlayerInventoryCallBack picb = GetInventoryCallback;
+            PlayFabPlayerData.GetUserInventory(u, picb);
+        }
     }
 
     public void GetInventoryCallback(List<ItemInstance> items, UserAccountInfo u)
