@@ -16,8 +16,15 @@ public class TimeTrialsPlayer : MonoBehaviour{
 
     public TextMeshProUGUI scoreDisplay;
     public TextMeshProUGUI nameDisplay;
+    public TextMeshProUGUI positionDisplay;
 
-    private void Update(){
-        scoreDisplay.SetText(RepresentedPlayer.CustomProperties["Score"].ToString());
+    // private void Update(){
+    //     scoreDisplay.SetText(RepresentedPlayer.CustomProperties["Score"].ToString());
+    // }
+
+    public void SetInfo(PhotonPlayer _player, int _position){
+        nameDisplay.SetText(_player.NickName);
+        scoreDisplay.SetText(_player.CustomProperties["Score"].ToString());
+        positionDisplay.SetText(_position.ToString());
     }
 }
