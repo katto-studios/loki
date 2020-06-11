@@ -14,6 +14,8 @@ public class TimeTrialsMultiplayerModule : Singleton<TimeTrialsMultiplayerModule
         TimeTrialsGameManager.Instance.eOnScoreUpdate += OnScoreUpdate;
         
         TimeTrialGameStateManager.Instance.StartMultiplayer();
+
+        PhotonCallbacks.eOnPhotonPlayerDisconnected += OnPlayerLeft;
         
         Random.InitState((int)PhotonNetwork.room.CustomProperties["RandomSeed"]);
     }
@@ -23,6 +25,13 @@ public class TimeTrialsMultiplayerModule : Singleton<TimeTrialsMultiplayerModule
         PhotonNetwork.player.SetCustomProperties(new Hashtable{
             {"Score", m_score} 
         });
+    }
+
+    private void OnPlayerLeft(PhotonPlayer _otherPlayer){
+        PopupManager.Instance.ShowPopUp($"{_otherPlayer.NickName} left!");
+        if (PhotonNetwork.otherPlayers.Length <= 0){
+            TimeTrialGameStateManager.Instance.StopGame();
+        }
     }
 
     public PhotonPlayer[] PlayersSorted(){

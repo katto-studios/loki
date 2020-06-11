@@ -29,7 +29,15 @@ public class TimeTrialGameStateManager : Singleton<TimeTrialGameStateManager>{
     public void StartMultiplayer(){
         TimeTrialInputHandler.Instance.eOnKeyDown -= HandleKeyPress;
         if (m_switchState == null){
-            StartCoroutine(StartGame(5));
+            m_switchState = StartCoroutine(StartGame(5));
+        }
+    }
+
+    public void StopGame(){
+        if (m_switchState != null){
+            StopCoroutine(m_switchState);
+            m_currentState = GameStates.Analytics;
+            eOnChangedState?.Invoke(m_currentState);
         }
     }
 
