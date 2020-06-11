@@ -32,15 +32,15 @@ public class TimeTrialsMultiplayerRenderer : Singleton<TimeTrialsMultiplayerRend
 
             m_networkKeyboards[currentNetworkKeyboardIndex].gameObject.SetActive(true);
 
-            foreach(PhotonPlayer p in PhotonNetwork.otherPlayers)
-            {
-                if (p.NickName == m_networkKeyboards[currentNetworkKeyboardIndex].Username)
-                {
-                    m_networkKeyboards[currentNetworkKeyboardIndex].UpdateScore((int)p.CustomProperties["Score"]);
-                }
-            }
-
             m_timer = 0;
+        }
+
+        foreach (PhotonPlayer p in PhotonNetwork.otherPlayers)
+        {
+            if (p.NickName == m_networkKeyboards[currentNetworkKeyboardIndex].Username)
+            {
+                m_networkKeyboards[currentNetworkKeyboardIndex].UpdateScore((int)p.CustomProperties["Score"]);
+            }
         }
     }
 
