@@ -50,6 +50,7 @@ public static class PlayFabPlayerData
                 FunctionParameter = new { UserId = u.PlayFabId }
             },
             (_result) => {
+                
                 playerStatsCallBack(PlayFab.Json.PlayFabSimpleJson.DeserializeObject<List<Statistic>>(_result.FunctionResult.ToString()));
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
