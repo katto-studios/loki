@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -1668,6 +1669,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: the back button
+      objectReference: {fileID: 0}
+    - target: {fileID: 8558710968670347329, guid: c5a86757b90089e42b554ac3028b53b3,
+        type: 3}
+      propertyPath: BackToMainMenu
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9130011781419484604, guid: c5a86757b90089e42b554ac3028b53b3,
         type: 3}
