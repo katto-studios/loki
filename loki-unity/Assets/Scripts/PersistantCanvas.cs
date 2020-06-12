@@ -60,17 +60,6 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
         }
     }
 
-    public void GachaScene(Object obj)
-    {
-        StartCoroutine(LoadGachaScene(obj));
-    }
-
-    IEnumerator LoadGachaScene(Object obj)
-    {
-        yield return StartCoroutine(LoadScene(12));
-
-    }
-
     public void ViewProfileScene(string name) {
         PlayerDataCallBack pd = GetPlayerData;
         PlayerNotFoundCallBack pnf = PlayerNotFound;

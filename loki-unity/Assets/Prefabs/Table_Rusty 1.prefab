@@ -7151,7 +7151,6 @@ GameObject:
   - component: {fileID: 2139389754466016881}
   - component: {fileID: 6983857180835423303}
   - component: {fileID: 3735503283344267454}
-  - component: {fileID: 6929967844706886285}
   m_Layer: 0
   m_Name: Mouse (1)
   m_TagString: Untagged
@@ -7167,7 +7166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3164898579556363362}
   m_LocalRotation: {x: -0.15304585, y: 0.6903456, z: 0.6903456, w: 0.15304585}
-  m_LocalPosition: {x: -0.334, y: 0.394, z: -0.056}
+  m_LocalPosition: {x: -0.3266, y: 0.394, z: -0.0731}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children: []
   m_Father: {fileID: 2516648552867559510}
@@ -7220,19 +7219,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6929967844706886285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3164898579556363362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aba358121fda38f4185233f88bc6c956, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distance: 0.04
 --- !u!1 &4128804923399393617
 GameObject:
   m_ObjectHideFlags: 0
