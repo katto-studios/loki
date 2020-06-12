@@ -546,6 +546,7 @@ GameObject:
   - component: {fileID: 6895885779549499668}
   - component: {fileID: 6895885779549499666}
   - component: {fileID: 6656915330531471473}
+  - component: {fileID: 5027676060460340801}
   m_Layer: 5
   m_Name: CPInventorySlot
   m_TagString: Untagged
@@ -695,6 +696,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5027676060460340801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895885779549499667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &6895885779841098897
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,6 +722,7 @@ GameObject:
   - component: {fileID: 6895885779841098898}
   - component: {fileID: 6895885779841098900}
   - component: {fileID: 6895885779841098899}
+  - component: {fileID: 1251818884989907370}
   m_Layer: 5
   m_Name: BoxImg
   m_TagString: Untagged
@@ -768,6 +785,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1251818884989907370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895885779841098897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!1 &7507173264851804683
 GameObject:
   m_ObjectHideFlags: 0

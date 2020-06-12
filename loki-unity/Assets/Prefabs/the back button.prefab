@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 5739795535411641293}
   - component: {fileID: 4377508215997138373}
   - component: {fileID: 8558710968670347329}
+  - component: {fileID: 4091952825351183231}
   m_Layer: 5
   m_Name: the back button
   m_TagString: Untagged
@@ -219,4 +220,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05468f284704080448b60d982082a335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BackToMainMenu: 0
+  BackToMainMenu: 1
+--- !u!114 &4091952825351183231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2760117745904633746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 4, y: -4}
+  m_UseGraphicAlpha: 1

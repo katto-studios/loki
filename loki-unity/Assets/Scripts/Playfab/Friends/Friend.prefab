@@ -83,6 +83,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1418323722124321396}
   - component: {fileID: 1610977265791764689}
+  - component: {fileID: 4805176309112560803}
   m_Layer: 5
   m_Name: Friend
   m_TagString: Untagged
@@ -134,6 +135,21 @@ MonoBehaviour:
   btnJoinGame: {fileID: 4330474389278845081}
   profilePicture: {fileID: 9110581362889965716}
   refreshRate: 1
+--- !u!114 &4805176309112560803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418323722124321397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1418323722391517593
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,6 +544,7 @@ GameObject:
   - component: {fileID: 2519619568340899106}
   - component: {fileID: 8623362709277725809}
   - component: {fileID: 1608369439728384150}
+  - component: {fileID: 269630414559326636}
   m_Layer: 5
   m_Name: btnShowProfile
   m_TagString: Untagged
@@ -645,6 +662,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &269630414559326636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4106406104723960232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &7863565198059772258
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,6 +689,7 @@ GameObject:
   - component: {fileID: 1204514735809946040}
   - component: {fileID: 4545323590062139390}
   - component: {fileID: 4330474389278845081}
+  - component: {fileID: 4526200152752415846}
   m_Layer: 5
   m_Name: btnJoinGame
   m_TagString: Untagged
@@ -774,6 +807,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4526200152752415846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7863565198059772258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &8581182143137960958
 GameObject:
   m_ObjectHideFlags: 0
