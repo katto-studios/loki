@@ -19,5 +19,6 @@ public class RewardKey : MonoBehaviour
     public void Destroy()
     {
         Destroy(gameObject);
+        PersistantCanvas.Instance.ChangeScene(PersistantCanvas.Instance.previousScene);
     }
 }

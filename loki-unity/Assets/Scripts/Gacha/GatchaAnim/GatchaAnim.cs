@@ -86,6 +86,7 @@ public class GatchaAnim : MonoBehaviour
     {
         GameObject Reward = Instantiate(RewardPrefab, keyCapSpawn.position, Quaternion.identity) as GameObject;
         rewardAnim = Reward.GetComponent<Animator>();
+        GachaOpenning.Instance.GachaReward(Reward);
     }
 
     public void SpawnEffect()

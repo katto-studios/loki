@@ -11,14 +11,21 @@ public class GachaOpenning : Singleton<GachaOpenning>
 
     public GameObject o_prefab;
 
+    public int type = -1;
+
+    ColourPack colourPack;
+    ArtisanKeycap artisanKeycap;
+
     public void Init(Object obj)
     {
         if(obj.GetType().Equals(typeof(ArtisanKeycap)))
         {
-
+            type = 0;
         }
         else if (obj.GetType().Equals(typeof(ColourPack)))
         {
+            colourPack = (ColourPack)obj;
+            type = 1;
             ColourPack cp = (ColourPack)obj;
             switch (cp.colourPackRarity)
             {
@@ -32,7 +39,7 @@ public class GachaOpenning : Singleton<GachaOpenning>
                     o_rarityColor = new Color(0.7f, 0.2f, 0.7f);
                     break;
                 case ColourPackRarity.LEGENDARY:
-                    o_rarityColor = new Color(0.8f, 0.6f, 0.4f);
+                    o_rarityColor = new Color(0.8f, 0.6f, 0.2f);
                     break;
                 case ColourPackRarity.UNIQUE:
                     o_rarityColor = new Color(0.8f, 0.3f, 0.3f);
@@ -41,6 +48,19 @@ public class GachaOpenning : Singleton<GachaOpenning>
             o_name = cp.name;
             o_rarity = cp.colourPackRarity.ToString();
             o_rarityColorV3 = new Vector3(o_rarityColor.r, o_rarityColor.g, o_rarityColor.b);
+            o_prefab = Resources.Load<GameObject>("Colourpack Display");
+        }
+    }
+
+    public void GachaReward(GameObject reward)
+    {
+        GameObject newReward = Instantiate(o_prefab, reward.transform);
+        if(type == 1)
+        {
+            newReward.GetComponent<CPDisplay>().Init(colourPack);
+            newReward.transform.localPosition = new Vector3(0, 0.1f, 0);
+            newReward.transform.localEulerAngles = new Vector3(45, 180, 0);
+            newReward.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         }
     }
 

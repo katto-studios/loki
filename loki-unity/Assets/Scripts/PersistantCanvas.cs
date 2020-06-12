@@ -28,7 +28,7 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
 
         transform.position = new Vector3(0, 0, -1);
 
-        GachaScene(testing);
+        //GachaScene(testing);
     }
 
     private void Update()
