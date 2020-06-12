@@ -1372,7 +1372,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.412
   m_overflowMode: 0
   m_firstOverflowCharacterIndex: -1
@@ -3904,6 +3904,61 @@ PrefabInstance:
         type: 3}
       propertyPath: m_margin.w
       value: 294.96054
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_text
+      value: Text to type will appear here
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_overflowMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_overrideHtmlColors
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960914561456191506, guid: ced8c05658a41954694592e6bbce8f90,
+        type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1960914561456191507, guid: ced8c05658a41954694592e6bbce8f90,
         type: 3}
