@@ -10,6 +10,7 @@ public class TimeTrialAnalytics : Singleton<TimeTrialAnalytics>{
     public int CurrentChain{ get; private set; } = 0;
     public int MaxChain{ get; private set; } = 0;
     public int CharactersTyped{ get; private set; } = 0;
+    public int Accuracy => (int)(1 - (float)Misses / CharactersTyped) * 100;
     public RewardsPanel rewardsPanel;
 
     private void Start(){
