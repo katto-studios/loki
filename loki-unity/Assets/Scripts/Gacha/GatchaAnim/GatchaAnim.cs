@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.VFX;
 
 public class GatchaAnim : MonoBehaviour
 {
     public GameObject effect;
     public GameObject glow;
+
+    public VisualEffect effectE;
+    public VisualEffect glowE;
 
     private Animator anim;
     private Animator rewardAnim;
@@ -15,6 +20,12 @@ public class GatchaAnim : MonoBehaviour
     private bool caseOpened = false;
 
     public Transform keyCapSpawn;
+    public GameObject RewardPrefab;
+
+    public Color rarityColour;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI rarityText;
+    public GameObject canvas;
 
     // Start is called before the first frame update
     void Start()
@@ -71,7 +82,7 @@ public class GatchaAnim : MonoBehaviour
         caseOpened = true;
     }
 
-    public void GatchaReward(GameObject RewardPrefab)
+    public void GatchaReward()
     {
         GameObject Reward = Instantiate(RewardPrefab, keyCapSpawn.position, Quaternion.identity) as GameObject;
         rewardAnim = Reward.GetComponent<Animator>();
@@ -80,10 +91,15 @@ public class GatchaAnim : MonoBehaviour
     public void SpawnEffect()
     {
         effect.SetActive(true);
+        effectE.SetVector3("RarityColour", GachaOpenning.Instance.o_rarityColorV3);
     }
 
     public void GlowEffect()
     {
+        canvas.SetActive(true);
+        nameText.text = GachaOpenning.Instance.o_name;
+        rarityText.text = GachaOpenning.Instance.o_rarity;
         glow.SetActive(true);
+        glowE.SetVector3("RarityColour", GachaOpenning.Instance.o_rarityColorV3);
     }
 }

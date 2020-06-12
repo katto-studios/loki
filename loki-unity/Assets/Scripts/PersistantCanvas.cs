@@ -15,6 +15,8 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
 
     public int previousScene;
 
+    public Object testing;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,8 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
         }
 
         transform.position = new Vector3(0, 0, -1);
+
+        GachaScene(testing);
     }
 
     private void Update()
@@ -68,7 +72,7 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
     IEnumerator LoadGachaScene(Object obj)
     {
         yield return StartCoroutine(LoadScene(12));
-
+        GachaOpenning.Instance.Init(obj);
     }
 
     public void ViewProfileScene(string name) {
