@@ -1821,6 +1821,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_Rusty
       objectReference: {fileID: 0}
+    - target: {fileID: 6929967844706886285, guid: a8f0dd31d046be944a34455056b5f5bb,
+        type: 3}
+      propertyPath: distance
+      value: 0.04
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8f0dd31d046be944a34455056b5f5bb, type: 3}
 --- !u!114 &4442741194945957348 stripped
