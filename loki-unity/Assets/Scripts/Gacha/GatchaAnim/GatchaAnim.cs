@@ -5,6 +5,7 @@ using UnityEngine;
 public class GatchaAnim : MonoBehaviour
 {
     public GameObject effect;
+    public GameObject glow;
 
     private Animator anim;
     private Animator rewardAnim;
@@ -60,6 +61,7 @@ public class GatchaAnim : MonoBehaviour
                 rewardAnim.SetBool("Collected", true);
                 caseOpened = false;
                 effect.SetActive(false);
+                glow.SetActive(false);
             }
         }
     }
@@ -78,5 +80,10 @@ public class GatchaAnim : MonoBehaviour
     public void SpawnEffect()
     {
         effect.SetActive(true);
+    }
+
+    public void GlowEffect()
+    {
+        glow.SetActive(true);
     }
 }

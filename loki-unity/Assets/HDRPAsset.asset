@@ -345,6 +345,7 @@ MonoBehaviour:
   diffusionProfileSettings: {fileID: 0}
   diffusionProfileSettingsList:
   - {fileID: 0}
+  - {fileID: 0}
   beforeTransparentCustomPostProcesses: []
   beforePostProcessCustomPostProcesses: []
   afterPostProcessCustomPostProcesses: []
