@@ -42,6 +42,9 @@ public class Listing : MonoBehaviour
                     PlayfabMessage msg = PlayFabSimpleJson.DeserializeObject<PlayfabMessage>(_result.FunctionResult.ToString());
                     DecodeMessage(msg);
                     Debug.Log(msg.FunctionMessage);
+                } else
+                {
+                    PersistantCanvas.Instance.ConfirmationPanel("oof, an error has occured", null);
                 }
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
@@ -69,7 +72,7 @@ public class Listing : MonoBehaviour
             }
             else
             {
-                PersistantCanvas.Instance.ConfirmationPanel("An Error Has Occured", null);
+                PersistantCanvas.Instance.ConfirmationPanel("Something Went Wrong", null);
             }
         }
     }
