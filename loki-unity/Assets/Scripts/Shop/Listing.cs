@@ -41,6 +41,8 @@ public class Listing : MonoBehaviour
                 ConfirmationPanel.CPCallback confirm = ConfirmGetItem;
                 string itemName = _result.FunctionResult.ToString();
                 PersistantCanvas.Instance.ConfirmationPanel("Congradulations, you won " + itemName + "." , confirm);
+
+                
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
