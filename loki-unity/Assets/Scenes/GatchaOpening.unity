@@ -989,6 +989,7 @@ MonoBehaviour:
   o_name: 
   o_rarity: 
   o_rarityColor: {r: 0, g: 0, b: 0, a: 0}
+  o_rarityColorV3: {x: 0, y: 0, z: 0}
 --- !u!4 &1327415410 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2516648552867559510, guid: a8f0dd31d046be944a34455056b5f5bb,
@@ -1079,6 +1080,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3889982846282586170, guid: 0d99804a49ee5114ebdc56b53f30130b,
         type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889982846282586170, guid: 0d99804a49ee5114ebdc56b53f30130b,
+        type: 3}
       propertyPath: m_InitialEventNameOverriden
       value: 0
       objectReference: {fileID: 0}
@@ -1120,6 +1126,31 @@ PrefabInstance:
     - target: {fileID: 3889982846282586170, guid: 0d99804a49ee5114ebdc56b53f30130b,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Overridden
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889982846282586170, guid: 0d99804a49ee5114ebdc56b53f30130b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
+      value: 0.06258009
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889982846282586170, guid: 0d99804a49ee5114ebdc56b53f30130b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
+      value: 1.107429
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889982846282586170, guid: 0d99804a49ee5114ebdc56b53f30130b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: 2.39056
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889982846282586170, guid: 0d99804a49ee5114ebdc56b53f30130b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Name
+      value: RarityColourValues
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889982846282586170, guid: 0d99804a49ee5114ebdc56b53f30130b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Overridden
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3889982846282586171, guid: 0d99804a49ee5114ebdc56b53f30130b,
@@ -1266,7 +1297,7 @@ PrefabInstance:
     - target: {fileID: 5273346466527307764, guid: 69bd7b2fbaed7cd458afcb5b314ad996,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5273346466527307764, guid: 69bd7b2fbaed7cd458afcb5b314ad996,
         type: 3}
@@ -1285,6 +1316,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5273346466527307765, guid: 69bd7b2fbaed7cd458afcb5b314ad996,
         type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273346466527307765, guid: 69bd7b2fbaed7cd458afcb5b314ad996,
+        type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.y
       value: 2.6461346
       objectReference: {fileID: 0}
@@ -1297,6 +1333,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.z
       value: 3.1915853
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273346466527307765, guid: 69bd7b2fbaed7cd458afcb5b314ad996,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
+      value: 0.06258009
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273346466527307765, guid: 69bd7b2fbaed7cd458afcb5b314ad996,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
+      value: 1.107429
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273346466527307765, guid: 69bd7b2fbaed7cd458afcb5b314ad996,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: 2.39056
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273346466527307765, guid: 69bd7b2fbaed7cd458afcb5b314ad996,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Name
+      value: RarityColourValues
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273346466527307765, guid: 69bd7b2fbaed7cd458afcb5b314ad996,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Overridden
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5273346466527307766, guid: 69bd7b2fbaed7cd458afcb5b314ad996,
         type: 3}
