@@ -15,7 +15,8 @@ public class CPInventorySlot : MonoBehaviour
     public ItemInstance ItemInstance;
 
     private Image background;
-    private Image itemImage;
+    public Image itemImage;
+    public Image BoxImage;
 
     public GameObject equipedPanel;
     public GameObject selectedPanel;
@@ -26,11 +27,17 @@ public class CPInventorySlot : MonoBehaviour
         colourPack = newcp;
         itemName.text = newcp.name;
         background = GetComponent<Image>();
-        itemImage = transform.GetChild(1).GetComponent<Image>();
 
         Color nc = newcp.color;
         nc.a = 1f;
         itemImage.color = nc;
+
+        if(newcp.additionalColours.Count > 0)
+        {
+            Color ncb = newcp.additionalColours[0].color;
+            ncb.a = 1f;
+            BoxImage.color = ncb;
+        }
 
         switch (newcp.colourPackRarity)
         {
@@ -52,8 +59,9 @@ public class CPInventorySlot : MonoBehaviour
         }
 
         equipInfo = newEquipInfo;
-        if (equipInfo != 0)
+        if (equipInfo > 0)
         {
+            Debug.Log(equipInfo);
             SetEquipedState();
         }
         else

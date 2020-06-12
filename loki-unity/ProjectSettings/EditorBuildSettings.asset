@@ -44,6 +44,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Shop.unity
     guid: a1a6b2548408adf46b47247501b5e13b
+  - enabled: 1
+    path: Assets/Scenes/GatchaOpening.unity
+    guid: 446dc4f65235ea945bd52588bdc796dc
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
