@@ -10,7 +10,7 @@ public class TimeTrialAnalytics : Singleton<TimeTrialAnalytics>{
     public int CurrentChain{ get; private set; } = 0;
     public int MaxChain{ get; private set; } = 0;
     public int CharactersTyped{ get; private set; } = 0;
-    public int Accuracy => (1 - Misses / CharactersTyped) * 100;
+    public RewardsPanel rewardsPanel;
 
     private void Start(){
         TimeTrialsGameManager.Instance.eOnScoreUpdate += ScoreUpdate;
@@ -21,6 +21,8 @@ public class TimeTrialAnalytics : Singleton<TimeTrialAnalytics>{
         TimeTrialGameStateManager.Instance.eOnChangedState += (_state) => {
             if (_state is TimeTrialGameStateManager.GameStates.Analytics){
                 PlayfabUserInfo.UpdatePlayerExp(Score);
+                rewardsPanel.gameObject.SetActive(true);
+                rewardsPanel.Init(Score);
             }
         };
     }
