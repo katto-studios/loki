@@ -20,8 +20,8 @@ public class GameplayConsole : Singleton<GameplayConsole> {
     }
 
     public void Update() {
-        if (Input.GetKey(KeyCode.F1)) {
-            if (Input.GetKeyDown(KeyCode.LeftAlt)) {
+        if (Input.GetKey(KeyCode.LeftAlt)) {
+            if (Input.GetKeyDown(KeyCode.F7)) {
                 ToggleActive();
             }
         }

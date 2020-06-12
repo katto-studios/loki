@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 7d4255915119e09489acaccc8cb7d1e3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/TimeTrialSinglePlayer.unity
+    guid: afda57e5c2f9dac4fbc55aa3e579610e
   - enabled: 1
     path: Assets/Scenes/LobbyScreen.unity
     guid: b92140566131ae2499b50f32528df375
@@ -35,4 +38,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ViewProfile.unity
     guid: 0721f47451254874085bab92a2124162
+  - enabled: 1
+    path: Assets/Scenes/TimeTrialMultiplayer.unity
+    guid: 4ff5cb93a1ff01f479e7e98e4a19cabe
+  - enabled: 1
+    path: Assets/Scenes/Shop.unity
+    guid: a1a6b2548408adf46b47247501b5e13b
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}

@@ -31,16 +31,19 @@ public class FriendsMenuHandler : Singleton<FriendsMenuHandler> {
 		PlayfabUserInfo.GetFriendsList();
 	}
 
-	public void AddToFriendsList(cm::FriendInfo _newFriend) {
+    public void AddToFriendsList(cm::FriendInfo _newFriend) {
 		m_friends.Add(_newFriend);
 		FriendDisplay instanceDisplay = Instantiate(friendInfoPfb, friendContent.transform).GetComponent<FriendDisplay>();
 		instanceDisplay.SetFriendInfo(_newFriend);
 	}
 
     public void AddToPendingFriendsList(cm::FriendInfo _pending) {
-        m_pending.Add(_pending);
-        PendingDisplay instanceDisplay = Instantiate(pendingFriendPfb, pendingFriends.transform).GetComponent<PendingDisplay>();
-        instanceDisplay.Initalise(_pending.TitleDisplayName);
+        if (!m_pending.Contains(_pending)){
+            m_pending.Add(_pending);
+            PendingDisplay instanceDisplay =
+                Instantiate(pendingFriendPfb, pendingFriends.transform).GetComponent<PendingDisplay>();
+            instanceDisplay.Initalise(_pending.TitleDisplayName);
+        }
     }
 
 	public void AddFriend() {

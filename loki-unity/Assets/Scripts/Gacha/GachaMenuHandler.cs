@@ -3,19 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using PlayFab.Json;
 using TMPro;
 
 public class GachaMenuHandler : MonoBehaviour {
-    // Start is called before the first frame update
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-        
-    }
-
     public void Gacha() {
         //call script 
         PlayFabClientAPI.ExecuteCloudScript(
@@ -36,9 +27,16 @@ public class GachaMenuHandler : MonoBehaviour {
                 FunctionParameter = new { CatalogVer = _catalogVer }
             },
             (_result) => {
-                Debug.Log(_result.FunctionResult.ToString());
+                if (_result.FunctionResult != null){
+                    PlayfabMessage msg = PlayFabSimpleJson.DeserializeObject<PlayfabMessage>(_result.FunctionResult.ToString());
+                    Debug.Log(msg.FunctionMessage);
+                }
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
     }
+}
+
+public class PlayfabMessage{
+    public string FunctionMessage;
 }

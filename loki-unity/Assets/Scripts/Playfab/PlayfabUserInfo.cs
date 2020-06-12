@@ -234,7 +234,7 @@ public static class PlayfabUserInfo {
                 GeneratePlayStreamEvent = true
             },
             (_result) => {
-                Debug.Log("Upadated player xp");
+                Debug.Log("Updated player xp");
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );

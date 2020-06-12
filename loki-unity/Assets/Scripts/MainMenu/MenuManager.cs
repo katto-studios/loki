@@ -58,8 +58,8 @@ public class MenuManager : MonoBehaviour {
         PlayFabClientAPI.GetUserInventory(
             new GetUserInventoryRequest(),
             (_result) => {
-                scrap.SetText($"Scrap: {_result.VirtualCurrency["SM"]}");
-                gold.SetText($"Gold: {_result.VirtualCurrency["GC"]}");
+                scrap.SetText($"{_result.VirtualCurrency["SM"]}");
+                gold.SetText($"{_result.VirtualCurrency["GC"]}");
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
