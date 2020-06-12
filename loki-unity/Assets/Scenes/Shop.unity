@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'scrap: 1000 / gold: 30'
+  m_text: 'Gold: 30'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 129ce9f52907b4a4ab108427550d4b1f, type: 2}
   m_sharedMaterial: {fileID: -3588561220907317921, guid: 129ce9f52907b4a4ab108427550d4b1f,
@@ -246,10 +246,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 153238338}
-    characterCount: 22
+    characterCount: 8
     spriteCount: 0
-    spaceCount: 4
-    wordCount: 4
+    spaceCount: 1
+    wordCount: 2
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -438,7 +438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ListingName: Keycap Set 001
   CatalogName: 1
-  price: 100 Scrap
+  price: 200 Scrap
 --- !u!1 &462098941
 GameObject:
   m_ObjectHideFlags: 0
@@ -1073,9 +1073,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32a2f301b722e5e43bea26bae2e980df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ListingName: Keycap Set 001
+  ListingName: Keycap Set 002
   CatalogName: 1
-  price: 100 Scrap
+  price: 30 gold
 --- !u!114 &1218645020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,7 +1266,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'scrap: 1000 / gold: 30'
+  m_text: scrap:200
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 129ce9f52907b4a4ab108427550d4b1f, type: 2}
   m_sharedMaterial: {fileID: -3588561220907317921, guid: 129ce9f52907b4a4ab108427550d4b1f,
@@ -1336,10 +1336,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1599967263}
-    characterCount: 22
+    characterCount: 9
     spriteCount: 0
-    spaceCount: 4
-    wordCount: 4
+    spaceCount: 0
+    wordCount: 2
     linkCount: 0
     lineCount: 1
     pageCount: 1
