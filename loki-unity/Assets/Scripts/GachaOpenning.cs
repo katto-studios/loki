@@ -9,6 +9,8 @@ public class GachaOpenning : Singleton<GachaOpenning>
     public Color o_rarityColor;
     public Vector3 o_rarityColorV3;
 
+    public GameObject o_prefab;
+
     public void Init(Object obj)
     {
         if(obj.GetType().Equals(typeof(ArtisanKeycap)))
@@ -24,10 +26,10 @@ public class GachaOpenning : Singleton<GachaOpenning>
                     o_rarityColor = new Color(0.8f, 0.8f, 0.8f);
                     break;
                 case ColourPackRarity.RARE:
-                    o_rarityColor = new Color(0.6f, 0.6f, 0.8f);
+                    o_rarityColor = new Color(0.2f, 0.6f, 0.8f);
                     break;
                 case ColourPackRarity.EPIC:
-                    o_rarityColor = new Color(0.7f, 0.5f, 0.7f);
+                    o_rarityColor = new Color(0.7f, 0.2f, 0.7f);
                     break;
                 case ColourPackRarity.LEGENDARY:
                     o_rarityColor = new Color(0.8f, 0.6f, 0.4f);

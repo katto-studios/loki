@@ -591,7 +591,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -285.59}
-  m_SizeDelta: {x: 300, y: 50}
+  m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &573230040
 MonoBehaviour:
@@ -654,7 +654,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_firstOverflowCharacterIndex: 0
@@ -990,6 +990,7 @@ MonoBehaviour:
   o_rarity: 
   o_rarityColor: {r: 0, g: 0, b: 0, a: 0}
   o_rarityColorV3: {x: 0, y: 0, z: 0}
+  o_prefab: {fileID: 0}
 --- !u!4 &1327415410 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2516648552867559510, guid: a8f0dd31d046be944a34455056b5f5bb,

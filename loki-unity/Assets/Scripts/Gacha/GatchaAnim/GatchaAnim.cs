@@ -91,7 +91,7 @@ public class GatchaAnim : MonoBehaviour
     public void SpawnEffect()
     {
         effect.SetActive(true);
-        effectE.SetVector3("RarityColour", GachaOpenning.Instance.o_rarityColorV3);
+        effectE.SetVector3("RarityColourValues", GachaOpenning.Instance.o_rarityColorV3);
     }
 
     public void GlowEffect()
@@ -100,6 +100,6 @@ public class GatchaAnim : MonoBehaviour
         nameText.text = GachaOpenning.Instance.o_name;
         rarityText.text = GachaOpenning.Instance.o_rarity;
         glow.SetActive(true);
-        glowE.SetVector3("RarityColour", GachaOpenning.Instance.o_rarityColorV3);
+        glowE.SetVector3("RarityColourValues", GachaOpenning.Instance.o_rarityColorV3);
     }
 }

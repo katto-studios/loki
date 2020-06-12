@@ -2011,7 +2011,198 @@ VisualEffectResource:
     m_PreWarmDeltaTime: 0.05
     m_PreWarmStepCount: 0
     m_InitialEventName: OnPlay
-  m_Systems: []
+  m_Systems:
+  - type: 0
+    flags: 0
+    capacity: 0
+    layer: 4294967295
+    buffers:
+    - nameId: spawner_output
+      index: 1
+    values: []
+    tasks:
+    - type: 268435457
+      buffers: []
+      temporaryBuffers: []
+      values:
+      - nameId: Count
+        index: 30
+      - nameId: Delay
+        index: 29
+      params: []
+      processor: {fileID: 0}
+      shaderSourceIndex: -1
+    - type: 268435456
+      buffers: []
+      temporaryBuffers: []
+      values:
+      - nameId: Rate
+        index: 5
+      params: []
+      processor: {fileID: 0}
+      shaderSourceIndex: -1
+  - type: 0
+    flags: 0
+    capacity: 0
+    layer: 4294967295
+    buffers:
+    - nameId: spawner_output
+      index: 2
+    values: []
+    tasks:
+    - type: 268435456
+      buffers: []
+      temporaryBuffers: []
+      values:
+      - nameId: Rate
+        index: 20
+      params: []
+      processor: {fileID: 0}
+      shaderSourceIndex: -1
+  - type: 1
+    flags: 1
+    capacity: 100000
+    layer: 4294967295
+    buffers:
+    - nameId: attributeBuffer
+      index: 0
+    - nameId: sourceAttributeBuffer
+      index: 2
+    - nameId: deadList
+      index: 3
+    - nameId: deadListCount
+      index: 4
+    - nameId: spawner_input
+      index: 2
+    values:
+    - nameId: bounds_center
+      index: 32
+    - nameId: bounds_size
+      index: 31
+    tasks:
+    - type: 536870912
+      buffers:
+      - nameId: attributeBuffer
+        index: 0
+      - nameId: deadListIn
+        index: 3
+      - nameId: deadListCount
+        index: 4
+      - nameId: sourceAttributeBuffer
+        index: 2
+      temporaryBuffers: []
+      values: []
+      params:
+      - nameId: bounds_center
+        index: 32
+      - nameId: bounds_size
+        index: 31
+      processor: {fileID: 0}
+      shaderSourceIndex: 2
+    - type: 805306368
+      buffers:
+      - nameId: attributeBuffer
+        index: 0
+      - nameId: deadListOut
+        index: 3
+      temporaryBuffers: []
+      values:
+      - nameId: uniform_a
+        index: 2
+      - nameId: deltaTime_a
+        index: 12
+      params: []
+      processor: {fileID: 0}
+      shaderSourceIndex: 1
+    - type: 1073741826
+      buffers:
+      - nameId: attributeBuffer
+        index: 0
+      temporaryBuffers: []
+      values:
+      - nameId: Size_e
+        index: 23
+      - nameId: Color_f
+        index: 28
+      - nameId: Color_g
+        index: 22
+      - nameId: mainTexture
+        index: 33
+      params:
+      - nameId: sortPriority
+        index: 0
+      processor: {fileID: 0}
+      shaderSourceIndex: 0
+  - type: 1
+    flags: 1
+    capacity: 32
+    layer: 4294967295
+    buffers:
+    - nameId: attributeBuffer
+      index: 1
+    - nameId: sourceAttributeBuffer
+      index: 5
+    - nameId: deadList
+      index: 6
+    - nameId: deadListCount
+      index: 7
+    - nameId: spawner_input
+      index: 1
+    values:
+    - nameId: bounds_center
+      index: 32
+    - nameId: bounds_size
+      index: 31
+    tasks:
+    - type: 536870912
+      buffers:
+      - nameId: attributeBuffer
+        index: 1
+      - nameId: deadListIn
+        index: 6
+      - nameId: deadListCount
+        index: 7
+      - nameId: sourceAttributeBuffer
+        index: 5
+      temporaryBuffers: []
+      values: []
+      params:
+      - nameId: bounds_center
+        index: 32
+      - nameId: bounds_size
+        index: 31
+      processor: {fileID: 0}
+      shaderSourceIndex: 5
+    - type: 805306368
+      buffers:
+      - nameId: attributeBuffer
+        index: 1
+      - nameId: deadListOut
+        index: 6
+      temporaryBuffers: []
+      values:
+      - nameId: deltaTime_a
+        index: 12
+      params: []
+      processor: {fileID: 0}
+      shaderSourceIndex: 3
+    - type: 1073741826
+      buffers:
+      - nameId: attributeBuffer
+        index: 1
+      temporaryBuffers: []
+      values:
+      - nameId: Color_c
+        index: 28
+      - nameId: Color_d
+        index: 18
+      - nameId: mainTexture
+        index: 33
+      params:
+      - nameId: sortPriority
+        index: 0
+      processor: {fileID: 0}
+      shaderSourceIndex: 4
 --- !u!114 &8926484042661614717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6302,7 +6493,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614885}
   m_ExposedName: RarityColourValues
   m_Exposed: 1
-  m_Order: 1
+  m_Order: 0
   m_Category: 
   m_Min:
     m_Type:
