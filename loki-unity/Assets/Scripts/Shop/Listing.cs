@@ -53,22 +53,30 @@ public class Listing : MonoBehaviour
 
     void DecodeMessage(PlayfabMessage msg)
     {
-        if(msg.FunctionMessage == "Dupe!")
-        {
-            PersistantCanvas.Instance.ConfirmationPanel("You rolled a duplicate", null);
-        } else if (msg.FunctionMessage == "Not enough scrap!")
+        if (msg.FunctionMessage == "Not enough scrap!")
         {
             PersistantCanvas.Instance.ConfirmationPanel("You have not enough scrap", null);
         } else {
+            bool isDupe = false;
+            int refund = 0;
+            if (msg.FunctionMessage.Contains("Dupe!"))
+            {
+                //PersistantCanvas.Instance.ConfirmationPanel("You rolled a duplicate", null);
+                string[] sdata = msg.FunctionMessage.Split(',');
+                Debug.Log(sdata[0]);
+                isDupe = true;
+                //refund = int.Parse(sdata[2]);
+                msg.FunctionMessage = sdata[1].TrimStart(' ');
+            }
             ArtisanKeycap kc = KeycapDatabase.Instance.getKeyCapFromID(msg.FunctionMessage);
             ColourPack cp = ColourPackDatabase.Instance.GetColourPackFromID(msg.FunctionMessage);
             if(kc != null)
             {
-                PersistantCanvas.Instance.GachaScene(kc);
+                PersistantCanvas.Instance.GachaScene(kc, isDupe, refund);
             }
             else if(cp != null)
             {
-                PersistantCanvas.Instance.GachaScene(cp);
+                PersistantCanvas.Instance.GachaScene(cp, isDupe, refund);
             }
             else
             {

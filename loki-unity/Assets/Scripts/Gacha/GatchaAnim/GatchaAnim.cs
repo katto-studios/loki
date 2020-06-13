@@ -27,6 +27,9 @@ public class GatchaAnim : MonoBehaviour
     public TextMeshProUGUI rarityText;
     public GameObject canvas;
 
+    public TextMeshProUGUI refundText;
+    public GameObject dupeCanvas;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,5 +105,10 @@ public class GatchaAnim : MonoBehaviour
         rarityText.text = GachaOpenning.Instance.o_rarity;
         glow.SetActive(true);
         glowE.SetVector3("RarityColourValues", GachaOpenning.Instance.o_rarityColorV3);
+        if (GachaOpenning.Instance.isDupe)
+        {
+            dupeCanvas.SetActive(true);
+            refundText.text = "REFUNDED " + GachaOpenning.Instance.o_refundAmmount + " SCRAP";
+        }
     }
 }

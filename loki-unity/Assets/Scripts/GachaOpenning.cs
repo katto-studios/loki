@@ -8,6 +8,8 @@ public class GachaOpenning : Singleton<GachaOpenning>
     public string o_rarity;
     public Color o_rarityColor;
     public Vector3 o_rarityColorV3;
+    public bool isDupe;
+    public int o_refundAmmount;
 
     public GameObject o_prefab;
 
@@ -16,8 +18,10 @@ public class GachaOpenning : Singleton<GachaOpenning>
     ColourPack colourPack;
     ArtisanKeycap artisanKeycap;
 
-    public void Init(Object obj)
+    public void Init(Object obj, bool d, int refund)
     {
+        isDupe = d;
+        o_refundAmmount = refund;
         if(obj.GetType().Equals(typeof(ArtisanKeycap)))
         {
             type = 0;

@@ -64,15 +64,15 @@ public class PersistantCanvas : Singleton<PersistantCanvas>
         }
     }
 
-    public void GachaScene(Object obj)
+    public void GachaScene(Object obj, bool isDupe, int refund)
     {
-        StartCoroutine(LoadGachaScene(obj));
+        StartCoroutine(LoadGachaScene(obj, isDupe, refund));
     }
 
-    IEnumerator LoadGachaScene(Object obj)
+    IEnumerator LoadGachaScene(Object obj, bool isDupe, int refund)
     {
         yield return StartCoroutine(LoadScene(12));
-        GachaOpenning.Instance.Init(obj);
+        GachaOpenning.Instance.Init(obj, isDupe, refund);
     }
 
     public void ViewProfileScene(string name) {
