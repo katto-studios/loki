@@ -112,7 +112,7 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
         m_finalScore.SetText(TimeTrialAnalytics.Instance.Score.ToString());
         m_mistakes.SetText(TimeTrialAnalytics.Instance.Misses.ToString());
         m_wpm.SetText(TimeTrialAnalytics.Instance.Wpm.ToString());
-        m_acc.SetText(TimeTrialAnalytics.Instance.Accuracy.ToString());
+        m_acc.SetText($"{TimeTrialAnalytics.Instance.Accuracy}%");
         m_combo.SetText($"x{TimeTrialAnalytics.Instance.MaxChain.ToString()}");
     }
 
