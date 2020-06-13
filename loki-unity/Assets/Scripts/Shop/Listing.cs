@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using PlayFab.Json;
 
 public class Listing : MonoBehaviour
 {
@@ -24,8 +25,7 @@ public class Listing : MonoBehaviour
     public void Select()
     {
         ConfirmationPanel.CPCallback confirm = ConfirmPurchase;
-        ConfirmationPanel.CPCallback cancel = CancelPurchase;
-        PersistantCanvas.Instance.ConfirmationPanel("Confirm spend " + price + " on " + ListingName + "?", confirm, cancel);
+        PersistantCanvas.Instance.ConfirmationPanel("Confirm spend " + price + " on " + ListingName + "?", confirm, null);
     }
 
     public void ConfirmPurchase()
@@ -37,22 +37,51 @@ public class Listing : MonoBehaviour
                 FunctionParameter = new { CatalogVer = CatalogName }
             },
             (_result) => {
-                Debug.Log(_result.FunctionResult.ToString());
-                ConfirmationPanel.CPCallback confirm = ConfirmGetItem;
-                string itemName = _result.FunctionResult.ToString();
-                PersistantCanvas.Instance.ConfirmationPanel("Congradulations, you won " + itemName + "." , confirm);
+                if(_result.FunctionResult != null)
+                {
+                    PlayfabMessage msg = PlayFabSimpleJson.DeserializeObject<PlayfabMessage>(_result.FunctionResult.ToString());
+                    DecodeMessage(msg);
+                    Debug.Log(msg.FunctionMessage);
+                } else
+                {
+                    PersistantCanvas.Instance.ConfirmationPanel("oof, an error has occured", null);
+                }
             },
             (_error) => { Debug.LogError(_error.GenerateErrorReport()); }
         );
     }
 
-    public void ConfirmGetItem()
+    void DecodeMessage(PlayfabMessage msg)
     {
-
-    }
-
-    public void CancelPurchase()
-    {
-
+        if (msg.FunctionMessage == "Not enough scrap!")
+        {
+            PersistantCanvas.Instance.ConfirmationPanel("You have not enough scrap", null);
+        } else {
+            bool isDupe = false;
+            int refund = 0;
+            if (msg.FunctionMessage.Contains("Dupe!"))
+            {
+                //PersistantCanvas.Instance.ConfirmationPanel("You rolled a duplicate", null);
+                string[] sdata = msg.FunctionMessage.Split(',');
+                Debug.Log(sdata[0]);
+                isDupe = true;
+                //refund = int.Parse(sdata[2]);
+                msg.FunctionMessage = sdata[1].TrimStart(' ');
+            }
+            ArtisanKeycap kc = KeycapDatabase.Instance.getKeyCapFromID(msg.FunctionMessage);
+            ColourPack cp = ColourPackDatabase.Instance.GetColourPackFromID(msg.FunctionMessage);
+            if(kc != null)
+            {
+                PersistantCanvas.Instance.GachaScene(kc, isDupe, refund);
+            }
+            else if(cp != null)
+            {
+                PersistantCanvas.Instance.GachaScene(cp, isDupe, refund);
+            }
+            else
+            {
+                PersistantCanvas.Instance.ConfirmationPanel("Something Went Wrong", null);
+            }
+        }
     }
 }
