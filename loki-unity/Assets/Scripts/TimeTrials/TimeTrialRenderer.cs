@@ -133,6 +133,9 @@ public class TimeTrialRenderer : Singleton<TimeTrialRenderer>{
                 
                 break;
             }
+            case '\r':{
+                break;
+            }
             default:{
                 m_displayInputTotal += _ch;
                 break;

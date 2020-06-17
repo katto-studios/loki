@@ -66,6 +66,8 @@ public class TimeTrialsGameManager : Singleton<TimeTrialsGameManager>{
                 m_currentInput = m_currentInput.Remove(m_currentInput.Length - 1);
                 break;
             }
+            case '\r':
+                break;
             default:{
                 m_currentInput += _ch;
                 if (!TypeMe.StartsWith(m_currentInput)){
