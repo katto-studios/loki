@@ -11,7 +11,7 @@ public class RewardsPanel : MonoBehaviour
     public void Init(int score)
     {
         Debug.Log(score);
-        exp.text = "EXP " + (int)((float)score / 150000f * 40f);
-        scrap.text = "" + (int)((float)score * (20f / 150000f));
+        exp.text = "EXP " + (int)((float)score / 150000f * 200f);
+        scrap.text = "" + (int)((float)score * (40f / 150000f));
     }
 }
