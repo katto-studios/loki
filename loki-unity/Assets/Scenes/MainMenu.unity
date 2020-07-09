@@ -484,6 +484,11 @@ MonoBehaviour:
   artisanKeycaps:
   - {fileID: 11400000, guid: e573f825261586647b5376b7ce3498b6, type: 2}
   - {fileID: 11400000, guid: 8397c67626f30f74f8053ab850554b80, type: 2}
+  - {fileID: 11400000, guid: cbfa852f62625dd4884d0f8ab4ae4ab9, type: 2}
+  - {fileID: 11400000, guid: a706446be45b8b9479822d25dfbb4c0f, type: 2}
+  - {fileID: 11400000, guid: e6f14eb364ea70840a975b5c46356c77, type: 2}
+  - {fileID: 11400000, guid: b10ba08afea03bf4bb4bc87ecea9d6ed, type: 2}
+  - {fileID: 11400000, guid: 5b3172a4d9da2ad4caadd658dc672a0c, type: 2}
   - {fileID: 11400000, guid: c9dee3fd4102ea645b397cf43bad79d7, type: 2}
 --- !u!4 &222443008
 Transform:
